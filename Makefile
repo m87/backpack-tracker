@@ -1,16 +1,17 @@
-CC=g++
-CFLAGS=-g
+CXX=g++
+CFLAGS=-g 
 LFLAGS=`pkg-config --cflags --libs opencv`
+
 SRC=$(wildcard ./src/*.cpp)
 OBJS=$(patsubst %.cpp, %.o, $(SRC))
-I=-I./src
+I=-I./src/
 
 
-tracker: $(OBJS)
-		$(CC) $(CFLAGS)  $(I) $^ -o $@ $(LFLAGS)
+backpack: $(OBJS)
+	$(CXX) $(CFLAGS) $(I) $^ -o $@ $(LFLAGS)
 
 $(OBJS): %.o: %.cpp
-		$(CC)  $(CFLAGS) $(I) -c  $< -o $@ $(LFLAGS) 
+	$(CXX) $(CFLAGS) $(I) -c $< -o $@ $(LFLAGS)
 
 clean:
-		rm -f tracker $(OBJS) ./src/*.gch
+	rm -f src/*.o backpack

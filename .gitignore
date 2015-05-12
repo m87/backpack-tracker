@@ -3,6 +3,9 @@
 *.lo
 *.o
 *.obj
+*.orig
+*.swp
+*.swap
 
 # Precompiled Headers
 *.gch

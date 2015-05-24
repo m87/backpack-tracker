@@ -14,6 +14,7 @@ public:
     static const string CAP_NOT_OPENED;
     static const string INDEX_OUT_OF_FRAME_BUFFER;
     
+
     GenericException(string m = "something gone wrong"):msg(m) {}
     ~GenericException() throw() {}
     virtual const char* what() const throw();

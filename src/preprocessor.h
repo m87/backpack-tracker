@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "GenericException.h"
+#include <map>
 
 using namespace std;
 using namespace cv;
@@ -17,6 +18,7 @@ class Preprocessor
     vector<Mat> _frameBuffer;
     unsigned long _frameBufferSize;
     unsigned long _currentFrameBufferPos;
+    map<string, Mat&> windows;
 
 public:
     void getFrame(Mat &out, Mat &out_real,float w=-1.0f, float h=-1.0f, bool gray=false);
@@ -28,9 +30,16 @@ public:
     unsigned long getFrameBufferSize();
     unsigned long getCurrentFrameBufferSize();
 
+    void getAvgFrame(Mat &output);
+
+    Mat getStructuringElement(int size, int type = 0);
+
     Preprocessor (string file);
     Preprocessor (string file, unsigned long n);
     virtual ~Preprocessor ();
+    void printParams(Algorithm a);
+
+
 
 };
 

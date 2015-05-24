@@ -27,6 +27,15 @@ Preprocessor::~Preprocessor() {
     delete _cap;
 }
 
+
+
+void Preprocessor::printParams(Algorithm a){
+    vector<string> params;
+    a.getParams(params);
+  
+    for(unsigned long i=0; i<params.size();i++)
+        cout << params[i] << endl;
+}
 unsigned long Preprocessor::getFrameBufferSize() {
     return _frameBufferSize;
 }
@@ -80,6 +89,23 @@ void Preprocessor::getFrame(Mat &out,Mat &out_real,float w , float h, bool gray)
     if(gray) {
         cvtColor(out,out,CV_RGB2GRAY);
     }
+
+}
+
+void Preprocessor::getAvgFrame(Mat &output){
+    if(_frameBuffer.size()== _frameBufferSize){
+        for(unsigned long i=0; i<_frameBufferSize;i++){
+            output+=_frameBuffer[i];
+        }    
+        output = output / _frameBufferSize;
+    }
+    
+    
+
+}
+
+Mat Preprocessor::getStructuringElement(int size, int type){
+  return cv::getStructuringElement( type, Size( 2*size + 1, 2*size+1  ), Point( size, size  )  );
 
 }
 

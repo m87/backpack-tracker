@@ -21,6 +21,7 @@ public:
     float _opFrameY;
     int _firstStageDilatation;
     int _firstStageTreshold;
+    int _detectionStep;    
     
 
     ConfigManager ();

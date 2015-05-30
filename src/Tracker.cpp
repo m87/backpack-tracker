@@ -1,4 +1,4 @@
-#include "tracker.h"
+#include "Tracker.h"
 
 
 Tracker::Tracker(){
@@ -11,7 +11,10 @@ Tracker::~Tracker(){
 
 }
 
-vector<Rect> Tracker::track(){
+bool Tracker::isTracked(Person person){
+    return false;
+}
+vector<Rect> Tracker::track(Person person, Mat img){
     vector<Rect> output;
 
     return output;

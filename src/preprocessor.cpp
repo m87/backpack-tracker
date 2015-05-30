@@ -1,6 +1,7 @@
 #include "preprocessor.h"
-
+#include <iostream>
 Preprocessor::Preprocessor(string file) {
+
     _cap = new VideoCapture(file);
     //cap.open(file);
     _frameBufferSize = 0;

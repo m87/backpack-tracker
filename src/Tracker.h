@@ -3,6 +3,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include "Person.h"
 
 using namespace std;
 using namespace cv;
@@ -10,12 +11,14 @@ using namespace cv;
 class Tracker
 {
     /* data */
+    vector<Person> people;
 
 public:
     Tracker ();
-    virtual ~Tracker ();
+    ~Tracker ();
+    bool isTracked(Person person);
 
-    vector< Rect > track();
+    vector< Rect > track(Person person, Mat ref);
     
     void print(vector<Rect> rects, Mat &input);
 

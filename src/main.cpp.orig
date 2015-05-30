@@ -1,61 +1,93 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "preprocessor.h"
+#include "ConfigManager.h"
+#include "MovementDetector.h"
+#include "Group.h"
 #include <string>
+
 using namespace std;
 using namespace cv;
 
 int main(int argc, char *argv[])
 {
 
-
-
-    Preprocessor prep(argv[1],3);
+    ConfigManager config(argv[1]);
+    Preprocessor prep(config._srcPath,3);
     namedWindow("capture", CV_WINDOW_AUTOSIZE);
     namedWindow("op", CV_WINDOW_AUTOSIZE);
+    namedWindow("op2", CV_WINDOW_AUTOSIZE);
+    namedWindow("op3", CV_WINDOW_AUTOSIZE);
+    namedWindow("op4", CV_WINDOW_AUTOSIZE);
 
-    Mat frameNew, frameLast, frameDiff, freamReal;
-    Mat tmp, grad_x,grad_y,abs_grad_x,abs_grad_y; 
-    Mat frameDiff1;
-    Mat element,grad;
-
-    BackgroundSubtractorMOG2 bg;
+    BackgroundSubtractorMOG2 bg(config._MOGHistory,config._MOGNMixtures,config._MOGShadows);
+    BackgroundSubtractorGMG bgg;
+    HOGDescriptor hog;
+    hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
 
     vector<vector<Point> > contours;
-        prep.getFrame(frameNew,500.0f, -1.0f, true);
+    vector<Vec4i> hierarchy;
+    int kk=0;
+
+    MovementDetector mov(new ConfigManager(argv[1]));
+
     while(true) {
         //prep.skipNFrames(1);
-        frameNew.copyTo(frameLast);    
-        prep.getFrame(frameNew,freamReal,500.0f,-1.0f,  true);
+        if(kk++>2){
+            kk=0;
+        }
+        vector<Group> group = mov.mog2Filter(kk,2);
+        Mat drawing;
+        mov.getDebugView(0).copyTo(drawing);
         
-        /*frameDiff = frameLast - frameNew;
-
-        element = prep.getStructuringElement(1,0);
-
-        morphologyEx(frameDiff, tmp, 1, element);
-        */
         
-        bg(frameNew, frameDiff);
-        erode(frameDiff,frameDiff, Mat());
-        dilate(frameDiff,frameDiff,Mat());
-
-        findContours(frameDiff,contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
-
-
-         for(unsigned long i = 0; i < contours.size(); i++  )
-                  { approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true  );
-                         boundRect[i] = boundingRect( Mat(contours_poly[i])  );
-                         minEnclosingCircle( (Mat)contours_poly[i], center[i], radius[i]  );
-                       }
-
-        prep.saveFrame(frameDiff);
         
-        imshow("capture", freamReal);
-        imshow("op", frameNew);
+        for( unsigned long i = 0; i< group.size(); i++  )
+        {
+            vector<Rect> found, found_filtered;
+                hog.detectMultiScale(group[i].getImg(), found, 0, Size(8,8), Size(32,32), 1.05, 2);
+
+                size_t ii, j;
+                for (ii=0; ii<found.size(); ii++)
+                {
+                    Rect r = found[ii];
+                    for (j=0; j<found.size(); j++)
+                        if (j!=ii && (r & found[j])==r)
+                            break;
+                    if (j==found.size())
+                        found_filtered.push_back(r);
+
+                }
+                for (ii=0; ii<found_filtered.size(); ii++)
+                {
+                    Rect r = found_filtered[ii];
+                    r.width = r.width * group[i].getWidthScale();
+                    r.height = r.height * group[i].getHeightScale();
+                    r.x = group[i].getRelativeX() + r.x*group[i].getWidthScale();
+                    r.y = group[i].getRelativeY() + r.y*group[i].getHeightScale();
+                    
+
+                    r.x += cvRound(r.width*0.1);
+                    r.width = cvRound(r.width*0.8);
+                    r.y += cvRound(r.height*0.06);
+                    r.height = cvRound(r.height*0.9);
+                    rectangle(drawing, r.tl(), r.br(), cv::Scalar(0,255,0), 2,8,0);
+
+                }
+        }
+
+
+        imshow("capture", mov.getDebugView(0));
+        imshow("op", mov.getDebugView(2));
+        imshow("op2", mov.getDebugView(3));
+        imshow("op3", mov.getDebugView(4));
+        imshow("op4", drawing);
+
+
         if (waitKey(20) >= 0)
-          break;
-        
-        
+            break;
+
+
     }
 
     return 0;

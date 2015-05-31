@@ -18,9 +18,9 @@ public:
     PeopleDetector ();
     ~PeopleDetector ();
 
-    vector<Person> getPeople();
+    vector<Person> getPeople(Mat ref, vector<Group> group);
 
-    vector<vector<Rect> > getPeopleROIs(Mat ref, vector<Group> objects);
+    vector<vector<Rect> > getPeopleROIs(Mat ref, vector<Group> group);
     Mat getDebugView(int i);
 
 };

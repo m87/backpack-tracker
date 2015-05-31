@@ -19,8 +19,15 @@ Mat PeopleDetector::getDebugView(int i){
     return drawing;
 }
 
-vector<Person> PeopleDetector::getPeople(){
+vector<Person> PeopleDetector::getPeople(Mat ref, vector<Group> group){
     vector<Person> output;
+    vector<vector<Rect> > rects = getPeopleROIs(ref,group);
+    for(unsigned long i=0;i<rects.size();i++){
+        for(unsigned long j=0; j<rects[i].size();j++ ){
+            Person person(rects[i][j]);
+            output.push_back(person);
+        }
+    }
 
     return output;
 }

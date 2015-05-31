@@ -11,16 +11,29 @@ using namespace cv;
 class Tracker
 {
     /* data */
-    vector<Person> people;
-
+    vector<Person> _people;
+    Mat _test;
+    Mat _ref_prev;
+    Mat _ref;
+    static int maxCorners;
+    static double qualityLevel;
+    static double minDistance;
+    static int blockSize;
+    static bool useHarrisDetector;
+    static double k;
+  bool flag; 
 public:
     Tracker ();
     ~Tracker ();
-    bool isTracked(Person person);
+    bool isTracked(vector<Point2f> corners);
+    bool isInside(Point2f point, Rect roi);
 
-    vector< Rect > track(Person person, Mat ref);
+    vector< Person > track( Mat ref);
+    void update(vector<Person> people, Mat ref);
+    Mat getDebugView(int i); 
+    void addPerson(Person person);
+    void print(Mat ref);
     
-    void print(vector<Rect> rects, Mat &input);
 
 
 };

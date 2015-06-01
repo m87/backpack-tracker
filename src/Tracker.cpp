@@ -74,7 +74,7 @@ vector<Person> Tracker::track(Mat ref){
     _ref.copyTo(_ref_prev);
     ref.copyTo(_ref);
     if(_people.size() > 0){
-        cout << _people.size() << endl;
+        //cout << _people.size() << endl;
 //        #pragma omp parallel for
         for(unsigned long i = 0; i<_people.size();i++){
         try{
@@ -90,14 +90,18 @@ vector<uchar> _status;
         calcOpticalFlowPyrLK(_ref_prev,_ref,_people[i].getCornersPrev(), corners,_status, _err ) ;
         
         _people[i].setCorners(corners);
-        _people[i].updateROI(); 
+        _people[i].updateROI(_status); 
         int rad =2 ;
-            for (unsigned long i=0; i< corners.size();i++)
+/*            for (unsigned long i=0; i< corners.size();i++)
             {
                 circle(_test,corners[i],rad,Scalar(255,255,255),-1,8,0);
 
+        }*/
+        if(_people[i].isOutside(_ref) || !_people[i].isMoveing() || _people[i]._corners_prev.size()==0){
+            _people.erase(_people.begin()+i);
         }
-        }catch(Exception e){
+
+       }catch(Exception e){
             
         }       
 
@@ -111,13 +115,20 @@ void Tracker::print(Mat ref){
     ref.copyTo(_test);
     
     for (unsigned long j=0; j< _people.size();j++)
-    for (unsigned long i=0; i< _people[j].getCorners().size();i++)
+    {    for (unsigned long i=0; i< _people[j].getCorners().size();i++)
             {
                 circle(_test,_people[j].getCorners()[i],2,Scalar(255,255,255),-1,8,0);
 
         }
 
-}
+//    for (unsigned long j=0; j< _people.size();j++)
+    try{  rectangle(_test, _people[j].getROI().tl(), _people[j].getROI().br(), cv::Scalar(0,255,0), 2,8,0);
+
+
+    }catch(Exception e){
+    }
+    
+    }}
 
 Mat Tracker::getDebugView(int i){
     switch(i){

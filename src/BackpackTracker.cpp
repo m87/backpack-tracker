@@ -27,11 +27,11 @@ float y_cord[100];
 int main(int argc, char *argv[])
 {
 
-    namedWindow("capture", CV_WINDOW_AUTOSIZE);
+//    namedWindow("capture", CV_WINDOW_AUTOSIZE);
     namedWindow("op", CV_WINDOW_AUTOSIZE);
-    namedWindow("op2", CV_WINDOW_AUTOSIZE);
-    namedWindow("op3", CV_WINDOW_AUTOSIZE);
-    namedWindow("op4", CV_WINDOW_AUTOSIZE);
+  //  namedWindow("op2", CV_WINDOW_AUTOSIZE);
+    //namedWindow("op3", CV_WINDOW_AUTOSIZE);
+    //namedWindow("op4", CV_WINDOW_AUTOSIZE);
 
 
 
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     PeopleDetector people;
     Mat test;
     Tracker tracker;
-
+    int kk=0;
     while(true) {
         //prep.skipNFrames(1);
         vector<Group> group = mov.mog2Filter();
@@ -50,12 +50,12 @@ int main(int argc, char *argv[])
         tracker.track(mov.getDebugView(0));
         tracker.print(mov.getDebugView(0));
 
-        imshow("capture", mov.getDebugView(0));
+        //imshow("capture", mov.getDebugView(0));
         //imshow("op", mov.getDebugView(2));
         imshow("op", tracker.getDebugView(0));
-        imshow("op2", mov.getDebugView(3));
-        imshow("op3", mov.getDebugView(4));
-        imshow("op4", people.getDebugView(0));
+        //imshow("op2", mov.getDebugView(3));
+        //imshow("op3", mov.getDebugView(4));
+        //imshow("op4", people.getDebugView(0));
 
 
         if (waitKey(20) >= 0)

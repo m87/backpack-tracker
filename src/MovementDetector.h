@@ -3,6 +3,7 @@
 #include "preprocessor.h"
 #include "ConfigManager.h"
 #include <opencv2/opencv.hpp>
+#include "cvcommon.h"
 #include <vector>
 #include "Group.h"
 
@@ -12,7 +13,7 @@ using namespace cv;
 class MovementDetector
 {
     
-    BackgroundSubtractorMOG2 *_mog2;
+    Ptr<BackgroundSubtractor> _mog2;
     Preprocessor *_prep;
     ConfigManager *_config;
     Mat frameNew, frameLast, frameDiff, freamReal, frameTresh,framedd;

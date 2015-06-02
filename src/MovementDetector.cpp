@@ -4,12 +4,14 @@ MovementDetector::MovementDetector(ConfigManager *config) {
     _step=0;
     _config = config;
     _prep = new Preprocessor(_config->_srcPath,3);
-    _mog2 = new BackgroundSubtractorMOG2(_config->_MOGHistory, _config->_MOGNMixtures, config->_MOGShadows);
+//    _mog2 = new BackgroundSubtractorMOG2(_config->_MOGHistory, _config->_MOGNMixtures, _config->_MOGShadows);
+    _mog2 = createBackgroundSubtractorMOG2(_config->_MOGHistory, _config->_MOGNMixtures, _config->_MOGShadows);
+   
 
 }
 
 MovementDetector::~MovementDetector() {
-    delete _mog2;
+//    delete _mog2;
     delete _prep;
     delete _config;
 }
@@ -31,6 +33,17 @@ Mat MovementDetector::getDebugView(int i) {
     case 4:
         return frameDiff3;
         break;
+    case 5:
+        Mat out;
+    if(_config->_opFrameY>0) {
+        resize(freamReal,out,Size(_config->_opFrameX,_config->_opFrameY));
+    } else {
+        resize(freamReal,out,Size(_config->_opFrameX,_config->_opFrameX/(float)freamReal.cols*freamReal.rows));
+    }
+
+
+        return freamReal;
+        break;
     }
     return frameNew;
 }
@@ -43,7 +56,7 @@ vector<Group> MovementDetector::mog2Filter() {
     frameNew.copyTo(frameBg);
     cvtColor(frameNew,frameNew,CV_RGB2GRAY);
 
-    _mog2->operator()(frameBg,frameDiff) ;
+    _mog2->apply(frameBg,frameDiff) ;
     _mog2->getBackgroundImage(frameBg);
 
     cvtColor(frameBg,frameBg,CV_RGB2GRAY);

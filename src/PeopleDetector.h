@@ -4,8 +4,10 @@
 #include <opencv2/opencv.hpp>
 #include "Group.h"
 #include "Person.h"
+#include <vector>
 
 using namespace cv;
+using namespace std;
 
 class PeopleDetector
 {

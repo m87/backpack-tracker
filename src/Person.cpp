@@ -7,6 +7,7 @@ long Person::ID = 1;
 Person::Person(Rect roi){
     movBuffSize=0;
     _roi = roi;
+    _roid = Rect2d(roi);
     _id = Person::ID;
     Person::ID++;
     accX=0.0;
@@ -123,6 +124,12 @@ void Person::error(bool er){
         }
    }    
 
+}
+
+bool Person::ROIOverlapping(Rect2d riod2){
+    Rect2d RectA = _roid;
+    Rect2d RectB = riod2;
+  return (RectA.x < RectB.x+RectB.width && RectA.x+RectA.width > RectB.x && RectA.y < RectB.y+ RectB.height && RectA.y+RectA.height > RectB.y)  ; 
 }
 
 void Person::setCornersPrev(vector<Point2f> corners){

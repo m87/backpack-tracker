@@ -32,7 +32,7 @@ Preprocessor::~Preprocessor() {
 
 void Preprocessor::printParams(Algorithm a){
     vector<string> params;
-    a.getParams(params);
+   // a.getParams(params);
   
     for(unsigned long i=0; i<params.size();i++)
         cout << params[i] << endl;

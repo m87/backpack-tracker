@@ -1,8 +1,10 @@
 #ifndef PERSON_H
 #define PERSON_H
 #include <opencv2/opencv.hpp>
+#include <vector>
 
 using namespace cv;
+using namespace std;
 
 class Person
 {
@@ -24,6 +26,8 @@ class Person
     int movBuffSize;
 
 public:
+    bool ROIOverlapping(Rect2d roid2);
+    Rect2d _roid;
     vector<Point2f> _corners, _corners_prev, _corners_tmp;
     void error(bool er);
     bool isMoveing();

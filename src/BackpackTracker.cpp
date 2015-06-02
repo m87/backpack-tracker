@@ -5,7 +5,8 @@
 #include "MovementDetector.h"
 #include "PeopleDetector.h"
 #include "Group.h"
-#include "Tracker.h"
+//#include "Tracker.h"
+#include "UTracker.h"
 #include <string>
 
 using namespace std;
@@ -38,21 +39,30 @@ int main(int argc, char *argv[])
     MovementDetector mov(new ConfigManager(argv[1]));
     PeopleDetector people;
     Mat test;
-    Tracker tracker;
+    UTracker tracker;
+   // Tracker tracker;
     int kk=0;
+    bool flag =false;
     while(true) {
         //prep.skipNFrames(1);
         vector<Group> group = mov.mog2Filter();
         Mat drawing;
         mov.getDebugView(0).copyTo(drawing);
         vector<Person> p= people.getPeople(mov.getDebugView(0),group);
-        tracker.update(p, mov.getDebugView(0));
-        tracker.track(mov.getDebugView(0));
-        tracker.print(mov.getDebugView(0));
+     //   tracker.update(p, mov.getDebugView(0));
+       // tracker.track(mov.getDebugView(0));
+      //  tracker.print(mov.getDebugView(0));
+     if(p.size() > 0){
+         flag = true;
+     }
+     tracker.addPeople(p,mov.getDebugView(0));
+     if(flag){
+        tracker.update(mov.getDebugView(0), mov.getDebugView(3));
+     }
 
         //imshow("capture", mov.getDebugView(0));
         //imshow("op", mov.getDebugView(2));
-        imshow("op", tracker.getDebugView(0));
+        imshow("op", tracker.getDebugView(mov.getDebugView(0)));
         //imshow("op2", mov.getDebugView(3));
         //imshow("op3", mov.getDebugView(4));
         //imshow("op4", people.getDebugView(0));

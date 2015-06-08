@@ -1,1 +1,10 @@
-~/Pobrane/town.avi 1500 200 0 500.0 -1.0 8 25 
+test-path: /home/test/Pobrane/town.avi
+mog-history: 1500
+mog-mixtures-num: 200
+mog-shadow: false 
+frame-width: 1000.0
+frame-height: -1.0
+mov-dilatation: 8
+mov-treshold: 25
+detection-step: 50
+blobs: [as, bas, das]

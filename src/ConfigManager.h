@@ -1,10 +1,6 @@
 #ifndef CONFIG_MANAGER_H
 #define CONFIG_MANAGER_H
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <cstdio>
-#include <cstdlib>
 #include <yaml-cpp/yaml.h>
 using namespace std;
 
@@ -16,6 +12,7 @@ class ConfigManager
         
 public:
     static const string TEST_PATH, MOG_HIST, MOG_MIXT, MOG_SHAD, FRAMEW, FRAMEH, MOV_DILA, MOV_TRESH, DET_STEP;
+    vector<string> blobs;
 
     ConfigManager ();
     ConfigManager (string config);

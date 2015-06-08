@@ -8,11 +8,15 @@ using namespace std;
 class Blob
 {
     /* data */
+    static long ID;
 
 public:
     Mat _img;
     string _name;
-    Blob (string name);
+    long _id;
+    int _x,_y;
+    long _start, _time;
+    Blob (string name, Mat img, int x, int y, long start, long time);
     ~Blob ();
 
 };

@@ -5,28 +5,25 @@
 #include <sstream>
 #include <cstdio>
 #include <cstdlib>
+#include <yaml-cpp/yaml.h>
 using namespace std;
 
 class ConfigManager
 {
     /* data */
     static const int CONFIG_NUM;
+    YAML::Node _config;
         
 public:
-    string _srcPath;
-    int _MOGHistory;
-    int _MOGNMixtures;
-    bool _MOGShadows;
-    float _opFrameX;
-    float _opFrameY;
-    int _firstStageDilatation;
-    int _firstStageTreshold;
-    int _detectionStep;    
-    
+    static const string TEST_PATH, MOG_HIST, MOG_MIXT, MOG_SHAD, FRAMEW, FRAMEH, MOV_DILA, MOV_TRESH, DET_STEP;
 
     ConfigManager ();
     ConfigManager (string config);
     ConfigManager(int argc, char *argv[]);
+    template<typename T>
+        T get(const string key){
+            return _config[key].as<T>();
+        }
     ~ConfigManager ();
 
 };

@@ -3,9 +3,9 @@
 MovementDetector::MovementDetector(ConfigManager *config) {
     _step=0;
     _config = config;
-    _prep = new Preprocessor(_config->_srcPath,3);
+    _prep = new Preprocessor(_config->get<string>("test-path"),3);
 //    _mog2 = new BackgroundSubtractorMOG2(_config->_MOGHistory, _config->_MOGNMixtures, _config->_MOGShadows);
-    _mog2 = createBackgroundSubtractorMOG2(_config->_MOGHistory, _config->_MOGNMixtures, _config->_MOGShadows);
+    _mog2 = createBackgroundSubtractorMOG2(_config->get<int>("mog-history"), _config->get<int>("mog-mixtures-num"), _config->get<bool>("mog-shadow"));
    
 
 }
@@ -35,10 +35,10 @@ Mat MovementDetector::getDebugView(int i) {
         break;
     case 5:
         Mat out;
-    if(_config->_opFrameY>0) {
-        resize(freamReal,out,Size(_config->_opFrameX,_config->_opFrameY));
+    if(_config->get<double>("frame-height")>0) {
+        resize(freamReal,out,Size(_config->get<double>("frame-width"),_config->get<double>("frame-height")));
     } else {
-        resize(freamReal,out,Size(_config->_opFrameX,_config->_opFrameX/(float)freamReal.cols*freamReal.rows));
+        resize(freamReal,out,Size(_config->get<double>("frame-width"),_config->get<double>("frame-width")/(float)freamReal.cols*freamReal.rows));
     }
 
 
@@ -51,7 +51,7 @@ Mat MovementDetector::getDebugView(int i) {
 vector<Group> MovementDetector::mog2Filter() {
 
 
-    _prep->getFrame(frameNew,freamReal,_config->_opFrameX, _config->_opFrameY,  false);
+    _prep->getFrame(frameNew,freamReal,_config->get<double>("frame-width"), _config->get<double>("frame-height"),  false);
   //  _prep->getFrame(frameBg,_config->_opFrameX, _config->_opFrameY,  false);
     frameNew.copyTo(frameBg);
     cvtColor(frameNew,frameNew,CV_RGB2GRAY);
@@ -63,9 +63,9 @@ vector<Group> MovementDetector::mog2Filter() {
 
     absdiff(frameBg,frameNew , frameDiff2);
 
-    element = _prep->getStructuringElement(_config->_firstStageDilatation,0);
-    bitwise_and(frameDiff,frameDiff2,frameDiff3,Mat());
-    threshold(frameDiff3, frameDiff3, _config->_firstStageTreshold, 255,0);
+    element = _prep->getStructuringElement(_config->get<int>("mov-dilatation"),0);
+    bitwise_or(frameDiff,frameDiff2,frameDiff3,Mat());
+    threshold(frameDiff3, frameDiff3, _config->get<int>("mov-treshold"), 255,0);
     //absdiff(frameDiff,frameDiff2 , frameDiff3);
 
 
@@ -75,7 +75,7 @@ vector<Group> MovementDetector::mog2Filter() {
     //morphologyEx(frameDiff3, frameDiff3, 1, element);
 
     vector<Group> output;
-    if(_step++==_config->_detectionStep) {
+    if(_step++==_config->get<int>("detection-step")) {
         _step=0;
         findContours( frameDiff3, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0)  );
 

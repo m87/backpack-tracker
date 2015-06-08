@@ -17,7 +17,7 @@ bool UTracker::chechkOverlapping(Person p){
 
 void UTracker::addPeople(vector<Person> people, Mat ref){
     for(unsigned long p = 0; p< people.size();p++){
-        if(chechkOverlapping(people[p])) continue;
+ //       if(chechkOverlapping(people[p])) continue;
 
        _people.push_back(people[p]);
         Ptr<Tracker> t = Tracker::create("MIL");
@@ -51,7 +51,7 @@ void UTracker::update(Mat ref, Mat bg){
     if(kk++ == 5){
     kk=0;
     //#pragma omp parallel for 
-     
+ /*    
     for (unsigned long j=0; j< _people.size();j++)
     { if(chechkOverlapping(_people[j])
        || fillLevel(bg,ref,_people[j]) < 0.3
@@ -59,7 +59,7 @@ void UTracker::update(Mat ref, Mat bg){
            _people.erase(_people.begin()+j); 
            _trackers.erase(_trackers.begin()+j); 
     }
-    }
+    }*/
     #pragma omp parallel for 
     for (unsigned long j=0; j< _people.size();j++)
     {

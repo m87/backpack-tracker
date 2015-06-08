@@ -15,7 +15,7 @@ class MovementDetector
     
     Ptr<BackgroundSubtractor> _mog2;
     Preprocessor *_prep;
-    ConfigManager *_config;
+    //ConfigManager *_config;
     Mat frameNew, frameLast, frameDiff, freamReal, frameTresh,framedd;
     Mat element,frameNoiseFree,blobs, frameDiff2, frameDiff3;
     Mat frameBg;
@@ -26,6 +26,7 @@ class MovementDetector
     int _step;
  
 public:
+    ConfigManager *_config;
     MovementDetector (ConfigManager *config);
     ~MovementDetector ();
     vector<vector<Point> > getMovementROIs();

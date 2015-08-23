@@ -5,6 +5,7 @@ const string GenericException::INDEX_OUT_OF_FRAME_BUFFER = "Index out of frameBu
 
 const char* GenericException::what() const throw()
     {
+        ERROR(msg);
         return msg.c_str();
     }
 

@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include "Utils.h"
 using namespace std;
 
 class GenericException : public exception

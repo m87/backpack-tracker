@@ -1,37 +1,28 @@
 #ifndef MOVEMENT_DETECTOR_H
 #define MOVEMENT_DETECTOR_H
-#include "preprocessor.h"
-#include "ConfigManager.h"
-#include <opencv2/opencv.hpp>
+#include "Utils.h"
+#include "MDMethod.h"
+#include "MogMDMethod.h"
+#include "KnnMDMethod.h"
 #include "cvcommon.h"
+#include "ViewInterface.h"
 #include <vector>
 #include "Group.h"
 
-using namespace std;
-using namespace cv;
-
-class MovementDetector
+class MovementDetector : public ViewInterface
 {
-    
-    Ptr<BackgroundSubtractor> _mog2;
-    Preprocessor *_prep;
-    //ConfigManager *_config;
-    Mat frameNew, frameLast, frameDiff, freamReal, frameTresh,framedd;
-    Mat element,frameNoiseFree,blobs, frameDiff2, frameDiff3;
-    Mat frameBg;
-    
-    vector<vector<Point> > contours;
-    vector<Vec4i> hierarchy;
+    std::string _type;
+    std::unique_ptr<MDMethod> mdMethod;
 
-    int _step;
- 
+
+    const static std::string MOG_METHOD, KNN_METHOD;
+
 public:
-    ConfigManager *_config;
-    MovementDetector (ConfigManager *config);
+    MovementDetector (std::string type);
     ~MovementDetector ();
-    vector<vector<Point> > getMovementROIs();
-    vector<Group> mog2Filter();
-    Mat getDebugView(int i);     
+
+    void detect(const cv::Mat& input);
+
 
 };
 

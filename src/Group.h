@@ -12,6 +12,7 @@ class Group
     double _relativeX;
     double _relativeY;
     Mat _img;
+    Mat _estimation;
 
 public:
     double getWidthScale();
@@ -19,7 +20,9 @@ public:
     double getRelativeX();
     double getRelativeY();
     Mat getImg();
+    Mat getEst();
     Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img);
+    Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img, Mat estimation);
     Group (double widthScale, double heightScale, double relativeX, double relativeY);
     ~Group ();
 

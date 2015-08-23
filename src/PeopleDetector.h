@@ -1,29 +1,25 @@
 #ifndef PEOPLE_DETECTOR_H
 #define PEOPLE_DETECTOR_H
-
-#include <opencv2/opencv.hpp>
+#include "cvcommon.h"
+#include "Managers.h"
 #include "Group.h"
 #include "Person.h"
 #include <vector>
+#include "Utils.h"
+#include "ViewInterface.h"
 
-using namespace cv;
-using namespace std;
-
-class PeopleDetector
+class PeopleDetector : public ViewInterface
 {
-    /* data */
-    Mat drawing;
-    HOGDescriptor hog;
+    cv::HOGDescriptor hog;
 
 
 public:
     PeopleDetector ();
     ~PeopleDetector ();
 
-    vector<Person> getPeople(Mat ref, vector<Group> group);
-
-    vector<vector<Rect> > getPeopleROIs(Mat ref, vector<Group> group);
-    Mat getDebugView(int i);
+    std::vector<Person> detect(cv::Mat ref);
+    std::vector< std::vector<cv::Rect> > getPeopleROIs(cv::Mat ref, std::vector<Group> group);
+    void overlayImage(const cv::Mat &background, const cv::Mat &foreground,cv::Mat &output, cv::Point2i location);
 
 };
 

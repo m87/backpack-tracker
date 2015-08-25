@@ -10,11 +10,27 @@ class Backpack
     static long ID;
     long _id;
     cv::Rect _roi;
-    int _x,_y;
+
+    cv::Mat _img;
+    cv::Mat _base;
+    int _confidence;
+    int _checks;
+
 
 public:
-    Backpack (cv::Rect roi, int x, int y);
+        bool isbase;
+    int _stable;
+    Backpack (cv::Rect roi, cv::Mat img, cv::Mat base);
     ~Backpack ();
+    void incConfidence(int i =1);
+    void incChecks(int i = 1);
+    int getConfidence();
+    int getChecks();
+    cv::Mat getImg();
+    cv::Mat getBase();
+    long getID(); 
+    cv::Rect getRoi();
+    void setNewBase(cv::Mat base);
 
 };
 

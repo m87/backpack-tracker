@@ -2,11 +2,11 @@
 
 
 DataManager::DataManager() : FrameBuffer(0){
-    MEMORY("DataManager created");
+  //  MEMORY("DataManager created");
 }
 
 DataManager::~DataManager(){
-    MEMORY("DataManager destroyed");
+   // MEMORY("DataManager destroyed");
 }
 
 
@@ -26,3 +26,15 @@ void DataManager::clean(){
 std::vector<Group> DataManager::getGroups(){
     return groups;
 }
+
+void DataManager::addBacpack(Backpack backpack){
+    backpacks.push_back(backpack);
+}
+
+std::vector<Backpack> DataManager::getBackpacks(){
+    return backpacks;    
+
+}
+
+
+

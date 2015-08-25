@@ -13,8 +13,10 @@ class Group
     double _relativeY;
     Mat _img;
     Mat _estimation;
+    cv::Rect _roi;
 
 public:
+    cv::Rect getRoi();
     double getWidthScale();
     double getHeightScale();
     double getRelativeX();
@@ -22,7 +24,7 @@ public:
     Mat getImg();
     Mat getEst();
     Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img);
-    Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img, Mat estimation);
+    Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img, Mat estimation, cv::Rect roi);
     Group (double widthScale, double heightScale, double relativeX, double relativeY);
     ~Group ();
 

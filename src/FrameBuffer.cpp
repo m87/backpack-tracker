@@ -1,8 +1,8 @@
 #include "FrameBuffer.h"
 
 FrameBuffer::FrameBuffer(int size){
-    MEMORY("FrameBuffer created");
-    full=false;    
+ //   MEMORY("FrameBuffer created");
+    _full=false;    
     _loop = 0;
     _size = size;
     for(int i = 0 ; i < _size; i++){
@@ -11,10 +11,32 @@ FrameBuffer::FrameBuffer(int size){
 
 }
 
+FrameBuffer::FrameBuffer(){
+    _full=false;
+    _loop=0;
+
+}
 
 FrameBuffer::~FrameBuffer(){
-    MEMORY("FrameBuffer destroyed");
+   // MEMORY("FrameBuffer destroyed");
 }
+
+cv::Mat FrameBuffer::get(int i){
+    return _buffer[i];
+}
+
+cv::Mat FrameBuffer::getLast(){
+    if(_loop == _buffer.size()-1) return _buffer[0];
+    return _buffer[_loop+1];
+}
+
+cv::Mat FrameBuffer::getFirst(){
+    return _buffer[_loop];
+
+}
+
+
+
 
 
 void FrameBuffer::addFrame(const cv::Mat& mat){
@@ -22,13 +44,13 @@ void FrameBuffer::addFrame(const cv::Mat& mat){
 
     if(_loop == _size){
         _loop = 0;
-        full=true;
+        _full=true;
     }
 
 }
 
 bool FrameBuffer::isFull(){
-    return full;
+    return _full;
 }
 
 void FrameBuffer::setSize(int size){
@@ -41,7 +63,7 @@ void FrameBuffer::setSize(int size){
 
 int FrameBuffer::checkPixel(int x, int y, int value, int tresh){
     int sum = 0;
-    if(!full) return sum; 
+    if(!_full) return sum; 
     for(int i =0 ;i < _size; i++){
         if(value>=0){
             if(_buffer[i].at<int>(y,x) == value ) sum++;            
@@ -55,7 +77,7 @@ int FrameBuffer::checkPixel(int x, int y, int value, int tresh){
 
 void FrameBuffer::mask(cv::Mat in, cv::Mat& input, int tresh){
     in.copyTo(input);
-    if(!full) return;
+    if(!_full) return;
     for(int i =0 ;i < _size; i++){
         bitwise_and(input,_buffer[i],input);
 

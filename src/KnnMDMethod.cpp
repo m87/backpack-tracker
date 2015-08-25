@@ -22,7 +22,7 @@ void KnnMDMethod::detect(const cv::Mat& input){
     _knn->apply(input, estForeground);
     _knn->getBackgroundImage(estBackground);
 
-    DataManager::getDataManager().cBG = estBackground;
+    estBackground.copyTo(DataManager::getDataManager().cBG);
 
         display(ConfigManager::VIEW_KNN_BACKGROUND, estBackground);
         display(ConfigManager::VIEW_KNN_FOREGROUND, estForeground);
@@ -33,7 +33,6 @@ void KnnMDMethod::detect(const cv::Mat& input){
         display(ConfigManager::VIEW_KNN_DILATATION, dilated);
 
     dilated.copyTo(contoursMat);
-//    dilated.copyTo(DataManager::getDataManager().mask);
     dilated.copyTo(tmpF);
 
 
@@ -57,7 +56,7 @@ void KnnMDMethod::detect(const cv::Mat& input){
             resize(img1,img,Size((img1.cols/(double)img1.rows)*200,200));
             resize(imgF,imgFF,Size((imgF.cols/(double)imgF.rows)*200,200));
 
-            Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF);
+            Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
             DataManager::getDataManager().addGroup(group); 
         }
     }

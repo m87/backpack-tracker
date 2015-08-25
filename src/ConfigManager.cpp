@@ -26,6 +26,9 @@ const std::string ConfigManager::MD_KNN_DILATATION = "md-knn-dilatation";
 const std::string ConfigManager::MD_KNN_TRESHOLD = "md-knn-treshold";
 
 
+const std::string ConfigManager::PD_METHOD = "pd-method";
+
+const std::string ConfigManager::BD_BUFFER = "bd-buffer";
 
 
 const std::string ConfigManager::TEST_PATH = "test-path";

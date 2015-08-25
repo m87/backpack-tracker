@@ -26,6 +26,10 @@ public:
     static const std::string VIEW_FRAME_RESIZED, VIEW_FRAME_REAL, VIEW_BLOBS, VIEW_MOG_BACKGROUND, VIEW_MOG_FOREGROUND,  VIEW_MOG_DILATATION, VIEW_MOG_RESULT;
     static const std::string VIEW_KNN_BACKGROUND, VIEW_KNN_FOREGROUND,  VIEW_KNN_DILATATION, VIEW_KNN_RESULT, VIEW_PD_RESULT;
     
+    static const std::string PD_METHOD;
+
+    static const std::string BD_BUFFER;
+    
     std::vector<YAML::Node> blobs;
 
     /** Values getter */

@@ -67,8 +67,11 @@ void Session::run(){
         SESSION("Session started!");
     }
 
-    DataManager::getDataManager().setSize(10);
-    DataManager::getDataManager().setSize(10);
+    //DataManager::getDataManager().setSize(20);
+    //DataManager::getDataManager().setSize(20);
+    DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
+    DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
+
 
     while(true){
         TimeManager::getTimeManager().tick();
@@ -78,11 +81,11 @@ void Session::run(){
         _preprocessor->getFrame(out,out1,frameWidth,frameHeight,true);
         _blobsGenerator->merge(out);
 
-        DataManager::getDataManager().addFrame(out);
+        //DataManager::getDataManager().addFrame(out);
 
         _movDetector->detect(out);
         
-
+/*
         if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
 
         _peopleDetector->detect(out);
@@ -94,6 +97,12 @@ void Session::run(){
         }
 
         }
+ */   if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
+            _backpackDetector->detect(out);
+            filterBackpacks(); // distinct //remove also from current flow already processed
+        }
+
+
         DataManager::getDataManager().clean();
         
 

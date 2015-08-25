@@ -16,11 +16,14 @@ void MogMDMethod::detect(const cv::Mat& input){
         estBackground,          //mog2 result
         contoursMat,            //tmp required to show all steps
         dilated,                //after dilatation
-        tmp;
+        tmp,tmpF;
     input.copyTo(tmp);
 
     _mog2->apply(input, estForeground);
     _mog2->getBackgroundImage(estBackground);
+
+ //   DataManager::getDataManager().addFrame(estBackground);
+    estBackground.copyTo(DataManager::getDataManager().cBG);
 
         display(ConfigManager::VIEW_MOG_BACKGROUND, estBackground);
         display(ConfigManager::VIEW_MOG_FOREGROUND, estForeground);
@@ -31,10 +34,10 @@ void MogMDMethod::detect(const cv::Mat& input){
         display(ConfigManager::VIEW_MOG_DILATATION, dilated);
 
     dilated.copyTo(contoursMat);
+    dilated.copyTo(tmpF);
 
 
     std::vector<std::vector<cv::Point> > contours;
-
     if(TimeManager::getTimeManager().time() % ConfigManager::getConfigManager().get<int>(ConfigManager::MD_DETECTION_STEP) == 0) {
         findContours( contoursMat, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0)  );
 
@@ -49,15 +52,16 @@ void MogMDMethod::detect(const cv::Mat& input){
             rectangle(tmp, boundRect[i].tl(), boundRect[i].br(), cv::Scalar(0,255,0), 2,8,0);
             std::vector<cv::Rect> found, found_filtered;
             Mat img1 = tmp(boundRect[i]);
-            Mat img;
+            Mat imgF = tmpF(boundRect[i]);
+            Mat img, imgFF;
             resize(img1,img,Size((img1.cols/(double)img1.rows)*200,200));
+            resize(imgF,imgFF,Size((imgF.cols/(double)imgF.rows)*200,200));
+            if(!(boundRect[i].width > 0.8 * input.rows || boundRect[i].width > 0.8 * input.rows)){
+               Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
+                DataManager::getDataManager().addGroup(group); 
 
-            Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img);
-            DataManager::getDataManager().addGroup(group);
         }
-    }
-
-
+    }}
     display(ConfigManager::VIEW_MOG_RESULT, tmp);
 
 

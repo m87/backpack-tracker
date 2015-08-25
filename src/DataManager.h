@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include "Utils.h"
+#include "Backpack.h"
 
 class DataManager : public FrameBuffer
 {
@@ -15,10 +16,15 @@ class DataManager : public FrameBuffer
 
     DataManager ();
 public:
+    std::vector<Backpack> backpacks;
+    //static FrameBuffer bgBuffer;
     static DataManager & getDataManager();
     void addGroup(Group group);
+    void addBacpack(Backpack backpack);
     void clean(); 
     std::vector<Group> getGroups();
+    std::vector<Backpack> getBackpacks();
+
     cv::Mat mask;
     cv::Mat cBG;
 

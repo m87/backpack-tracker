@@ -58,3 +58,21 @@ void Backpack::incChecks(int i){
 int Backpack::getChecks(){
     return _checks;
 }
+
+
+void Backpack::shrink(cv::Mat sum){
+    try{
+        cv::Mat tmp = sum(_roi);
+        std::vector<cv::Vec4i> hierarchy;
+std::vector<std::vector<cv::Point> > contours;
+        findContours(tmp, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0)  );
+        std::vector<cv::Rect> boundRect(contours.size());
+        std::vector<std::vector<cv::Point> > contoursPoly(contours.size());
+
+            approxPolyDP(cv::Mat(contours[0]),contoursPoly[0],10,false);
+            boundRect[0] = boundingRect(cv::Mat(contoursPoly[0]));
+            
+            _roi = boundRect[0];
+
+}catch(cv::Exception e){}
+}

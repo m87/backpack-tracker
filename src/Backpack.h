@@ -31,6 +31,7 @@ public:
     long getID(); 
     cv::Rect getRoi();
     void setNewBase(cv::Mat base);
+    void shrink(cv::Mat sum);
 
 };
 

@@ -87,9 +87,9 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref){
 
           for(int i =1; i< DataManager::getDataManager().getSize();i++){
             cv::absdiff(DataManager::getDataManager().get(i),dm.cBG,out);
-            cv::threshold(out,out,35,255,0);
+            cv::threshold(out,out,25,255,0);
 
-           cv::Mat erodeElement = cv::getStructuringElement( 0, cv::Size( 2*2 + 1, 2*2+1  ), cv::Point( 2, 2  )  );
+           cv::Mat erodeElement = cv::getStructuringElement( 0, cv::Size( 2*3 + 1, 2*3+1  ), cv::Point( 3, 3  )  );
            cv::Mat dilateElement = cv::getStructuringElement( 0, cv::Size( 2*8 + 1, 2*8+1  ), cv::Point( 8, 8  )  );
            cv::erode(out,out,erodeElement);
            cv::dilate(out,out,dilateElement);
@@ -97,6 +97,8 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref){
 
           }
 
+     // imshow("asd",dm.cBG);
+     // imshow("asd1",sum);
 
     cv::Mat contoursMat;
     out.copyTo(contoursMat);
@@ -118,15 +120,15 @@ std::vector<std::vector<cv::Point> > contours;
 
           for(unsigned long j =0; j< DataManager::getDataManager().backpacks.size();j++){
               if(checkOverlapping(DataManager::getDataManager().backpacks[j].getRoi(), boundRect[i])){
-                  int confidence = DataManager::getDataManager().backpacks[j].getConfidence();
-                  int cecks = DataManager::getDataManager().backpacks[j].getChecks();
-                  int stable = DataManager::getDataManager().backpacks[j]._stable;
-                  DataManager::getDataManager().backpacks.erase(DataManager::getDataManager().backpacks.begin()+j);
-                  Backpack backpack(boundRect[i], dm.cBG(boundRect[i]),dm.cBG(boundRect[i]));
-                  backpack.incChecks(cecks);
-                  backpack.incConfidence(confidence);
-                  backpack._stable = stable;
-                    DataManager::getDataManager().backpacks.push_back(backpack);
+          //        int confidence = DataManager::getDataManager().backpacks[j].getConfidence();
+           //       int cecks = DataManager::getDataManager().backpacks[j].getChecks();
+            //      int stable = DataManager::getDataManager().backpacks[j]._stable;
+             //     DataManager::getDataManager().backpacks.erase(DataManager::getDataManager().backpacks.begin()+j);
+              //    Backpack backpack(boundRect[i], dm.cBG(boundRect[i]),dm.cBG(boundRect[i]));
+             //     backpack.incChecks(cecks);
+             //     backpack.incConfidence(confidence);
+              //    backpack._stable = stable;
+                //    DataManager::getDataManager().backpacks.push_back(backpack);
                     ok=false;
                     break;
               }
@@ -173,12 +175,13 @@ std::vector<std::vector<cv::Point> > contours;
 
           }
 
+//DataManager::getDataManager().backpacks[j].shrink(sum);
 
           if(checkDiff(sum))
 DataManager::getDataManager().backpacks[j].incConfidence();
 
 DataManager::getDataManager().backpacks[j].incChecks();
-if(DataManager::getDataManager().backpacks[j].getChecks()>20){
+if(DataManager::getDataManager().backpacks[j].getChecks()>10){
 if(DataManager::getDataManager().backpacks[j].getConfidence()/(double)DataManager::getDataManager().backpacks[j].getChecks() < 0.5){
    DataManager::getDataManager().backpacks.erase(DataManager::getDataManager().backpacks.begin()+j);
 
@@ -193,7 +196,7 @@ rectangle(tmp, DataManager::getDataManager().backpacks[j].getRoi().tl(), DataMan
 
           }
 
-      imshow("asd",tmp);
+      imshow("asd1",tmp);
        }
 
 }

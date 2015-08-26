@@ -148,8 +148,8 @@ std::vector<std::vector<cv::Point> > contours;
 
             //rectangle(tmp, DataManager::getDataManager().backpacks[i].getRoi().tl(), DataManager::getDataManager().backpacks[i].getRoi().br(), cv::Scalar(0,255,0), 2,8,0);
                  }
-
           for(unsigned long j =0; j< DataManager::getDataManager().backpacks.size();j++){
+
             
               cv::Mat sum; 
 

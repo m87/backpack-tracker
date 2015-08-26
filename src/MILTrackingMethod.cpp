@@ -2,7 +2,7 @@
 
 MILTrackingMethod::MILTrackingMethod(){
 MEMORY("MILTrackingMethod created");
-
+kk = 0;    
 
 }
 
@@ -18,9 +18,19 @@ void MILTrackingMethod::init(){
 }
 
 void MILTrackingMethod::addTracker(int id, cv::Mat ref){
-
+    
+    cv::Ptr<cv::Tracker> tracker = cv::TrackerTLD::createTracker();
+    tracker->init(ref, DataManager::getDataManager().people[id]._roid);
+    _trackers.insert(std::pair<int, cv::Ptr<Tracker> >(id,tracker));
 }
 
 void MILTrackingMethod::update(cv::Mat ref){
+    if(kk++ == 5){
+    kk=0;
+    for(auto t=_trackers.begin(); t!=_trackers.end();t++){
+        t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
+    }
+ 
 
-}
+
+}}

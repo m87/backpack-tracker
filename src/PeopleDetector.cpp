@@ -15,8 +15,7 @@ PeopleDetector::~PeopleDetector(){
 }
 
 
-std::vector<Person> PeopleDetector::detect(cv::Mat ref){
-    std::vector<Person> output;
+void PeopleDetector::detect(cv::Mat ref){
     std::vector<std::vector<cv::Rect> > rects; 
     std::string method = ConfigManager::getConfigManager().get<std::string>(ConfigManager::PD_METHOD);
 
@@ -31,12 +30,11 @@ std::vector<Person> PeopleDetector::detect(cv::Mat ref){
     for(unsigned long i=0;i<rects.size();i++){
         for(unsigned long j=0; j<rects[i].size();j++ ){
             Person person(rects[i][j]);
-            output.push_back(person);
+            DataManager::getDataManager().people.insert(std::pair<int, Person>(person.getID(),person));
             //distinct
         }
     }
 
-    return output;
 }
 
 

@@ -7,15 +7,16 @@
 #include <map>
 #include "Utils.h"
 #include "Backpack.h"
+#include "Person.h"
 
 class DataManager : public FrameBuffer
 {
     std::vector<Group> groups;
-    //std::map<long, Person> people;
  //   std::map<BackPack, People> backpacks;
 
     DataManager ();
 public:
+    std::map<int, Person> people;
     std::vector<Backpack> backpacks;
     //static FrameBuffer bgBuffer;
     static DataManager & getDataManager();

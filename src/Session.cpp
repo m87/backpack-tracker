@@ -35,6 +35,8 @@ Session::Session(){
     _movDetector.reset(new MovementDetector(config.get<std::string>(ConfigManager::MD_METHOD)));
     _backpackDetector.reset(new BackpackDetector());
 
+    _tracker.reset(new UTracker("mil"));
+
 
 }
 
@@ -77,31 +79,36 @@ void Session::run(){
         TimeManager::getTimeManager().tick();
 
 
-        Mat out, out1; 
-        _preprocessor->getFrame(out,out1,frameWidth,frameHeight,true);
+        Mat out, out1,tt; 
+        _preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false);
+        tt.copyTo(out);
+        cvtColor(out,out,cv::COLOR_RGB2GRAY);
         _blobsGenerator->merge(out);
 
         //DataManager::getDataManager().addFrame(out);
 
         _movDetector->detect(out);
         
-/*
+
         if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
 
         _peopleDetector->detect(out);
+        }
+        _tracker->update(tt);    
         
-        
+        /*        
         if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
             _backpackDetector->detect(out);
             filterBackpacks(); // distinct //remove also from current flow already processed
         }
 
         }
- */   if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
+ */ 
+        /*if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
             _backpackDetector->detect(out);
             filterBackpacks(); // distinct //remove also from current flow already processed
         }
-
+*/
 
         DataManager::getDataManager().clean();
         

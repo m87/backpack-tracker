@@ -37,6 +37,7 @@ public:
     void updateROI(vector<uchar> _status);
     void reviewCorners();
     Person (Rect roi);
+    Person(){};
     ~Person ();
     void setCorners(vector<Point2f> corners);
     void setShift(int x, int y);

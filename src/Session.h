@@ -11,6 +11,7 @@
 #include "MovementDetector.h"
 #include "PeopleDetector.h"
 #include "BackpackDetector.h"
+#include "UTracker.h"
 
 #define END_SESSION_KEY 113
 
@@ -28,6 +29,7 @@ class Session
     std::unique_ptr<PeopleDetector> _peopleDetector;
 
     std::unique_ptr<BackpackDetector> _backpackDetector;
+    std::unique_ptr<UTracker> _tracker;
  
 
     bool OPENCV_ERROR;

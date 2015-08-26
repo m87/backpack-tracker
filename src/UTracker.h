@@ -1,5 +1,5 @@
-#ifndef TRACKER_H
-#define TRACKER_H
+#ifndef UTRACKER_H
+#define UTRACKER_H
 
 #include "cvcommon.h"
 #include <vector>
@@ -8,14 +8,15 @@
 #include "Utils.h"
 #include "TrackingMethod.h"
 #include "MILTrackingMethod.h"
+#include "Managers.h"
 
-class Tracker
+class UTracker
 {
     std::unique_ptr<TrackingMethod> _method;
 
 public:
-    Tracker (std::string method);
-    ~Tracker ();
+    UTracker (std::string method);
+    ~UTracker ();
     void addTracker(int id, cv::Mat ref);
     void update(cv::Mat ref);
     void init();

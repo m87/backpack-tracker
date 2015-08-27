@@ -18,6 +18,7 @@ class DataManager : public FrameBuffer
 public:
     std::map<int, Person> people;
     std::vector<Backpack> backpacks;
+    std::map<int, Backpack> stableBackpacks;
     //static FrameBuffer bgBuffer;
     static DataManager & getDataManager();
     void addGroup(Group group);

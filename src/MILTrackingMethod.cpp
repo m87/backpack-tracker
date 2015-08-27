@@ -19,7 +19,7 @@ void MILTrackingMethod::init(){
 
 void MILTrackingMethod::addTracker(int id, cv::Mat ref){
     
-    cv::Ptr<cv::Tracker> tracker = cv::TrackerTLD::createTracker();
+    cv::Ptr<cv::Tracker> tracker = cv::TrackerMIL::createTracker();
     tracker->init(ref, DataManager::getDataManager().people[id]._roid);
     _trackers.insert(std::pair<int, cv::Ptr<Tracker> >(id,tracker));
 }

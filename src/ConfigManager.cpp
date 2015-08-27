@@ -29,6 +29,32 @@ const std::string ConfigManager::MD_KNN_TRESHOLD = "md-knn-treshold";
 const std::string ConfigManager::PD_METHOD = "pd-method";
 
 const std::string ConfigManager::BD_BUFFER = "bd-buffer";
+const std::string ConfigManager::BD_BG_METHOD = "bd-bg-method";
+const std::string ConfigManager::BD_MOG_SHADOW = "bd-mog-shadow";
+const std::string ConfigManager::BD_MOG_HISTORY = "bd-mog-history";
+const std::string ConfigManager::BD_MOG_MIXTURES = "bd-mog-mixtures";
+const std::string ConfigManager::BD_KNN_SHADOW = "bd-knn-shadow";
+const std::string ConfigManager::BD_KNN_HISTORY = "bd-knn-history";
+const std::string ConfigManager::BD_KNN_MIXTURES = "bd-knn-mixtures";
+const std::string ConfigManager::BD_DIFF_TRESH = "bd-diff-treshold";
+const std::string ConfigManager::BD_OVERLAP_TRESH = "bd-overlap-treshold";
+
+
+const std::string ConfigManager::BD_DM_TRESH = "bd-dm-treshold";
+const std::string ConfigManager::BD_DM_ERODE = "bd-dm-erode";
+const std::string ConfigManager::BD_DM_DILATE = "bd-dm-dilate";
+
+const std::string ConfigManager::BD_BG_MOG_SHADOW = "bd-bg-mog-shadow";
+const std::string ConfigManager::BD_BG_MOG_HISTORY = "bd-bg-mog-history";
+const std::string ConfigManager::BD_BG_MOG_MIXTURES = "bd-bg-mog-mixtures";
+
+const std::string ConfigManager::BD_STABLE_TRESH = "bd-dm-stable-threshold";
+const std::string ConfigManager::BD_STABLE_COST = "bd-dm-stable-cost";
+const std::string ConfigManager::BD_UNSTABLE_COST = "bd-dm-unstable_cost";
+const std::string ConfigManager::BD_CHECKS_TRESH = "bd-dm-checks-threshold";
+const std::string ConfigManager::BD_CONFIDANCE = "bd-dm-confidance";
+
+
 
 
 const std::string ConfigManager::TEST_PATH = "test-path";
@@ -67,6 +93,13 @@ const std::string ConfigManager::VIEW_KNN_RESULT = "view-knn-result";
 
 
 const std::string ConfigManager::VIEW_PD_RESULT = "view-pd-result";
+
+const std::string ConfigManager::VIEW_BD_FOREGROUND = "view-bd-foreground";
+const std::string ConfigManager::VIEW_BD_BACKGROUND = "view-bd-background";
+const std::string ConfigManager::VIEW_BD_LONG_BG = "view-bd-long-bg";
+const std::string ConfigManager::VIEW_BD_DIFF_RESULT = "view-bd-diff-result";
+const std::string ConfigManager::VIEW_BD_RESULT = "view-bd-result";
+
 
 ConfigManager::ConfigManager(){
     

@@ -22,7 +22,6 @@ void KnnMDMethod::detect(const cv::Mat& input){
     _knn->apply(input, estForeground);
     _knn->getBackgroundImage(estBackground);
 
-    estBackground.copyTo(DataManager::getDataManager().cBG);
 
         display(ConfigManager::VIEW_KNN_BACKGROUND, estBackground);
         display(ConfigManager::VIEW_KNN_FOREGROUND, estForeground);

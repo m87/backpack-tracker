@@ -85,6 +85,8 @@ void Session::run(){
         cvtColor(out,out,cv::COLOR_RGB2GRAY);
         _blobsGenerator->merge(out);
 
+        _backpackDetector->update(out);
+
         //DataManager::getDataManager().addFrame(out);
 
         _movDetector->detect(out);
@@ -103,12 +105,11 @@ void Session::run(){
         }
 
         }
- */ 
-        /*if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
+*/
+        if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
             _backpackDetector->detect(out);
             filterBackpacks(); // distinct //remove also from current flow already processed
         }
-*/
 
         DataManager::getDataManager().clean();
         

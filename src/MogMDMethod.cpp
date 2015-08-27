@@ -22,8 +22,6 @@ void MogMDMethod::detect(const cv::Mat& input){
     _mog2->apply(input, estForeground);
     _mog2->getBackgroundImage(estBackground);
 
- //   DataManager::getDataManager().addFrame(estBackground);
-    estBackground.copyTo(DataManager::getDataManager().cBG);
 
         display(ConfigManager::VIEW_MOG_BACKGROUND, estBackground);
         display(ConfigManager::VIEW_MOG_FOREGROUND, estForeground);

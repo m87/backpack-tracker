@@ -1,35 +1,35 @@
 #include "MogMDMethod.h"
 
-MogMDMethod::MogMDMethod(){
+MogMDMethod::MogMDMethod() {
     MEMORY("MogMDMethod created");
 
 }
 
-MogMDMethod::~MogMDMethod(){
+MogMDMethod::~MogMDMethod() {
     MEMORY("MogMDMethod destroyed");
 }
 
 
-void MogMDMethod::detect(const cv::Mat& input){
+void MogMDMethod::detect(const cv::Mat& input) {
     std::vector<cv::Vec4i> hierarchy;
     cv::Mat estForeground,      //mog2 result
-        estBackground,          //mog2 result
-        contoursMat,            //tmp required to show all steps
-        dilated,                //after dilatation
-        tmp,tmpF;
+       estBackground,          //mog2 result
+       contoursMat,            //tmp required to show all steps
+       dilated,                //after dilatation
+       tmp,tmpF;
     input.copyTo(tmp);
 
     _mog2->apply(input, estForeground);
     _mog2->getBackgroundImage(estBackground);
 
 
-        display(ConfigManager::VIEW_MOG_BACKGROUND, estBackground);
-        display(ConfigManager::VIEW_MOG_FOREGROUND, estForeground);
+    display(ConfigManager::VIEW_MOG_BACKGROUND, estBackground);
+    display(ConfigManager::VIEW_MOG_FOREGROUND, estForeground);
 
 
-    
+
     dilate(estForeground,dilated, dilateElement);
-        display(ConfigManager::VIEW_MOG_DILATATION, dilated);
+    display(ConfigManager::VIEW_MOG_DILATATION, dilated);
 
     dilated.copyTo(contoursMat);
     dilated.copyTo(tmpF);
@@ -54,12 +54,13 @@ void MogMDMethod::detect(const cv::Mat& input){
             Mat img, imgFF;
             resize(img1,img,Size((img1.cols/(double)img1.rows)*200,200));
             resize(imgF,imgFF,Size((imgF.cols/(double)imgF.rows)*200,200));
-            if(!(boundRect[i].width > 0.8 * input.rows || boundRect[i].width > 0.8 * input.rows)){
-               Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
-                DataManager::getDataManager().addGroup(group); 
+            if(!(boundRect[i].width > 0.8 * input.rows || boundRect[i].width > 0.8 * input.rows)) {
+                Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
+                DataManager::getDataManager().addGroup(group);
 
+            }
         }
-    }}
+    }
     display(ConfigManager::VIEW_MOG_RESULT, tmp);
 
 
@@ -68,13 +69,13 @@ void MogMDMethod::detect(const cv::Mat& input){
 
 
 
-void MogMDMethod::initMethod(ConfigManager& config){
+void MogMDMethod::initMethod(ConfigManager& config) {
     _mog2 = cv::createBackgroundSubtractorMOG2(
                 config.get<int>(ConfigManager::MD_MOG_HISTORY),
                 config.get<int>(ConfigManager::MD_MOG_MIXTURES),
                 config.get<bool>(ConfigManager::MD_MOG_SHADOW)
-                );
-    
+            );
+
     int tmpSize = ConfigManager::getConfigManager().get<int>(ConfigManager::MD_MOG_DILATATION);
     dilateElement = cv::getStructuringElement( 0, cv::Size( 2*tmpSize + 1, 2*tmpSize+1  ), cv::Point( tmpSize, tmpSize  )  );
     erodeElement = cv::getStructuringElement( 0, cv::Size( 2*1 + 1, 2*1+1  ), cv::Point( 1, 1  )  );
@@ -83,8 +84,8 @@ void MogMDMethod::initMethod(ConfigManager& config){
 }
 
 
-std::vector<std::vector<cv::Point> > MogMDMethod::getROIs(){
+std::vector<std::vector<cv::Point> > MogMDMethod::getROIs() {
 
     std::vector<std::vector<cv::Point> > c;
-        return c;
+    return c;
 }

@@ -1,35 +1,35 @@
 #include "KnnMDMethod.h"
 
-KnnMDMethod::KnnMDMethod(){
+KnnMDMethod::KnnMDMethod() {
     MEMORY("KnnMDMethod created");
 
 }
 
-KnnMDMethod::~KnnMDMethod(){
+KnnMDMethod::~KnnMDMethod() {
     MEMORY("KnnMDMethod destroyed");
 }
 
 
-void KnnMDMethod::detect(const cv::Mat& input){
+void KnnMDMethod::detect(const cv::Mat& input) {
     std::vector<cv::Vec4i> hierarchy;
     cv::Mat estForeground,      //mog2 result
-        estBackground,          //mog2 result
-        contoursMat,            //tmp required to show all steps
-        dilated,                //after dilatation
-        tmp,tmpF;
+       estBackground,          //mog2 result
+       contoursMat,            //tmp required to show all steps
+       dilated,                //after dilatation
+       tmp,tmpF;
     input.copyTo(tmp);
 
     _knn->apply(input, estForeground);
     _knn->getBackgroundImage(estBackground);
 
 
-        display(ConfigManager::VIEW_KNN_BACKGROUND, estBackground);
-        display(ConfigManager::VIEW_KNN_FOREGROUND, estForeground);
+    display(ConfigManager::VIEW_KNN_BACKGROUND, estBackground);
+    display(ConfigManager::VIEW_KNN_FOREGROUND, estForeground);
 
 
-    
+
     dilate(estForeground,dilated, dilateElement);
-        display(ConfigManager::VIEW_KNN_DILATATION, dilated);
+    display(ConfigManager::VIEW_KNN_DILATATION, dilated);
 
     dilated.copyTo(contoursMat);
     dilated.copyTo(tmpF);
@@ -56,7 +56,7 @@ void KnnMDMethod::detect(const cv::Mat& input){
             resize(imgF,imgFF,Size((imgF.cols/(double)imgF.rows)*200,200));
 
             Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
-            DataManager::getDataManager().addGroup(group); 
+            DataManager::getDataManager().addGroup(group);
         }
     }
 
@@ -69,13 +69,13 @@ void KnnMDMethod::detect(const cv::Mat& input){
 
 
 
-void KnnMDMethod::initMethod(ConfigManager& config){
+void KnnMDMethod::initMethod(ConfigManager& config) {
     _knn = cv::createBackgroundSubtractorKNN(
-                config.get<int>(ConfigManager::MD_KNN_HISTORY),
-                config.get<int>(ConfigManager::MD_KNN_MIXTURES),
-                config.get<bool>(ConfigManager::MD_KNN_SHADOW)
-                );
-    
+               config.get<int>(ConfigManager::MD_KNN_HISTORY),
+               config.get<int>(ConfigManager::MD_KNN_MIXTURES),
+               config.get<bool>(ConfigManager::MD_KNN_SHADOW)
+           );
+
     int tmpSize = ConfigManager::getConfigManager().get<int>(ConfigManager::MD_KNN_DILATATION);
     dilateElement = cv::getStructuringElement( 0, cv::Size( 2*tmpSize + 1, 2*tmpSize+1  ), cv::Point( tmpSize, tmpSize  )  );
 
@@ -83,8 +83,8 @@ void KnnMDMethod::initMethod(ConfigManager& config){
 }
 
 
-std::vector<std::vector<cv::Point> > KnnMDMethod::getROIs(){
+std::vector<std::vector<cv::Point> > KnnMDMethod::getROIs() {
 
     std::vector<std::vector<cv::Point> > c;
-        return c;
+    return c;
 }

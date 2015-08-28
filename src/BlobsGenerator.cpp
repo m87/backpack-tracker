@@ -2,7 +2,7 @@
 
 BlobsGenerator::BlobsGenerator() {
     VERBOSE("BlobsGenerator: Loading blobs ...");
-    
+
     ConfigManager &configManager = ConfigManager::getConfigManager();
 
     for(unsigned long b = 0; b < configManager.blobs.size(); b++) {
@@ -11,14 +11,14 @@ BlobsGenerator::BlobsGenerator() {
 
         cv::Mat img = cv::imread(src,-1);
         resize(img,img,cv::Size(configManager.blobs[b][ConfigManager::BLOBS_W].as<int>(),
-                    configManager.blobs[b][ConfigManager::BLOBS_H].as<int>()));
+                                configManager.blobs[b][ConfigManager::BLOBS_H].as<int>()));
         blobs.push_back(std::unique_ptr<Blob>(new Blob("blob", img ,configManager.blobs[b][ConfigManager::BLOBS_X].as<int>(),
-                configManager.blobs[b][ConfigManager::BLOBS_Y].as<int>(),
-                configManager.blobs[b][ConfigManager::BLOBS_W].as<int>(),
-                configManager.blobs[b][ConfigManager::BLOBS_H].as<int>(),
-                configManager.blobs[b][ConfigManager::BLOBS_START].as<long>(),
-                configManager.blobs[b][ConfigManager::BLOBS_TIME].as<long>())));
-        
+                                              configManager.blobs[b][ConfigManager::BLOBS_Y].as<int>(),
+                                              configManager.blobs[b][ConfigManager::BLOBS_W].as<int>(),
+                                              configManager.blobs[b][ConfigManager::BLOBS_H].as<int>(),
+                                              configManager.blobs[b][ConfigManager::BLOBS_START].as<long>(),
+                                              configManager.blobs[b][ConfigManager::BLOBS_TIME].as<long>())));
+
     }
 
     VERBOSE("BlobsGenerator: Blobs loaded");

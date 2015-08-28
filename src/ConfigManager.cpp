@@ -7,6 +7,7 @@ const std::string ConfigManager::GPU = "gpu";
 const std::string ConfigManager::FULL_TRACKING = "full-tracking";
 const std::string ConfigManager::FACE_TRACKING = "face-tracking";
 const std::string ConfigManager::BACKPACK_DETECTION = "backpack-detection";
+const std::string ConfigManager::START = "start";
 
 
 const std::string ConfigManager::MD_METHOD = "md-method";
@@ -53,6 +54,11 @@ const std::string ConfigManager::BD_STABLE_COST = "bd-dm-stable-cost";
 const std::string ConfigManager::BD_UNSTABLE_COST = "bd-dm-unstable_cost";
 const std::string ConfigManager::BD_CHECKS_TRESH = "bd-dm-checks-threshold";
 const std::string ConfigManager::BD_CONFIDANCE = "bd-dm-confidance";
+const std::string ConfigManager::BD_MAIN_CONFIDANCE = "bd-dm-main-confidance";
+
+const std::string ConfigManager::BD_SNAPSHOT_SIZE = "bd-snapshot-size";
+
+const std::string ConfigManager::TRACKING_STEP = "tracking-step";
 
 
 
@@ -99,6 +105,8 @@ const std::string ConfigManager::VIEW_BD_BACKGROUND = "view-bd-background";
 const std::string ConfigManager::VIEW_BD_LONG_BG = "view-bd-long-bg";
 const std::string ConfigManager::VIEW_BD_DIFF_RESULT = "view-bd-diff-result";
 const std::string ConfigManager::VIEW_BD_RESULT = "view-bd-result";
+
+const std::string ConfigManager::VIEW_TRACKING_RESULT = "view-tracking-result";
 
 
 ConfigManager::ConfigManager(){

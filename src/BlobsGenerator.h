@@ -1,12 +1,9 @@
 #ifndef BLOB_GENERATOR_H
 #define BLOB_GENERATOR_H
-#include "Utils.h"
 #include "cvcommon.h"
 #include <vector>
 #include "Blob.h"
-#include "ConfigManager.h"
 #include "ViewInterface.h"
-#include "TimeManager.h"
 
 /** Generates artificial backpacks for testing */
 class BlobsGenerator : public ViewInterface

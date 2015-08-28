@@ -14,8 +14,6 @@ class Person
     Rect _roi;
     vector<uchar> _status;
     vector<float> _err;
-    float _x_cord[100];
-    float _y_cord[100];
     double accX;
     double accX2;
     double accY;

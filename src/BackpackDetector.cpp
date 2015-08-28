@@ -25,11 +25,11 @@ BackpackDetector::~BackpackDetector() {
     MEMORY("BackpackDetector destroyed");
 }
 
-void BackpackDetector::update(cv::Mat ref){
+void BackpackDetector::update(cv::Mat ref) {
     cv::Mat tmp;
     _bgLong->apply(ref, tmp);
     _bgLong->getBackgroundImage(DataManager::getDataManager().cBG);
-} 
+}
 
 
 void BackpackDetector::detect(cv::Mat ref) {
@@ -86,8 +86,8 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
     _mog2->apply(ref,estF);
     _mog2->getBackgroundImage(estBg);
 
-    display(ConfigManager::VIEW_BD_FOREGROUND, estF); 
-    display(ConfigManager::VIEW_BD_BACKGROUND, estBg); 
+    display(ConfigManager::VIEW_BD_FOREGROUND, estF);
+    display(ConfigManager::VIEW_BD_BACKGROUND, estBg);
 
 
     cv::Mat out;
@@ -154,6 +154,7 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
 
             if(ok) {
                 Backpack backpack(boundRect[i], dm.cBG(boundRect[i]),dm.cBG(boundRect[i]));
+                backpack.takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people);
                 dm.backpacks.push_back(backpack);
 
             }
@@ -195,6 +196,7 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
 
                 if(dm.backpacks[j]._stable > cfg.get<int>(cfg.BD_STABLE_TRESH))
                     dm.backpacks[j].incConfidence(cfg.get<int>(cfg.BD_STABLE_COST));
+
             }
 
 
@@ -204,14 +206,15 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
                     dm.backpacks.erase(dm.backpacks.begin()+j);
 
                 } else {
-
+                    dm.backpacks[j].incStableConfidance(cfg.get<int>(ConfigManager::BD_MAIN_CONFIDANCE));
                     dm.backpacks[j]._stable++;
                 }
             }
 
             if(dm.backpacks[j]._stable > cfg.get<int>(cfg.BD_STABLE_TRESH))
             {
-                cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(), cv::Scalar(0,255,0), 2,8,0);
+                //dm.backpacks[j].takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people);
+                cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(), dm.backpacks[j].getColor(), 2,8,0);
             }
 
         }

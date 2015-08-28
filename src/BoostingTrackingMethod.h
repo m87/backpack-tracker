@@ -3,17 +3,14 @@
 
 #include "TrackingMethod.h"
 #include "cvcommon.h"
-#include "Utils.h"
 #include "opencv2/tracking/tracker.hpp"
 #include <map>
-#include "Managers.h"
 #include "Person.h"
 
 class BoostingTrackingMethod : public TrackingMethod
 {
-    /* data */
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
-    int kk;
+    int step;
 
 public:
     BoostingTrackingMethod ();

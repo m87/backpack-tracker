@@ -1,9 +1,12 @@
 #ifndef FRAME_BUFFER_H
 #define FRAME_BUFFER_H
-#include "cvcommon.h"
 #include <vector>
+#include <opencv2/highgui.hpp>
+#include <opencv2/video.hpp>
+#include <opencv2/opencv.hpp>
+#include <memory>
 #include "Utils.h"
-
+#
 class FrameBuffer
 {
     int _size;

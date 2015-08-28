@@ -1,36 +1,37 @@
 #include "MedianFlowTrackingMethod.h"
 
-MedianFlowTrackingMethod::MedianFlowTrackingMethod(){
-MEMORY("MedianFlowTrackingMethod created");
-kk = 0;    
+MedianFlowTrackingMethod::MedianFlowTrackingMethod() {
+    MEMORY("MedianFlowTrackingMethod created");
+    step = 0;
 
 }
 
-MedianFlowTrackingMethod::~MedianFlowTrackingMethod(){
-MEMORY("MedianFlowTrackingMethod destroyed");
+MedianFlowTrackingMethod::~MedianFlowTrackingMethod() {
+    MEMORY("MedianFlowTrackingMethod destroyed");
 
 }
 
-void MedianFlowTrackingMethod::init(){
+void MedianFlowTrackingMethod::init() {
 
 
 
 }
 
-void MedianFlowTrackingMethod::addTracker(int id, cv::Mat ref){
-    
+void MedianFlowTrackingMethod::addTracker(int id, cv::Mat ref) {
+
     cv::Ptr<cv::Tracker> tracker = cv::TrackerMedianFlow::createTracker();
     tracker->init(ref, DataManager::getDataManager().people[id]._roid);
     _trackers.insert(std::pair<int, cv::Ptr<Tracker> >(id,tracker));
 }
 
-void MedianFlowTrackingMethod::update(cv::Mat ref){
-    if(kk++ == 5){
-    kk=0;
-    for(auto t=_trackers.begin(); t!=_trackers.end();t++){
-        t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
+void MedianFlowTrackingMethod::update(cv::Mat ref) {
+    if(step++ == ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_STEP)) {
+        step=0;
+        for(auto t=_trackers.begin(); t!=_trackers.end(); t++) {
+            t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
+        }
+
+
+
     }
- 
-
-
-}}
+}

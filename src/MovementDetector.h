@@ -1,6 +1,5 @@
 #ifndef MOVEMENT_DETECTOR_H
 #define MOVEMENT_DETECTOR_H
-#include "Utils.h"
 #include "MDMethod.h"
 #include "MogMDMethod.h"
 #include "KnnMDMethod.h"

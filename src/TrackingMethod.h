@@ -6,8 +6,6 @@
 
 class TrackingMethod
 {
-    /* data */
-
 public:
     virtual void addTracker(int id, cv::Mat ref)=0;
     virtual void init()=0;

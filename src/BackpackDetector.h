@@ -1,8 +1,6 @@
 #ifndef BACKPACK_DETECTOR_H
 #define BACKPACK_DETECTOR_H
 #include "cvcommon.h"
-#include "Utils.h"
-#include "Managers.h"
 #include "ViewInterface.h"
 
 class BackpackDetector : public ViewInterface

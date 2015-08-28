@@ -89,8 +89,8 @@ void Preprocessor::getFrame(cv::Mat &out,cv::Mat &out_real,float w , float h, bo
     if(gray) {
         cvtColor(out,out,CV_RGB2GRAY);
     }
-    
-      
+
+
     display(ConfigManager::VIEW_FRAME_REAL, out_real);
     display(ConfigManager::VIEW_FRAME_RESIZED, out);
     VERBOSE_O("Preprocesso:: resized frame reuqest");

@@ -17,6 +17,7 @@ public:
     void tick();
     long time();
     bool checkStep(int step){ return !(_time % step) ;}
+    bool checkStart(int step){ return (_time > step) ;}
 
 };
 

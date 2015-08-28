@@ -69,8 +69,6 @@ void Session::run(){
         SESSION("Session started!");
     }
 
-    //DataManager::getDataManager().setSize(20);
-    //DataManager::getDataManager().setSize(20);
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
 
@@ -87,30 +85,24 @@ void Session::run(){
 
         _backpackDetector->update(out);
 
-        //DataManager::getDataManager().addFrame(out);
-
         _movDetector->detect(out);
         
+        if(TimeManager::getTimeManager().checkStart(ConfigManager::getConfigManager().get<int>(ConfigManager::START))){
 
         if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
-
-        _peopleDetector->detect(out);
+   //         _peopleDetector->detect(out);
         }
-        _tracker->update(tt);    
         
-        /*        
+        
+                
         if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
             _backpackDetector->detect(out);
             filterBackpacks(); // distinct //remove also from current flow already processed
         }
 
-        }
-*/
-        if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
-            _backpackDetector->detect(out);
-            filterBackpacks(); // distinct //remove also from current flow already processed
-        }
+ //       _tracker->update(tt);    
 
+        }
         DataManager::getDataManager().clean();
         
 

@@ -1,25 +1,26 @@
 #ifndef DATA_MANAGER_H
 #define DATA_MANAGER_H 
-#include "cvcommon.h"
 #include "FrameBuffer.h"
 #include "Group.h"
 #include <vector>
 #include <map>
-#include "Utils.h"
 #include "Backpack.h"
 #include "Person.h"
+#include <opencv2/highgui.hpp>
+#include <opencv2/video.hpp>
+#include <opencv2/opencv.hpp>
+#include <memory>
+#include "Utils.h"
 
 class DataManager : public FrameBuffer
 {
     std::vector<Group> groups;
- //   std::map<BackPack, People> backpacks;
 
     DataManager ();
 public:
     std::map<int, Person> people;
     std::vector<Backpack> backpacks;
     std::map<int, Backpack> stableBackpacks;
-    //static FrameBuffer bgBuffer;
     static DataManager & getDataManager();
     void addGroup(Group group);
     void addBacpack(Backpack backpack);

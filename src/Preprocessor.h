@@ -6,8 +6,6 @@
 #include <map>
 #include "cvcommon.h"
 #include "ViewInterface.h"
-#include "Utils.h"
-#include "ConfigManager.h"
 
 /** Performes initial processing. Manages frame buffer */
 class Preprocessor : public ViewInterface

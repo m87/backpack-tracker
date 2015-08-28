@@ -5,12 +5,15 @@
 #include <vector>
 #include <opencv2/tracking/tracker.hpp>
 #include <map>
-#include "Utils.h"
 #include "TrackingMethod.h"
 #include "MILTrackingMethod.h"
-#include "Managers.h"
+#include "KalmanTrackingMethod.h"
+#include "BoostingTrackingMethod.h"
+#include "MedianFlowTrackingMethod.h"
+#include "TLDTrackingMethod.h"
+#include "ViewInterface.h"
 
-class UTracker
+class UTracker : public ViewInterface
 {
     std::unique_ptr<TrackingMethod> _method;
 

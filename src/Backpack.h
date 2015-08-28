@@ -1,9 +1,14 @@
 #ifndef BACKPACK_H
 #define BACKPACK_H
-#include "Utils.h"
-#include "cvcommon.h"
 #include <vector>
 #include "FrameBuffer.h"
+#include <opencv2/highgui.hpp>
+#include <opencv2/video.hpp>
+#include <opencv2/opencv.hpp>
+#include <memory>
+#include "Utils.h"
+#include <map>
+#include "Person.h"
 
 class Backpack
 {
@@ -15,10 +20,17 @@ class Backpack
     cv::Mat _base;
     int _confidence;
     int _checks;
-
-
+    
 public:
-        bool isbase;
+    std::vector<int> _people;
+    int _stableConfidance;
+    bool saved;
+    cv::Scalar getColor(); 
+
+    bool checkOverlapping(cv::Rect A, cv::Rect B);
+    void incStableConfidance(int i);
+    void takeSnapshot(int size, std::map<int, Person> people);
+    bool isbase;
     int _stable;
     Backpack (cv::Rect roi, cv::Mat img, cv::Mat base);
     ~Backpack ();

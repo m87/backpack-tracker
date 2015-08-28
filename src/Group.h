@@ -6,7 +6,6 @@ using namespace cv;
 
 class Group
 {
-    /* data */
     double _widthScale;
     double _heightScale;
     double _relativeX;

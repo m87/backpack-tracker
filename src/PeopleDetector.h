@@ -1,11 +1,9 @@
 #ifndef PEOPLE_DETECTOR_H
 #define PEOPLE_DETECTOR_H
 #include "cvcommon.h"
-#include "Managers.h"
 #include "Group.h"
 #include "Person.h"
 #include <vector>
-#include "Utils.h"
 #include "ViewInterface.h"
 
 class PeopleDetector : public ViewInterface

@@ -14,6 +14,7 @@ Person::Person(Rect roi) {
     accX2=0.0;
     accY=0.0;
     accY2=0.0;
+    trackCount = 0;
 }
 
 Person::~Person() {

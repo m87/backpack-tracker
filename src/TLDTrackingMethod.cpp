@@ -16,6 +16,12 @@ void TLDTrackingMethod::init() {
 
 
 }
+void TLDTrackingMethod::removeTracker(int id){
+    std::map<int, cv::Ptr<cv::Tracker> >::iterator  it = _trackers.find(id);
+    if( it != _trackers.end()){
+        _trackers.erase(it);
+    }
+}
 
 void TLDTrackingMethod::addTracker(int id, cv::Mat ref) {
 

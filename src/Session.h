@@ -12,6 +12,7 @@
 #include "PeopleDetector.h"
 #include "BackpackDetector.h"
 #include "UTracker.h"
+#include <opencv2/highgui/highgui.hpp>
 
 #define END_SESSION_KEY 113
 

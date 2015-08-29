@@ -16,7 +16,12 @@ void MILTrackingMethod::init() {
 
 
 }
-
+void MILTrackingMethod::removeTracker(int id){
+    std::map<int, cv::Ptr<cv::Tracker> >::iterator  it = _trackers.find(id);
+    if( it != _trackers.end()){
+        _trackers.erase(it);
+    }
+}
 void MILTrackingMethod::addTracker(int id, cv::Mat ref) {
 
     cv::Ptr<cv::Tracker> tracker = cv::TrackerMIL::createTracker();

@@ -21,6 +21,7 @@ public:
     UTracker (std::string method);
     ~UTracker ();
     void addTracker(int id, cv::Mat ref);
+    void removeTracker(int id);
     void update(cv::Mat ref);
     void init();
 

@@ -31,6 +31,9 @@ UTracker::~UTracker() {
 }
 
 
+void UTracker::removeTracker(int id) {
+    _method->removeTracker(id);
+}
 
 void UTracker::addTracker(int id, cv::Mat ref) {
     _method->addTracker(id,ref);
@@ -41,7 +44,19 @@ void UTracker::update(cv::Mat ref) {
     ref.copyTo(tmp);
     DataManager dm = DataManager::getDataManager();
     for(auto t=dm.people.begin(); t!=dm.people.end(); t++) {
-        addTracker(t->first, ref);
+        if(t->second.trackCount <= 0){
+            DataManager::getDataManager().people[t->first].trackCount++;
+            addTracker(t->first, ref);
+        }
+
+
+       /* if(t->second._roid.x+t->second._roid.width >= ConfigManager::getConfigManager().get<int>(ConfigManager::FRAMEW) || 
+            t->second._roid.y+t->second._roid.height >= ConfigManager::getConfigManager().get<int>(ConfigManager::FRAMEH) || 
+            t->second._roid.x <= 0 || t->second._roid.y <= 0
+          ){
+            removeTracker(t->first);
+            continue;
+        } */
 
         try {
             rectangle(tmp, t->second._roid.tl(), t->second._roid.br(), cv::Scalar(0,255,0), 2,8,0);

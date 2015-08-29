@@ -41,7 +41,7 @@ cv::Scalar Backpack::getColor(){
 
 bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B) {
     cv::Rect inter = A & B;
-    if(inter.width > A.width * 0.2  || inter.height > A.height * 0.2)
+    if(inter.width > B.width * 0.2  || inter.height > B.height * 0.2)
     {
         return true;
 
@@ -51,6 +51,7 @@ bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B) {
 }
 
 void Backpack::takeSnapshot(int size, std::map<int, Person> people) {
+    if(saved) return;
     cv::Rect rect = _roi; 
     rect.x-=size;
     rect.y-=size;
@@ -58,11 +59,12 @@ void Backpack::takeSnapshot(int size, std::map<int, Person> people) {
     rect.height+=size;
     
     for(auto t=people.begin(); t!=people.end(); t++){
-        if(checkOverlapping(t->second.getROI(),rect)){
+        if(checkOverlapping(rect,t->second.getROI())){
             _people.push_back(t->first);
         }
     }
-
+    
+    saved=true;
 
 
 }

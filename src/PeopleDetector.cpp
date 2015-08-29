@@ -14,6 +14,17 @@ PeopleDetector::~PeopleDetector() {
 
 }
 
+bool PeopleDetector::overlaps(Person A, Person B) {
+    cv::Rect2d inter = A._roid & B._roid;
+    if(inter.width > A._roid.width * ConfigManager::getConfigManager().get<double>(ConfigManager::PD_OVERLAP_TRESH)  || inter.height > A._roid.height * ConfigManager::getConfigManager().get<double>(ConfigManager::PD_OVERLAP_TRESH))
+    {
+        return true;
+
+    }
+    return false;
+
+
+}
 
 void PeopleDetector::detect(cv::Mat ref) {
     std::vector<std::vector<cv::Rect> > rects;
@@ -30,7 +41,16 @@ void PeopleDetector::detect(cv::Mat ref) {
     for(unsigned long i=0; i<rects.size(); i++) {
         for(unsigned long j=0; j<rects[i].size(); j++ ) {
             Person person(rects[i][j]);
-            DataManager::getDataManager().people.insert(std::pair<int, Person>(person.getID(),person));
+            bool ok=true;
+            for(auto p = DataManager::getDataManager().people.begin(); p != DataManager::getDataManager().people.end();p++){
+                if(overlaps(person, p->second)) {
+                    ok=false;
+                    break;
+                }
+            }
+            if(ok) {
+                DataManager::getDataManager().people.insert(std::pair<int, Person>(person.getID(),person));
+            }
             //distinct
         }
     }

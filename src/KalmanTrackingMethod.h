@@ -18,6 +18,7 @@ public:
     void update(cv::Mat ref);
     void init();
     void addTracker(int id, cv::Mat ref);
+    void removeTracker(int id);
 
 };
 

@@ -28,6 +28,7 @@ const std::string ConfigManager::MD_KNN_TRESHOLD = "md-knn-treshold";
 
 
 const std::string ConfigManager::PD_METHOD = "pd-method";
+const std::string ConfigManager::PD_OVERLAP_TRESH = "pd-overlap-treshold";
 
 const std::string ConfigManager::BD_BUFFER = "bd-buffer";
 const std::string ConfigManager::BD_BG_METHOD = "bd-bg-method";
@@ -39,6 +40,8 @@ const std::string ConfigManager::BD_KNN_HISTORY = "bd-knn-history";
 const std::string ConfigManager::BD_KNN_MIXTURES = "bd-knn-mixtures";
 const std::string ConfigManager::BD_DIFF_TRESH = "bd-diff-treshold";
 const std::string ConfigManager::BD_OVERLAP_TRESH = "bd-overlap-treshold";
+const std::string ConfigManager::BD_ID_TEXT = "bd-id-text";
+
 
 
 const std::string ConfigManager::BD_DM_TRESH = "bd-dm-treshold";
@@ -107,6 +110,8 @@ const std::string ConfigManager::VIEW_BD_DIFF_RESULT = "view-bd-diff-result";
 const std::string ConfigManager::VIEW_BD_RESULT = "view-bd-result";
 
 const std::string ConfigManager::VIEW_TRACKING_RESULT = "view-tracking-result";
+
+const std::string ConfigManager::VIEW_FINAL_RESULT = "view-final-result";
 
 
 ConfigManager::ConfigManager(){

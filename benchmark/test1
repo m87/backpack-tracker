@@ -1,10 +1,176 @@
-test-path: /home/test/Pobrane/town.avi
-mog-history: 1500
+#main
+test-path: /home/rt/datasets/video/people/town.avi
+gpu: no
+full-tracking: no
+backpack-detection: yes
+face-tracking: no
+start: 5
+
+
+#preprocessor
+##size of frames buffer
+preprocessor-frames-buffer-size: 10
+##input frame transformation
+frame-width: 1000
+frame-height: -1
+
+
+#pepole detecotr
+##detection method
+pd-method: all
+pd-overlap-treshold: 0.75
+
+
+#backpack detector
+##buffer size
+bd-buffer: 10
+bd-bg-method: mog
+bd-mog-shadow: no
+bd-mog-history: 25
+bd-mog-mixtures: 400
+bd-knn-shadow: no
+bd-knn-history: 25
+bd-knn-mixtures: 400
+bd-diff-treshold: 0.5
+bd-overlap-treshold: 0.95
+bd-id-text: yes
+
+
+bd-dm-treshold: 25
+bd-dm-erode: 3
+bd-dm-dilate: 8
+
+bd-bg-mog-shadow: no
+bd-bg-mog-history: 1000
+bd-bg-mog-mixtures: 100
+
+
+bd-dm-stable-threshold: 10
+bd-dm-stable-cost: -5
+bd-dm-unstable_cost: -5
+bd-dm-checks-threshold: 10
+bd-dm-confidance: 0.5
+
+bd-dm-main-confidance: 1
+#%
+bd-snapshot-size: 100
+
+
+
+tracking-step: 5
+
+#movement detector
+##detection method
+md-method: mog
+md-detection-step: 1
+#md-skip: 4
+
+###method specific settings
+####MOG
+#####Adaptation time
+md-mog-history: 1000
+#####Number of gaussians
+md-mog-mixtures: 100
+#####Removing shadows
+md-mog-shadow: no
+#####Dilatation kernel size (radius)
+md-mog-dilatation: 8
+#####
+
+
+####KNN
+#####Adaptation time
+md-knn-history: 1000
+#####Number of gaussians
+md-knn-mixtures: 3000
+#####Removing shadows
+md-knn-shadow: no
+#####Dilatation kernel size (radius)
+md-knn-dilatation: 8
+#####
+
+
+
+
+#views
+##after resizing [in grayscale]
+view-frame-resized: no
+##real input
+view-frame-real: no
+##show frame with blobs
+view-blobs: no
+##show estimated background [mog method]
+view-mog-background: no
+##show estimated foreground [mog method]
+view-mog-foreground: no
+view-mog-dilatation: no
+view-mog-result: no
+
+
+##show estimated background [mog method]
+view-knn-background: no
+##show estimated foreground [mog method]
+view-knn-foreground: no
+view-knn-dilatation: no
+view-knn-result: no
+
+##show people detection result
+view-pd-result: no
+
+
+view-bd-foreground: no
+view-bd-background: no
+view-bd-long-bg: no
+view-bd-diff-result: no
+view-bd-result: no
+
+view-tracking-result: no
+
+view-final-result: yes
+
+#blobs genertaor
+##use generator
+blobs-enable: yes
+##blobs list
+blobs: [blob1,blob2]
+##blob definition for each blob from list
+blob1:
+    ###image source
+    blobs-img: /home/rt/git/backpack-tracker/benchmark/blobs/blob2.png
+    ###blob position
+    blobs-x: 200
+    blobs-y: 250
+    ###blob dimensions
+    blobs-w: 30
+    blobs-h: 30
+    ###blob start showing after X timemanager's ticks
+    blobs-start: 50
+    ###blob end showing after X timemanager's ticks [starting from blobs-start time]
+    blobs-time: 500
+
+blob2:
+    blobs-img: /home/rt/git/backpack-tracker/benchmark/blobs/blob2.png
+    blobs-x: 400
+    blobs-y: 250
+    blobs-w: 15
+    blobs-h: 15
+    blobs-start: 50
+    blobs-time: 500
+
+
+
+detection-step: 50
+
+
+
+
+
+mog-history: 200
 mog-mixtures-num: 200
-mog-shadow: false 
-frame-width: 1000.0
-frame-height: -1.0
+mog-shadow: no 
 mov-dilatation: 8
 mov-treshold: 25
-detection-step: 50
-blobs: [as, bas, das]
+background-history-size: 10
+background-history-step: 50
+
+

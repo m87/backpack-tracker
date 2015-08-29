@@ -81,7 +81,11 @@ void Session::run(){
         _preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false);
         tt.copyTo(out);
         cvtColor(out,out,cv::COLOR_RGB2GRAY);
+
+
         _blobsGenerator->merge(out);
+        _blobsGenerator->merge(tt);
+        tt.copyTo(BackpackDetector::FINAL);
 
         _backpackDetector->update(out);
 
@@ -90,7 +94,7 @@ void Session::run(){
         if(TimeManager::getTimeManager().checkStart(ConfigManager::getConfigManager().get<int>(ConfigManager::START))){
 
         if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
-   //         _peopleDetector->detect(out);
+            _peopleDetector->detect(out);
         }
         
         
@@ -100,12 +104,11 @@ void Session::run(){
             filterBackpacks(); // distinct //remove also from current flow already processed
         }
 
- //       _tracker->update(tt);    
+        _tracker->update(tt);    
 
         }
         DataManager::getDataManager().clean();
         
-
 
         ViewsManager::getViewsManager().showAll();
 

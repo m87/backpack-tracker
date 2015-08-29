@@ -11,6 +11,7 @@ class MILTrackingMethod : public TrackingMethod
 {
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
     int step;
+    
 
 public:
     MILTrackingMethod ();
@@ -19,6 +20,7 @@ public:
     void update(cv::Mat ref);
     void init();
     void addTracker(int id, cv::Mat ref);
+    void removeTracker(int id);
 
 };
 

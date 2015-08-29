@@ -24,6 +24,7 @@ class Person
     int movBuffSize;
 
 public:
+    int trackCount;
     bool ROIOverlapping(Rect2d roid2);
     Rect2d _roid;
     vector<Point2f> _corners, _corners_prev, _corners_tmp;

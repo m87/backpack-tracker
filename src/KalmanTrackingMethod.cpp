@@ -15,6 +15,9 @@ void KalmanTrackingMethod::init(){
 
 
 }
+void KalmanTrackingMethod::removeTracker(int id){
+
+}
 
 void KalmanTrackingMethod::addTracker(int id, cv::Mat ref){
     

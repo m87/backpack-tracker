@@ -3,9 +3,50 @@
 const std::string BackpackDetector::BG_MOG_METHOD = "mog";
 const std::string BackpackDetector::BG_KNN_METHOD = "knn";
 
+cv::Mat BackpackDetector::FINAL, BackpackDetector::FINAL_CP;
+int BackpackDetector::pirintID;
+
+
+
+void BackpackDetector::callbackMouse(int event, int x, int y, int flags, void *userdata){
+        if  ( event == EVENT_LBUTTONDOWN  )
+        {
+            for(unsigned long t = 0; t <  DataManager::getDataManager().backpacks.size(); t++){
+               if( x > DataManager::getDataManager().backpacks[t].getRoi().x && 
+            y > DataManager::getDataManager().backpacks[t].getRoi().y && 
+x < DataManager::getDataManager().backpacks[t].getRoi().x +DataManager::getDataManager().backpacks[t].getRoi().width && 
+x < DataManager::getDataManager().backpacks[t].getRoi().x  + DataManager::getDataManager().backpacks[t].getRoi().height
+
+){
+                   BackpackDetector::pirintID = t;
+                   INFO(DataManager::getDataManager().backpacks[t].getID());
+                   break;
+               }
+                       }
+        
+
+
+        }
+        if  ( event == EVENT_RBUTTONDOWN  )
+        {
+            BackpackDetector::pirintID = -1;
+            return; 
+        }
+
+}
+
+
+
+
 BackpackDetector::BackpackDetector() {
     MEMORY("BackpackDetector created");
+
+    BackpackDetector::pirintID = -1;
+
     ConfigManager cfg = ConfigManager::getConfigManager();
+    cv::namedWindow(ConfigManager::VIEW_FINAL_RESULT, 1);
+
+    cv::setMouseCallback(ConfigManager::VIEW_FINAL_RESULT, BackpackDetector::callbackMouse, NULL);
 
     _bgLong = cv::createBackgroundSubtractorMOG2(cfg.get<int>(cfg.BD_BG_MOG_HISTORY), cfg.get<int>(cfg.BD_BG_MOG_MIXTURES), cfg.get<bool>(cfg.BD_BG_MOG_SHADOW));
 
@@ -204,6 +245,7 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
             if(dm.backpacks[j].getChecks()>cfg.get<int>(cfg.BD_CHECKS_TRESH)) {
                 if(dm.backpacks[j].getConfidence()/(double)dm.backpacks[j].getChecks() < cfg.get<double>(cfg.BD_CONFIDANCE)) {
                     dm.backpacks.erase(dm.backpacks.begin()+j);
+                    
 
                 } else {
                     dm.backpacks[j].incStableConfidance(cfg.get<int>(ConfigManager::BD_MAIN_CONFIDANCE));
@@ -213,13 +255,35 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref) {
 
             if(dm.backpacks[j]._stable > cfg.get<int>(cfg.BD_STABLE_TRESH))
             {
-                //dm.backpacks[j].takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people);
+                dm.backpacks[j].takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people);
+                
+
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(), dm.backpacks[j].getColor(), 2,8,0);
+                cv::rectangle(BackpackDetector::FINAL, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(), dm.backpacks[j].getColor(), 2,8,0);
+
+            /*
+                for(unsigned long i =0 ;i < dm.backpacks[j]._people.size(); i++){
+                    cv::rectangle(tmp, dm.people[dm.backpacks[j]._people[i]]._roid.tl(), dm.people[dm.backpacks[j]._people[i]]._roid.br(), dm.backpacks[j].getColor(), 2,8,0);
+                    
+                }*/
+               
+                if(cfg.get<bool>(cfg.BD_ID_TEXT)) {
+                    cv::putText(tmp,utils::str::to_string<int>(dm.backpacks[j].getID()),cv::Point(dm.backpacks[j].getRoi().x,dm.backpacks[j].getRoi().y),cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
+                    cv::putText(BackpackDetector::FINAL,utils::str::to_string<int>(dm.backpacks[j].getID()),cv::Point(dm.backpacks[j].getRoi().x,dm.backpacks[j].getRoi().y),cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
+                }
             }
-
         }
+ if(pirintID>=0){
+        for(unsigned long t = 0 ; t < DataManager::getDataManager().backpacks[BackpackDetector::pirintID]._people.size(); t++){
+                cv::Rect2d roi = DataManager::getDataManager().people[DataManager::getDataManager().backpacks[BackpackDetector::pirintID]._people[t]]._roid;
+                cv::rectangle(BackpackDetector::FINAL, roi.tl(), roi.br(), cv::Scalar(0,0,255), 2,8,0);
 
+        }}
+
+        display(ConfigManager::VIEW_FINAL_RESULT, BackpackDetector::FINAL);
         display(ConfigManager::VIEW_BD_RESULT, tmp);
     }
 
 }
+
+

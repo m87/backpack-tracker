@@ -17,6 +17,16 @@ void BoostingTrackingMethod::init() {
 
 }
 
+void BoostingTrackingMethod::removeTracker(int id){
+
+    std::map<int, cv::Ptr<cv::Tracker> >::iterator  it = _trackers.find(id);
+    if( it != _trackers.end()){
+        _trackers.erase(it);
+    }
+}
+
+
+
 void BoostingTrackingMethod::addTracker(int id, cv::Mat ref) {
 
     cv::Ptr<cv::Tracker> tracker = cv::TrackerBoosting::createTracker();

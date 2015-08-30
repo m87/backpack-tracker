@@ -68,13 +68,8 @@ const std::string ConfigManager::TRACKING_STEP = "tracking-step";
 
 
 const std::string ConfigManager::TEST_PATH = "test-path";
-const std::string ConfigManager::MOG_HIST = "mog-history";
-const std::string ConfigManager::MOG_MIXT = "mog-mixtures-num";
-const std::string ConfigManager::MOG_SHAD = "mog-shadow";
 const std::string ConfigManager::FRAMEW = "frame-width";
 const std::string ConfigManager::FRAMEH = "frame-height";
-const std::string ConfigManager::MOV_DILA = "mov-dilatation";
-const std::string ConfigManager::MOV_TRESH = "mov-treshold";
 const std::string ConfigManager::DET_STEP = "detection-step";
 
 const std::string ConfigManager::BLOBS_ENABLE = "blobs-enable";
@@ -115,39 +110,59 @@ const std::string ConfigManager::VIEW_TRACKING_RESULT = "view-tracking-result";
 const std::string ConfigManager::VIEW_FINAL_RESULT = "view-final-result";
 
 
-ConfigManager::ConfigManager(){
-    
+ConfigManager::ConfigManager() {
+
     MEMORY("ConfigManager created");
-    
+
 }
 
-ConfigManager& ConfigManager::getConfigManager(){
+ConfigManager& ConfigManager::getConfigManager() {
     static ConfigManager instance;
     return instance;
 }
 
-void ConfigManager::initConfigManager(std::string path){
+void ConfigManager::initConfigManager(std::string path) {
     VERBOSE("ConfigManager: Using yaml-file: "+ path);
     VERBOSE("ConfigManager: Loading file ...");
-   
+
     ConfigManager & configManager = getConfigManager();
-    
+
     configManager._config = YAML::LoadFile(path);
-    if(configManager.get<bool>(BLOBS_ENABLE)){
+    if(configManager.get<bool>(BLOBS_ENABLE)) {
         WARNING("ConfigManager: Blobs enabled.");
 
         YAML::Node b = configManager._config[BLOBS];
-        for(size_t i=0;i<b.size();i++){
+        for(size_t i=0; i<b.size(); i++) {
             configManager.blobs.push_back(configManager._config[b[i].as<std::string>()]);
         }
-    }else{
+    } else {
         WARNING("ConfigManager: Blobs disabled.");
-              
+
     }
 
     WARNING("##########CONFIG##########");
     configManager.check(VIEW_FRAME_RESIZED);
     configManager.check(VIEW_FRAME_REAL);
+    configManager.check(VIEW_FRAME_RESIZED);
+    configManager.check(VIEW_FRAME_REAL);
+    configManager.check(VIEW_BLOBS);
+    configManager.check(VIEW_MOG_BACKGROUND);
+    configManager.check(VIEW_MOG_FOREGROUND);
+    configManager.check(VIEW_MOG_DILATATION);
+    configManager.check(VIEW_MOG_RESULT);
+    configManager.check(VIEW_KNN_BACKGROUND);
+    configManager.check(VIEW_KNN_FOREGROUND);
+    configManager.check(VIEW_KNN_DILATATION);
+    configManager.check(VIEW_KNN_RESULT);
+    configManager.check(VIEW_PD_RESULT);
+    configManager.check(VIEW_BD_FOREGROUND);
+    configManager.check(VIEW_BD_BACKGROUND);
+    configManager.check(VIEW_BD_LONG_BG);
+    configManager.check(VIEW_BD_DIFF_RESULT);
+    configManager.check(VIEW_BD_RESULT);
+    configManager.check(VIEW_TRACKING_RESULT);
+    configManager.check(VIEW_FINAL_RESULT);
+
     WARNING("##########END-CONFIG##########");
 
 
@@ -156,17 +171,17 @@ void ConfigManager::initConfigManager(std::string path){
 
 }
 
-void ConfigManager::check(std::string name){
-    if(get<bool>(name)){
-        INFO(name + ": enabled"); 
-    }else{
-        INFO(name + ": disabled"); 
+void ConfigManager::check(std::string name) {
+    if(get<bool>(name)) {
+        INFO(name + ": enabled");
+    } else {
+        INFO(name + ": disabled");
     }
 }
 
 
 
-ConfigManager::~ConfigManager(){
+ConfigManager::~ConfigManager() {
 
     MEMORY("ConfigManager deleted");
 }

@@ -1,11 +1,12 @@
 #include "PeopleDetector.h"
-
+//find groups of potential people 
 const std::string PeopleDetector::GROUP_METHOD = "group";
+//use whole frame
 const std::string PeopleDetector::ALL_METHOD = "all";
 
 PeopleDetector::PeopleDetector() {
     MEMORY("PeopleDetector created");
-
+    //init hog detecor
     hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
 }
 
@@ -51,7 +52,6 @@ void PeopleDetector::detect(cv::Mat ref) {
             if(ok) {
                 DataManager::getDataManager().people.insert(std::pair<int, Person>(person.getID(),person));
             }
-            //distinct
         }
     }
 

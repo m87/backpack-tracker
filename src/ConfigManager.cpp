@@ -60,6 +60,7 @@ const std::string ConfigManager::BD_CONFIDANCE = "bd-dm-confidance";
 const std::string ConfigManager::BD_MAIN_CONFIDANCE = "bd-dm-main-confidance";
 
 const std::string ConfigManager::BD_SNAPSHOT_SIZE = "bd-snapshot-size";
+const std::string ConfigManager::BD_SNAPSHOT_TRESH = "bd-snapshot-treshold";
 
 const std::string ConfigManager::TRACKING_STEP = "tracking-step";
 

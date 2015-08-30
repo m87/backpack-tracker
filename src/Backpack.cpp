@@ -36,12 +36,12 @@ void Backpack::incStableConfidance(int i) {
 }
 
 cv::Scalar Backpack::getColor(){
-   return cv::Scalar(255-_stableConfidance,_stableConfidance,0); 
+   return cv::Scalar(0,_stableConfidance,255-_stableConfidance); 
 }
 
-bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B) {
+bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B, double treshold) {
     cv::Rect inter = A & B;
-    if(inter.width > B.width * 0.2  || inter.height > B.height * 0.2)
+    if(inter.width > B.width * treshold  || inter.height > B.height * treshold)
     {
         return true;
 
@@ -50,7 +50,7 @@ bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B) {
 
 }
 
-void Backpack::takeSnapshot(int size, std::map<int, Person> people) {
+void Backpack::takeSnapshot(int size, std::map<int, Person> people, double treshold) {
     if(saved) return;
     cv::Rect rect = _roi; 
     rect.x-=size;
@@ -59,7 +59,7 @@ void Backpack::takeSnapshot(int size, std::map<int, Person> people) {
     rect.height+=size;
     
     for(auto t=people.begin(); t!=people.end(); t++){
-        if(checkOverlapping(rect,t->second.getROI())){
+        if(checkOverlapping(rect,t->second.getROI(),treshold)){
             _people.push_back(t->first);
         }
     }

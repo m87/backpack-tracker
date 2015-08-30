@@ -85,7 +85,7 @@ void Session::run(){
 
         _blobsGenerator->merge(out);
         _blobsGenerator->merge(tt);
-        tt.copyTo(BackpackDetector::FINAL);
+        tt.copyTo(UI::FINAL);
 
         _backpackDetector->update(out);
 

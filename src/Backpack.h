@@ -27,9 +27,9 @@ public:
     bool saved;
     cv::Scalar getColor(); 
 
-    bool checkOverlapping(cv::Rect A, cv::Rect B);
+    bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
     void incStableConfidance(int i);
-    void takeSnapshot(int size, std::map<int, Person> people);
+    void takeSnapshot(int size, std::map<int, Person> people, double treshold);
     bool isbase;
     int _stable;
     Backpack (cv::Rect roi, cv::Mat img, cv::Mat base);

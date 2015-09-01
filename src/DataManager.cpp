@@ -21,6 +21,7 @@ void DataManager::addGroup(Group group){
 
 void DataManager::clean(){
     groups.clear();
+    stableBackpacks.clear();
 }
 
 std::vector<Group> DataManager::getGroups(){

@@ -109,6 +109,10 @@ const std::string ConfigManager::VIEW_TRACKING_RESULT = "view-tracking-result";
 
 const std::string ConfigManager::VIEW_FINAL_RESULT = "view-final-result";
 
+const std::string ConfigManager::TEST = "test";
+const std::string ConfigManager::TEST_ENABLE = "test-enable";
+const std::string ConfigManager::BD_STABLE_CONF_TRESH = "bd-stable-conf-tresh";
+
 
 ConfigManager::ConfigManager() {
 

@@ -73,6 +73,7 @@ void Session::run(){
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
 
 
+
     while(true){
         TimeManager::getTimeManager().tick();
 
@@ -83,8 +84,10 @@ void Session::run(){
         cvtColor(out,out,cv::COLOR_RGB2GRAY);
 
 
-        _blobsGenerator->merge(out);
-        _blobsGenerator->merge(tt);
+        if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BLOBS_ENABLE)){
+            _blobsGenerator->merge(out);
+            _blobsGenerator->merge(tt);
+        }
         tt.copyTo(UI::FINAL);
 
         _backpackDetector->update(out);
@@ -110,6 +113,7 @@ void Session::run(){
         DataManager::getDataManager().clean();
         
 
+        
         ViewsManager::getViewsManager().showAll();
 
         if(END_SESSION_KEY == waitKey(10)){

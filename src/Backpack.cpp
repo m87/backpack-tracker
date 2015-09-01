@@ -22,10 +22,10 @@ Backpack::~Backpack() {
 }
 
 void Backpack::setNewBase(cv::Mat base) {
-    if(isbase) {
+    //if(isbase) {
         base.copyTo(_base);
-        base = false;
-    }
+        isbase = false;
+    //}
 }
 
 void Backpack::incStableConfidance(int i) {

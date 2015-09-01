@@ -13,6 +13,7 @@
 #include "BackpackDetector.h"
 #include "UTracker.h"
 #include <opencv2/highgui/highgui.hpp>
+#include "Benchmark.h"
 
 #define END_SESSION_KEY 113
 
@@ -31,7 +32,8 @@ class Session
 
     std::unique_ptr<BackpackDetector> _backpackDetector;
     std::unique_ptr<UTracker> _tracker;
- 
+    
+    Benchmark benchmark;
 
     bool OPENCV_ERROR;
 

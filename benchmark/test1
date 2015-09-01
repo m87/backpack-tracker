@@ -26,7 +26,7 @@ pd-overlap-treshold: 0.75
 bd-buffer: 10
 bd-bg-method: mog
 bd-mog-shadow: no
-bd-mog-history: 25
+bd-mog-history: 35
 bd-mog-mixtures: 400
 bd-knn-shadow: no
 bd-knn-history: 25
@@ -54,7 +54,10 @@ bd-dm-confidance: 0.5
 bd-dm-main-confidance: 1
 #%
 bd-snapshot-size: 100
+bd-snapshot-treshold: 0.2
 
+#%
+bd-stable-conf-tresh: 20
 
 
 tracking-step: 5
@@ -127,6 +130,30 @@ view-bd-result: no
 view-tracking-result: no
 
 view-final-result: yes
+
+
+
+#testcase
+test-enable: yes
+test: [p1, b1]
+
+p1: 
+    x: 1
+    y: 1
+    width: 1
+    height: 1
+    type: person
+    time: 20
+
+b1: 
+    x: 1
+    y: 1
+    width: 1
+    height: 1
+    type: backpack
+    time: 20
+
+
 
 #blobs genertaor
 ##use generator

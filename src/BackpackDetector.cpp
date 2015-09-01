@@ -244,9 +244,19 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
 
                     //if confidence/(number of checks) is to low then remove backpack, because it is not realy a backpack
                     dm.backpacks.erase(dm.backpacks.begin()+j);
+                    if(UI::pirintID > j){
+                        UI::pirintID--;
+                        
+                    }
+                    if(UI::pirintID == 0){
+                        UI::pirintID = -1;
+                    }
+                    continue;
 
 
                 } else {
+                    if(dm.backpacks[j]._stableConfidance % 10 == 0)
+                    dm.backpacks[j].setNewBase(dm.cBG(dm.backpacks[j].getRoi()));
                     //else increase stable level which determines real backpacks
                     dm.backpacks[j].incStableConfidance(cfg.get<int>
                                                         (ConfigManager::BD_MAIN_CONFIDANCE));
@@ -255,13 +265,14 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
             }
 
             //draw only stable
-            if(dm.backpacks[j]._stable > cfg.get<int>(cfg.BD_STABLE_TRESH)) {
+            if(dm.backpacks[j]._stableConfidance / 254.0 * 100 > cfg.get<int>(cfg.BD_STABLE_CONF_TRESH)) {
 
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(),
                               dm.backpacks[j].getColor(), 2,8,0);
                 cv::rectangle(UI::FINAL, dm.backpacks[j].getRoi().tl(),
                               dm.backpacks[j].getRoi().br(), dm.backpacks[j].getColor(), 2,8,0);
-
+                dm.stableBackpacks.insert(std::pair<int, Backpack>(dm.backpacks[j].getID(), dm.backpacks[j]));
+                INFO(utils::str::to_string<int>(dm.backpacks[j].getID())+":"+ utils::str::to_string<int>(dm.backpacks[j].getChecks())+":"+utils::str::to_string<int>(dm.backpacks[j]._stableConfidance));
                 //print ID
                 if(cfg.get<bool>(cfg.BD_ID_TEXT)) {
                     cv::putText(tmp,utils::str::to_string<int>(dm.backpacks[j].getID()),
@@ -270,8 +281,8 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                     cv::putText(UI::FINAL,utils::str::to_string<int>(dm.backpacks[j].getID()),
                                 cv::Point(dm.backpacks[j].getRoi().x,dm.backpacks[j].getRoi().y),
                                 cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
-                }
             }
+                }
         }
         //print people binded with selected backpack
         if(pirintID>=0) {

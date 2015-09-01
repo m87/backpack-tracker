@@ -171,6 +171,13 @@ public:
                 /// number of frames to skip 
     static const std::string TRACKING_STEP;
 
+                /// test cases list
+                static const std::string TEST,
+                             /// enable/disable tests 
+                             TEST_ENABLE;
+
+static const std::string BD_STABLE_CONF_TRESH;
+
     std::vector<YAML::Node> blobs;
 
     /** Values getter */
@@ -183,6 +190,7 @@ public:
     static void initConfigManager(std::string path);
 
     ~ConfigManager ();
+    YAML::Node getRoot(){ return _config; }
 
 };
 

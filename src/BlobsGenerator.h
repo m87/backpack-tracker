@@ -16,6 +16,7 @@ public:
     ~BlobsGenerator ();
     /** merges all blobs with ref image */
     void merge(cv::Mat& ref);
+    //std::vector<std::unique_ptr<Blob> > getBlobs(){return blobs;}
 
 };
 

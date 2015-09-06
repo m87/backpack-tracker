@@ -2,6 +2,8 @@
 #define TRACKING_METHOD_H
 
 #include "cvcommon.h"
+#include "DataManager.h"
+#include "ConfigManager.h"
 
 
 class TrackingMethod

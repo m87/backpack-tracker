@@ -1,8 +1,10 @@
 #include "TestCase.h"
 const std::string TestCase::PERSON = "person";
+const std::string TestCase::NO_PERSON = "no-person";
 const std::string TestCase::BACKPACK = "backpack";
+const std::string TestCase::NO_BACKPACK = "no-backpack";
 
-TestCase::TestCase(std::string name, std::string type, int x, int y, int width, int height, int time){
+TestCase::TestCase(std::string name, std::string type, int x, int y, int width, int height, int time) {
 
     MEMORY("TestCase created");
     _name = name;
@@ -15,6 +17,7 @@ TestCase::TestCase(std::string name, std::string type, int x, int y, int width, 
 }
 
 
-TestCase::~TestCase(){
+TestCase::~TestCase() {
     MEMORY("TestCase destroyed");
 }
+

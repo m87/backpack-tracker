@@ -4,6 +4,7 @@
 #include <vector>
 #include "Blob.h"
 #include "ViewInterface.h"
+#include "TimeManager.h"
 
 /** Generates artificial backpacks for testing */
 class BlobsGenerator : public ViewInterface

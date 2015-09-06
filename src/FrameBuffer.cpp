@@ -26,6 +26,7 @@ cv::Mat FrameBuffer::get(int i) {
 }
 
 cv::Mat FrameBuffer::getLast() {
+    if(!_full) return _buffer[0];
     if(_loop == _buffer.size()-1) return _buffer[0];
     return _buffer[_loop+1];
 }

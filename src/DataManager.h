@@ -31,6 +31,8 @@ public:
     cv::Mat mask;
     cv::Mat cBG;
 
+    FrameBuffer patchBuffer;
+
 
     ~DataManager ();
 

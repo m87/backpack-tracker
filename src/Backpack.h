@@ -21,18 +21,30 @@ class Backpack
     int _confidence;
     int _checks;
     
+    
 public:
+    int countDown;
+    static cv::Mat PATCH;
+    cv::Mat patchBase;
     std::vector<int> _people;
+    void status();
     int _stableConfidance;
+    int life;
+    bool wasStable;
     bool saved;
     cv::Scalar getColor(); 
+    bool destoyed;
+    void patch(cv::Mat &dst);
+    void overlayImage(const cv::Mat &background, const cv::Mat &foreground,
+cv::Mat &output, cv::Point2i location);
 
-    bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
+    static bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
     void incStableConfidance(int i);
-    void takeSnapshot(int size, std::map<int, Person> people, double treshold);
+    void takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime);
     bool isbase;
     int _stable;
-    Backpack (cv::Rect roi, cv::Mat img, cv::Mat base);
+    Backpack (cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int life, int countDown);
+    Backpack();
     ~Backpack ();
     void incConfidence(int i =1);
     void incChecks(int i = 1);

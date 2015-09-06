@@ -41,9 +41,17 @@ BackpackDetector::~BackpackDetector()
 
 void BackpackDetector::update(cv::Mat ref)
 {
-    cv::Mat tmp;
+    DataManager &dm = DataManager::getDataManager();
+    cv::Mat tmp,cbg;
     _bgLong->apply(ref, tmp);
     _bgLong->getBackgroundImage(DataManager::getDataManager().cBG);
+
+    for(unsigned long it = 0;it<dm.backpacks.size();it++){
+        if(dm.backpacks[it].wasStable)
+        dm.backpacks[it].patch(DataManager::getDataManager().cBG); 
+    }
+    dm.patchBuffer.addFrame(DataManager::getDataManager().cBG);
+
 }
 
 void BackpackDetector::detect(cv::Mat ref)
@@ -69,30 +77,6 @@ bool BackpackDetector::checkDiff(cv::Mat diff)
     return false;
 }
 
-
-bool BackpackDetector::checkOverlapping(cv::Rect A, cv::Rect B, bool type)
-{
-    cv::Rect inter = A & B;
-    int w, h;
-
-    if(type) {
-        w = A.width;
-        h = A.height;
-    } else {
-        w = B.width;
-        h = B.height;
-    }
-
-    if(inter.width > w * ConfigManager::getConfigManager().get<double>
-            (ConfigManager::BD_OVERLAP_TRESH)
-            || inter.height > h *ConfigManager::getConfigManager().get<double>
-            (ConfigManager::BD_OVERLAP_TRESH)) {
-        return true;
-
-    }
-    return false;
-
-}
 
 
 void BackpackDetector::bgDiffMethod(cv::Mat ref)
@@ -168,11 +152,11 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
             bool ok =true;
             //remove duplicates and overlapping rects;
             for(unsigned long j =0; j< dm.backpacks.size(); j++) {
-                if(checkOverlapping(dm.backpacks[j].getRoi(), boundRect[i],true)) {
+                if(utils::detect::checkOverlapping<int>( boundRect[i],dm.backpacks[j].getRoi(),cfg.get<double>(ConfigManager::BD_OVERLAP_TRESH),dm.backpacks[j].destoyed)) {
                     ok=false;
                     break;
                 }
-                if(checkOverlapping(dm.backpacks[j].getRoi(), boundRect[i],false)) {
+                if(utils::detect::checkOverlapping<int>( dm.backpacks[j].getRoi(),boundRect[i],cfg.get<double>(ConfigManager::BD_OVERLAP_TRESH),dm.backpacks[j].destoyed)) {
                     ok=false;
                     break;
                 }
@@ -182,10 +166,12 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
             //add only unique
             if(ok) {
                 //create backpack
-                Backpack backpack(boundRect[i], dm.cBG(boundRect[i]),dm.cBG(boundRect[i]));
+                Backpack backpack(boundRect[i], dm.cBG(boundRect[i]),dm.cBG(boundRect[i]),dm.patchBuffer.getLast()(boundRect[i]),
+                        cfg.get<int>(cfg.BD_BACKPACK_LIFE), cfg.get<int>(cfg.BD_COUNT_DOWN)
+                        );
                 //take snapshot
                 backpack.takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
-                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH));
+                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH),UI::FINAL, cfg.get<std::string>(cfg.RUNTIME));
                 //save
                 dm.backpacks.push_back(backpack);
 
@@ -243,14 +229,11 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                         cfg.get<double>(cfg.BD_CONFIDANCE)) {
 
                     //if confidence/(number of checks) is to low then remove backpack, because it is not realy a backpack
+                    if(dm.backpacks[j].wasStable){
+                        dm.backpacks[j].destoyed = true;
+                        continue;
+                    }
                     dm.backpacks.erase(dm.backpacks.begin()+j);
-                    if(UI::pirintID > j){
-                        UI::pirintID--;
-                        
-                    }
-                    if(UI::pirintID == 0){
-                        UI::pirintID = -1;
-                    }
                     continue;
 
 
@@ -266,13 +249,28 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
 
             //draw only stable
             if(dm.backpacks[j]._stableConfidance / 254.0 * 100 > cfg.get<int>(cfg.BD_STABLE_CONF_TRESH)) {
+/*
+                cv::imwrite(cfg.get<std::string>(cfg.RUNTIME)+"/"+utils::str::to_string<int>(dm.backpacks[j].getID())+".png", ref(dm.backpacks[j].getRoi()));
+
+   for(unsigned long t=0; t<dm.backpacks[j]._people.size(); t++){
+            cv::imwrite(cfg.get<std::string>(cfg.RUNTIME)+"/"+utils::str::to_string<int>(dm.backpacks[j].getID())+"-"+utils::str::to_string<int>(dm.people[dm.backpacks[j]._people[t]].getID())+".png", ref(dm.people[dm.backpacks[j]._people[t]]._roid));
+    }
+  */
+
+                if(!dm.backpacks[j].wasStable){
+                SESSION(
+                        "Backpack: Detected! ID: " + utils::str::to_string<int>(dm.backpacks[j].getID())
+                       );
+                }
+                dm.backpacks[j].status();
 
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(),
                               dm.backpacks[j].getColor(), 2,8,0);
                 cv::rectangle(UI::FINAL, dm.backpacks[j].getRoi().tl(),
                               dm.backpacks[j].getRoi().br(), dm.backpacks[j].getColor(), 2,8,0);
                 dm.stableBackpacks.insert(std::pair<int, Backpack>(dm.backpacks[j].getID(), dm.backpacks[j]));
-                INFO(utils::str::to_string<int>(dm.backpacks[j].getID())+":"+ utils::str::to_string<int>(dm.backpacks[j].getChecks())+":"+utils::str::to_string<int>(dm.backpacks[j]._stableConfidance));
+                dm.backpacks[j].wasStable = true;
+               // INFO(utils::str::to_string<int>(dm.backpacks[j].getID())+":"+ utils::str::to_string<int>(dm.backpacks[j].getChecks())+":"+utils::str::to_string<int>(dm.backpacks[j]._stableConfidance));
                 //print ID
                 if(cfg.get<bool>(cfg.BD_ID_TEXT)) {
                     cv::putText(tmp,utils::str::to_string<int>(dm.backpacks[j].getID()),
@@ -283,18 +281,29 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                                 cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
             }
                 }
-        }
-        //print people binded with selected backpack
-        if(pirintID>=0) {
+
+//print people binded with selected backpack
+        if(UI::pirintID==dm.backpacks[j].getID()) {
             for(unsigned long t = 0 ;
-                    t < DataManager::getDataManager().backpacks[UI::pirintID]._people.size(); t++) {
+                    t < DataManager::getDataManager().backpacks[j]._people.size(); t++) {
                 cv::Rect2d roi =
-                    DataManager::getDataManager().people[DataManager::getDataManager().backpacks[UI::pirintID]._people[t]]._roid;
+                    DataManager::getDataManager().people[DataManager::getDataManager().backpacks[j]._people[t]]._roid;
                 cv::rectangle(UI::FINAL, roi.tl(), roi.br(), cv::Scalar(255,0,0), 2,8,0);
+                    cv::putText(UI::FINAL,utils::str::to_string<int>(dm.backpacks[j]._people[t]),
+                                cv::Point(roi.x,roi.y),
+                                cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
+
+ 
 
             }
         }
 
+        }
+        
+         cv::putText(UI::FINAL,utils::str::to_string<long>(TimeManager::getTimeManager().time()),
+                                cv::Point(0,12),
+                                cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(255,0,0),2,cv::LINE_AA);
+    
         display(ConfigManager::VIEW_FINAL_RESULT, UI::FINAL);
         display(ConfigManager::VIEW_BD_RESULT, tmp);
     }

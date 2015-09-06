@@ -5,6 +5,7 @@
 #include "Person.h"
 #include <vector>
 #include "ViewInterface.h"
+#include "DataManager.h"
 
 /** People detection.
  * @see ViewInterface

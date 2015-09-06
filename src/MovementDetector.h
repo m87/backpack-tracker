@@ -8,12 +8,18 @@
 #include <vector>
 #include "Group.h"
 
+
+/** movement detection abstract
+ * @see ViewInterface
+ * @see MogMDMethod
+ * @see KnnMDMethod
+ *
+ */
+
 class MovementDetector : public ViewInterface
 {
     std::string _type;
     std::unique_ptr<MDMethod> mdMethod;
-
-
     const static std::string MOG_METHOD, KNN_METHOD;
 
 public:

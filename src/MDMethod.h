@@ -3,6 +3,7 @@
 #include "cvcommon.h"
 #include "Group.h"
 #include <vector>
+#include "ConfigManager.h"
 
 
 /** Movement detection method abstract class */

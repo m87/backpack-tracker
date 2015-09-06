@@ -30,7 +30,6 @@ BlobsGenerator::~BlobsGenerator() {
     MEMORY("BlobsGenerator deleted");
 }
 
-
 void overlayImage(const cv::Mat &background, const cv::Mat &foreground,
                   cv::Mat &output, cv::Point2i location)
 {
@@ -74,7 +73,6 @@ void overlayImage(const cv::Mat &background, const cv::Mat &foreground,
     }
 
 }
-
 void BlobsGenerator::merge(cv::Mat& ref) {
     long time = TimeManager::getTimeManager().time();
     for(unsigned long i=0; i<blobs.size(); i++) {

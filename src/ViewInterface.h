@@ -1,6 +1,8 @@
 #ifndef VIEW_INTERFACE_H
 #define VIEW_INTERFACE_H
 #include "cvcommon.h"
+#include "ViewsManager.h"
+#include "ConfigManager.h"
 
 
 /** wrapper for update method

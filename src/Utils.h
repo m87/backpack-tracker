@@ -1,10 +1,11 @@
 
 #ifndef UTILS_H
-#define UTILS_H 
+#define UTILS_H
 
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <opencv2/core.hpp>
 
 #define INFO(msg) (std::cout << "\x1b[32;1m" << "[Info] "  << "\x1b[0m"  << msg << std::endl)
 #define ERROR(msg) (std::cout << "\x1b[31;1m" << "[Error] "  << "\x1b[0m"  << msg << std::endl)
@@ -15,16 +16,46 @@
 #define VERBOSE_O(msg) //(std::cout << "\x1b[37;1m" << "[!Verbose!] "  << "\x1b[0m"  << msg << std::endl)
 
 namespace utils {
-    namespace str{
-template < typename T > 
+
+namespace detect {
+template < typename T >
+bool checkOverlapping(cv::Rect_<T> A, cv::Rect_<T> B, double treshold) {
+    cv::Rect_<T> inter = A & B;
+    if(inter.width > B.width * treshold  || inter.height > B.height * treshold)
+    {
+        return true;
+
+    }
+    return false;
+
+
+
+}
+template < typename T >
+bool checkOverlapping(cv::Rect_<T> A, cv::Rect_<T> B, double treshold, bool flag) {
+    if(flag) return false;
+    else{
+        return checkOverlapping(A,B,treshold);
+    }
+
+
+
+}
+
+}
+
+
+
+namespace str {
+template < typename T >
 std::string to_string( const T& n  )
 {
-            std::ostringstream stm ;
-                    stm << n ;
-                            return stm.str() ;
-                                
+    std::ostringstream stm ;
+    stm << n ;
+    return stm.str() ;
+
 }
-    }
+}
 
 }
 #endif

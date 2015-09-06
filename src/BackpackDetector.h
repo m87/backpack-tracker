@@ -4,6 +4,7 @@
 #include "ViewInterface.h"
 #include <opencv2/highgui/highgui.hpp>
 #include "UI.h"
+#include "TimeManager.h"
 
 /** Detects backpacks and binds people with backpackas.
  *  @see ViewInterface showing results
@@ -53,11 +54,6 @@ public:
      * @see Backpack
      */
     void bgDiffMethod(cv::Mat ref);
-    /** Checks overlapping of two Rectangles
-     * @parm type true - Compare with As dimensions, false - Compare with Bs dimensions
-     * @see ConfigManager#BD_OVERLAP_TRESH
-     * */
-    bool checkOverlapping(cv::Rect A, cv::Rect B, bool type);
 
     /** Checks difference level
      *  @param diff result of Matrieces subtraction or absdiff

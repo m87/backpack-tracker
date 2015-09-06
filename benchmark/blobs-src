@@ -1,0 +1,45 @@
+##blobs list
+blobs: [blob1,blob2, blob3]
+##blob definition for each blob from list
+blob1:
+    ###image source
+    blobs-img: /home/rt/git/backpack-tracker/benchmark/blobs/blob2.png
+    ###blob position
+    blobs-x: 200
+    blobs-y: 250
+    ###blob dimensions
+    blobs-w: 30
+    blobs-h: 30
+    ###blob start showing after X timemanager's ticks
+    blobs-start: 50
+    ###blob end showing after X timemanager's ticks [starting from blobs-start time]
+    blobs-time: 150
+
+blob3:
+    ###image source
+    blobs-img: /home/rt/git/backpack-tracker/benchmark/blobs/blob2.png
+    ###blob position
+    blobs-x: 200
+    blobs-y: 250
+    ###blob dimensions
+    blobs-w: 30
+    blobs-h: 30
+    ###blob start showing after X timemanager's ticks
+    blobs-start: 250
+    ###blob end showing after X timemanager's ticks [starting from blobs-start time]
+    blobs-time: 150
+
+
+
+
+blob2:
+
+    blobs-img: /home/rt/git/backpack-tracker/benchmark/blobs/blob2.png
+    blobs-x: 400
+    blobs-y: 250
+    blobs-w: 15
+    blobs-h: 15
+    blobs-start: 50
+    blobs-time: 500
+
+

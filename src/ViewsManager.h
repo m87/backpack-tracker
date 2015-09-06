@@ -3,6 +3,7 @@
 
 #include "cvcommon.h"
 #include <map>
+#include "Utils.h"
 
 
 /** Manages views from all stages of processing. */
@@ -16,6 +17,8 @@ class ViewsManager
 public:
     ~ViewsManager ();
     static ViewsManager& getViewsManager();
+
+    cv::Mat &get(std::string name){return _views[name];}
 
     /** removes all registrated views */
     void reset();

@@ -35,7 +35,7 @@ Session::Session(){
     _movDetector.reset(new MovementDetector(config.get<std::string>(ConfigManager::MD_METHOD)));
     _backpackDetector.reset(new BackpackDetector());
 
-    _tracker.reset(new UTracker("mil"));
+    _tracker.reset(new UTracker(ConfigManager::getConfigManager().get<std::string>(ConfigManager::TRACKING_METHOD)));
 
 
 }
@@ -63,7 +63,7 @@ void Session::run(){
     int frameWidth = ConfigManager::getConfigManager().get<int>(ConfigManager::FRAMEW);
     int frameHeight = ConfigManager::getConfigManager().get<int>(ConfigManager::FRAMEH);
 
-    if(OPENCV_ERROR){
+    if(OPENCV_ERROR | ConfigManager::checkErrors()){
         return;
     }else{
         SESSION("Session started!");
@@ -71,12 +71,17 @@ void Session::run(){
 
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
+    
+    DataManager::getDataManager().patchBuffer.setSize(50);
+    DataManager::getDataManager().patchBuffer.setSize(50);
 
 
 
     while(true){
         TimeManager::getTimeManager().tick();
+        DataManager::getDataManager().clean();
 
+                 
 
         Mat out, out1,tt; 
         _preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false);
@@ -89,6 +94,8 @@ void Session::run(){
             _blobsGenerator->merge(tt);
         }
         tt.copyTo(UI::FINAL);
+
+
 
         _backpackDetector->update(out);
 
@@ -110,9 +117,8 @@ void Session::run(){
         _tracker->update(tt);    
 
         }
-        DataManager::getDataManager().clean();
-        
-
+       
+        benchmark.perform(); 
         
         ViewsManager::getViewsManager().showAll();
 
@@ -125,6 +131,7 @@ void Session::run(){
 
     }
    
+    benchmark.show();
     
     SESSION("Session stopped!");
 

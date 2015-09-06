@@ -24,7 +24,7 @@ void UI::callbackMouse(int event, int x ,int y , int flags, void* userdata) {
                     x < DataManager::getDataManager().backpacks[t].getRoi().x  + DataManager::getDataManager().backpacks[t].getRoi().height
 
               ) {
-                UI::pirintID = t;
+                UI::pirintID = DataManager::getDataManager().backpacks[t].getID();
                 INFO("Backpack ["+utils::str::to_string<double>(DataManager::getDataManager().backpacks[t]._stableConfidance/254.0*100)+"%]: "+utils::str::to_string<int>(DataManager::getDataManager().backpacks[t].getID()));
                 break;
             }

@@ -23,3 +23,13 @@ void TimeManager::tick(){
 long  TimeManager::time(){
     return _time;
 }
+
+bool TimeManager::checkStep(int n){ 
+    return !(_time % n) ;
+}
+
+bool TimeManager::checkStart(int n){
+ return (_time > n) ;
+
+}
+

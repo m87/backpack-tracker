@@ -62,6 +62,7 @@ bool Person::isOutside(Mat m) {
 
 }
 
+
 bool Person::isMoveing() {
     if(movBuff.size()==10) {
         for(unsigned long i=0; i<movBuff.size(); i++) {

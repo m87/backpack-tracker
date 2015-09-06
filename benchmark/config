@@ -1,0 +1,160 @@
+#main
+runtime: /home/rt/git/backpack-tracker/runtime
+test-path: /home/rt/datasets/video/people/town.avi
+gpu: no
+full-tracking: no
+backpack-detection: yes
+face-tracking: no
+start: 5
+
+
+#preprocessor
+##size of frames buffer
+preprocessor-frames-buffer-size: 10
+##input frame transformation
+frame-width: 1000
+frame-height: -1
+
+
+#pepole detecotr
+##detection method
+pd-method: all
+pd-overlap-treshold: 0.75
+
+
+#backpack detector
+##buffer size
+bd-buffer: 10
+bd-bg-method: mog
+bd-mog-shadow: no
+bd-mog-history: 35
+bd-mog-mixtures: 400
+bd-knn-shadow: no
+bd-knn-history: 25
+bd-knn-mixtures: 400
+bd-diff-treshold: 0.5
+bd-overlap-treshold: 0.95
+bd-id-text: yes
+
+
+bd-dm-treshold: 25
+bd-dm-erode: 3
+bd-dm-dilate: 8
+
+bd-bg-mog-shadow: no
+bd-bg-mog-history: 1000
+bd-bg-mog-mixtures: 400
+
+
+bd-dm-stable-threshold: 10
+bd-dm-stable-cost: -5
+bd-dm-unstable_cost: -5
+bd-dm-checks-threshold: 10
+bd-dm-confidance: 0.5
+
+bd-dm-main-confidance: 1
+#%
+bd-snapshot-size: 100
+bd-snapshot-treshold: 0.2
+
+#%
+bd-stable-conf-tresh: 20
+
+bd-backpack-life: 1000
+bd-count-down: 100
+
+tracking-step: 5
+tracking-limit: 25
+tracking-tresh: 0.9
+tracking-merge-tresh: 0.9
+tracking-method: mil
+
+#movement detector
+##detection method
+md-method: mog
+md-detection-step: 1
+#md-skip: 4
+
+###method specific settings
+####MOG
+#####Adaptation time
+md-mog-history: 1000
+#####Number of gaussians
+md-mog-mixtures: 100
+#####Removing shadows
+md-mog-shadow: no
+#####Dilatation kernel size (radius)
+md-mog-dilatation: 8
+#####
+
+
+####KNN
+#####Adaptation time
+md-knn-history: 1000
+#####Number of gaussians
+md-knn-mixtures: 3000
+#####Removing shadows
+md-knn-shadow: no
+#####Dilatation kernel size (radius)
+md-knn-dilatation: 8
+#####
+
+
+
+
+#views
+##after resizing [in grayscale]
+view-frame-resized: no
+##real input
+view-frame-real: no
+##show frame with blobs
+view-blobs: no
+##show estimated background [mog method]
+view-mog-background: no
+##show estimated foreground [mog method]
+view-mog-foreground: no
+view-mog-dilatation: no
+view-mog-result: no
+
+
+##show estimated background [mog method]
+view-knn-background: no
+##show estimated foreground [mog method]
+view-knn-foreground: no
+view-knn-dilatation: no
+view-knn-result: no
+
+##show people detection result
+view-pd-result: no
+
+
+view-bd-foreground: no
+view-bd-background: no
+view-bd-long-bg: no
+view-bd-diff-result: no
+view-bd-result: no
+
+view-tracking-result: no
+
+view-final-result: yes
+
+
+
+#testcase
+###test only if the center of area de
+test-enable: yes
+test-acc: 0.5
+test-source: /home/rt/git/backpack-tracker/benchmark/test1
+
+#blobs genertaor
+##use generator
+blobs-enable: yes
+blobs-source: /home/rt/git/backpack-tracker/benchmark/blobs-src
+
+
+detection-step: 50
+
+
+
+
+

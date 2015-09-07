@@ -6,8 +6,7 @@
 #include "ConfigManager.h"
 
 
-/** Movement detection method abstract class */
-
+/** Wrapper for movement detection methods */
 class MDMethod
 {
 

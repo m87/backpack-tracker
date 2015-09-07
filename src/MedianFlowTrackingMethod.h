@@ -7,18 +7,25 @@
 #include <map>
 #include "Person.h"
 
+/** Class for Median Flow tracking method
+ * @see TrackingMethod
+ */
 class MedianFlowTrackingMethod : public TrackingMethod
 {
+    // list of trackers
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
     int step;
 
 public:
     MedianFlowTrackingMethod ();
     ~MedianFlowTrackingMethod ();
-
+    //update trackers
     void update(cv::Mat ref);
+    //initialization
     void init();
+    //add new tracker
     void addTracker(int id, cv::Mat ref);
+    //remove tracker
     void removeTracker(int id);
 
 };

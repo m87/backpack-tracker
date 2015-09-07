@@ -1,17 +1,19 @@
 #ifndef GROUP_H
 #define GROUP_H
-#include <opencv2/opencv.hpp>
+#include "cvcommon.h"
+#include "Utils.h"
 
-using namespace cv;
-
+/** Group of moving objects. For hog eficiency in low crowded areas
+ *  @see PeopleDetector
+ */
 class Group
 {
     double _widthScale;
     double _heightScale;
     double _relativeX;
     double _relativeY;
-    Mat _img;
-    Mat _estimation;
+    cv::Mat _img;
+    cv::Mat _estimation;
     cv::Rect _roi;
 
 public:
@@ -20,10 +22,10 @@ public:
     double getHeightScale();
     double getRelativeX();
     double getRelativeY();
-    Mat getImg();
-    Mat getEst();
-    Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img);
-    Group (double widthScale, double heightScale, double relativeX, double relativeY, Mat img, Mat estimation, cv::Rect roi);
+    cv::Mat getImg();
+    cv::Mat getEst();
+    Group (double widthScale, double heightScale, double relativeX, double relativeY, cv::Mat img);
+    Group (double widthScale, double heightScale, double relativeX, double relativeY, cv::Mat img, cv::Mat estimation, cv::Rect roi);
     Group (double widthScale, double heightScale, double relativeX, double relativeY);
     ~Group ();
 

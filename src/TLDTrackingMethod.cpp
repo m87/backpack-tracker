@@ -27,7 +27,7 @@ void TLDTrackingMethod::addTracker(int id, cv::Mat ref) {
 
     cv::Ptr<cv::Tracker> tracker = cv::TrackerTLD::createTracker();
     tracker->init(ref, DataManager::getDataManager().people[id]._roid);
-    _trackers.insert(std::pair<int, cv::Ptr<Tracker> >(id,tracker));
+    _trackers.insert(std::pair<int, cv::Ptr<cv::Tracker> >(id,tracker));
 }
 
 void TLDTrackingMethod::update(cv::Mat ref) {

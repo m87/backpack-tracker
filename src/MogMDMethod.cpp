@@ -37,23 +37,23 @@ void MogMDMethod::detect(const cv::Mat& input) {
 
     std::vector<std::vector<cv::Point> > contours;
     if(TimeManager::getTimeManager().time() % ConfigManager::getConfigManager().get<int>(ConfigManager::MD_DETECTION_STEP) == 0) {
-        findContours( contoursMat, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0)  );
+        findContours( contoursMat, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0)  );
 
         std::vector<cv::Rect> boundRect(contours.size());
         std::vector<std::vector<cv::Point> > contoursPoly(contours.size());
 
         for( unsigned long i = 0; i< contours.size(); i++  )
         {
-            approxPolyDP(Mat(contours[i]),contoursPoly[i],10,false);
-            boundRect[i] = boundingRect(Mat(contoursPoly[i]));
+            cv::approxPolyDP(cv::Mat(contours[i]),contoursPoly[i],10,false);
+            boundRect[i] = boundingRect(cv::Mat(contoursPoly[i]));
 
-            rectangle(tmp, boundRect[i].tl(), boundRect[i].br(), cv::Scalar(0,255,0), 2,8,0);
+            cv::rectangle(tmp, boundRect[i].tl(), boundRect[i].br(), cv::Scalar(0,255,0), 2,8,0);
             std::vector<cv::Rect> found, found_filtered;
-            Mat img1 = tmp(boundRect[i]);
-            Mat imgF = tmpF(boundRect[i]);
-            Mat img, imgFF;
-            resize(img1,img,Size((img1.cols/(double)img1.rows)*200,200));
-            resize(imgF,imgFF,Size((imgF.cols/(double)imgF.rows)*200,200));
+            cv::Mat img1 = tmp(boundRect[i]);
+            cv::Mat imgF = tmpF(boundRect[i]);
+            cv::Mat img, imgFF;
+            cv::resize(img1,img,cv::Size((img1.cols/(double)img1.rows)*200,200));
+            cv::resize(imgF,imgFF,cv::Size((imgF.cols/(double)imgF.rows)*200,200));
             if(!(boundRect[i].width > 0.8 * input.rows || boundRect[i].width > 0.8 * input.rows)) {
                 Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
                 DataManager::getDataManager().addGroup(group);

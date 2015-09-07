@@ -19,10 +19,6 @@ UTracker::UTracker(std::string method) {
         WARNING("UTracker: using TLD tracking methid");
         _method.reset(new TLDTrackingMethod());
     }
-    if(method == "kalman") {
-        WARNING("UTracker: using MIL tracking methid");
-        _method.reset(new KalmanTrackingMethod());
-    }
 }
 
 UTracker::~UTracker() {
@@ -48,14 +44,10 @@ void UTracker::update(cv::Mat ref) {
             DataManager::getDataManager().people[t->first].trackCount++;
             addTracker(t->first, ref);
         }
-
-
-
         try {
             rectangle(tmp, t->second._roid.tl(), t->second._roid.br(), cv::Scalar(0,255,0), 2,8,0);
 
-
-        } catch(Exception e) {
+        } catch(cv::Exception e) {
         }
 
     }

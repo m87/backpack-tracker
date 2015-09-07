@@ -62,25 +62,3 @@ void FrameBuffer::setSize(int size) {
     }
 }
 
-int FrameBuffer::checkPixel(int x, int y, int value, int tresh) {
-    int sum = 0;
-    if(!_full) return sum;
-    for(int i =0 ; i < _size; i++) {
-        if(value>=0) {
-            if(_buffer[i].at<int>(y,x) == value ) sum++;
-        } else {
-
-        }
-    }
-    return sum;
-}
-
-
-void FrameBuffer::mask(cv::Mat in, cv::Mat& input, int tresh) {
-    in.copyTo(input);
-    if(!_full) return;
-    for(int i =0 ; i < _size; i++) {
-        bitwise_and(input,_buffer[i],input);
-
-    }
-}

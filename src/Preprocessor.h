@@ -27,9 +27,6 @@ public:
     unsigned long getFrameBufferSize();
     unsigned long getCurrentFrameBufferSize();
 
-    void getAvgFrame(cv::Mat &output);
-    void getSumFrame(cv::Mat &output);
-
     cv::Mat getStructuringElement(int size, int type = 0);
 
     Preprocessor (std::string file);

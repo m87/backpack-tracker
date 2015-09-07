@@ -1,6 +1,5 @@
 #include "Backpack.h"
 long Backpack::ID = 0;
-cv::Mat Backpack::PATCH;
 
 Backpack::Backpack(cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int life, int countDown) {
     // MEMORY("Backpack created");
@@ -135,7 +134,7 @@ void Backpack::takeSnapshot(int size, std::map<int, Person> people, double tresh
     cv::imwrite(pathRuntime+"/"+utils::str::to_string<int>(_id)+".png", ref(_roi));
     
     for(auto t=people.begin(); t!=people.end(); t++){
-        if(checkOverlapping(rect,t->second.getROI(),treshold)){
+        if(checkOverlapping(rect,t->second._roid,treshold)){
             _people.push_back(t->first);
 
             cv::imwrite(pathRuntime+"/"+utils::str::to_string<int>(_id)+"-"+utils::str::to_string<int>(t->second.getID())+".png", ref(t->second._roid));
@@ -181,19 +180,3 @@ int Backpack::getChecks() {
 }
 
 
-void Backpack::shrink(cv::Mat sum) {
-    try {
-        cv::Mat tmp = sum(_roi);
-        std::vector<cv::Vec4i> hierarchy;
-        std::vector<std::vector<cv::Point> > contours;
-        findContours(tmp, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0)  );
-        std::vector<cv::Rect> boundRect(contours.size());
-        std::vector<std::vector<cv::Point> > contoursPoly(contours.size());
-
-        approxPolyDP(cv::Mat(contours[0]),contoursPoly[0],10,false);
-        boundRect[0] = boundingRect(cv::Mat(contoursPoly[0]));
-
-        _roi = boundRect[0];
-
-    } catch(cv::Exception e) {}
-}

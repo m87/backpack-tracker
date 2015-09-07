@@ -3,9 +3,14 @@
 #include "MDMethod.h"
 #include "Utils.h"
 #include "ViewInterface.h"
-#include "Managers.h"
+#include "ConfigManager.h"
+#include "TimeManager.h"
+#include "DataManager.h"
 #include "FrameBuffer.h"
 
+/** Class for knn movement detection method
+ * @see MDMethod
+ */
 class KnnMDMethod: public MDMethod, ViewInterface
 {
 

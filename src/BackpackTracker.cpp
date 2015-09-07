@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-    INFO("Hit 'q' to end session!");
+    INFO("Hit Ctrl+c to end session!");
     ConfigManager::getConfigManager().initConfigManager(argv[1]);
     Session session;
     session.run();

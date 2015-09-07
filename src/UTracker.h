@@ -7,12 +7,15 @@
 #include <map>
 #include "TrackingMethod.h"
 #include "MILTrackingMethod.h"
-#include "KalmanTrackingMethod.h"
 #include "BoostingTrackingMethod.h"
 #include "MedianFlowTrackingMethod.h"
 #include "TLDTrackingMethod.h"
 #include "ViewInterface.h"
 
+/** Wrapper for trackers 
+ * @see ViewInterface
+ * @see TrackingMethod
+ */
 class UTracker : public ViewInterface
 {
     std::unique_ptr<TrackingMethod> _method;

@@ -7,7 +7,7 @@ const std::string PeopleDetector::ALL_METHOD = "all";
 PeopleDetector::PeopleDetector() {
     MEMORY("PeopleDetector created");
     //init hog detecor
-    hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
+    hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
 PeopleDetector::~PeopleDetector() {
@@ -61,19 +61,19 @@ void PeopleDetector::detect(cv::Mat ref) {
 
 
 
-std::vector<std::vector<Rect> > PeopleDetector::getPeopleFromGroups(cv::Mat ref, std::vector<Group> group) {
-    std::vector< std::vector<Rect> > output;
+std::vector<std::vector<cv::Rect> > PeopleDetector::getPeopleFromGroups(cv::Mat ref, std::vector<Group> group) {
+    std::vector< std::vector<cv::Rect> > output;
     cv::Mat view;
     ref.copyTo(view);
     for( unsigned long i = 0; i< group.size(); i++  )
     {
-        std::vector<Rect> found, found_filtered;
-        hog.detectMultiScale(group[i].getImg(), found, 0, Size(8,8), Size(32,32), 1.05, 2);
+        std::vector<cv::Rect> found, found_filtered;
+        hog.detectMultiScale(group[i].getImg(), found, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
 
         size_t ii, j;
         for (ii=0; ii<found.size(); ii++)
         {
-            Rect r = found[ii];
+            cv::Rect r = found[ii];
             for (j=0; j<found.size(); j++)
                 if (j!=ii && (r & found[j])==r)
                     break;
@@ -112,17 +112,17 @@ std::vector<std::vector<Rect> > PeopleDetector::getPeopleFromGroups(cv::Mat ref,
 }
 
 
-std::vector<std::vector<Rect> > PeopleDetector::getPeopleFromImg(cv::Mat ref) {
-    std::vector< std::vector<Rect> > output;
+std::vector<std::vector<cv::Rect> > PeopleDetector::getPeopleFromImg(cv::Mat ref) {
+    std::vector< std::vector<cv::Rect> > output;
     cv::Mat view;
     ref.copyTo(view);
-    std::vector<Rect> found, found_filtered;
-    hog.detectMultiScale(ref, found, 0, Size(8,8), Size(32,32), 1.05, 2);
+    std::vector<cv::Rect> found, found_filtered;
+    hog.detectMultiScale(ref, found, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
 
     size_t ii, j;
     for (ii=0; ii<found.size(); ii++)
     {
-        Rect r = found[ii];
+        cv::Rect r = found[ii];
         for (j=0; j<found.size(); j++)
             if (j!=ii && (r & found[j])==r)
                 break;

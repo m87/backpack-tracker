@@ -3,9 +3,13 @@
 #include "MDMethod.h"
 #include "Utils.h"
 #include "ViewInterface.h"
-#include "Managers.h"
+#include "ConfigManager.h"
+#include "TimeManager.h"
+#include "DataManager.h"
 #include "FrameBuffer.h"
 
+/** Class for mog movement detection method
+ */
 class MogMDMethod: public MDMethod, ViewInterface
 {
 

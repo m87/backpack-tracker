@@ -45,18 +45,6 @@ Session::~Session(){
     MEMORY("Session deleted");
 }
 
-void Session::filterGroups(){
-    
-}
-
-void Session::filterPeople(){
-
-}
-
-void Session::filterBackpacks(){
-
-}
-
 
 void Session::run(){
 
@@ -77,13 +65,13 @@ void Session::run(){
 
 
 
-    while(true){
+    while(cv::waitKey(1)){
         TimeManager::getTimeManager().tick();
         DataManager::getDataManager().clean();
 
                  
 
-        Mat out, out1,tt; 
+        cv::Mat out, out1,tt; 
         _preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false);
         tt.copyTo(out);
         cvtColor(out,out,cv::COLOR_RGB2GRAY);
@@ -103,18 +91,15 @@ void Session::run(){
         
         if(TimeManager::getTimeManager().checkStart(ConfigManager::getConfigManager().get<int>(ConfigManager::START))){
 
-        if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
-            _peopleDetector->detect(out);
-        }
-        
-        
-                
-        if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
-            _backpackDetector->detect(out);
-            filterBackpacks(); // distinct //remove also from current flow already processed
-        }
+            if(TimeManager::getTimeManager().checkStep(ConfigManager::getConfigManager().get<int>(ConfigManager::DET_STEP))){
+                _peopleDetector->detect(out);
+            }
 
-        _tracker->update(tt);    
+            if(ConfigManager::getConfigManager().get<bool>(ConfigManager::BACKPACK_DETECTION)){
+                _backpackDetector->detect(out);
+            }
+
+            _tracker->update(tt);    
 
         }
        
@@ -122,7 +107,7 @@ void Session::run(){
         
         ViewsManager::getViewsManager().showAll();
 
-        if(END_SESSION_KEY == waitKey(10)){
+        if(END_SESSION_KEY == cv::waitKey(100)){
             INFO("Key captured!");
             SESSION("Stopping session ...");
             break;

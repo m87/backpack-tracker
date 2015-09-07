@@ -22,6 +22,7 @@ void DataManager::addGroup(Group group){
 void DataManager::clean(){
     groups.clear();
     stableBackpacks.clear();
+    //remove ids of people that aren`t tracked
     for(unsigned long i = 0; i < backpacks.size();i++){
         for(unsigned long j = 0; j < backpacks[i]._people.size();j++){
             if(people[backpacks[i]._people[j]].trackCount == -2){
@@ -31,6 +32,7 @@ void DataManager::clean(){
 
     }
 }
+    //remove people that aren`t tracked
 for(auto i = people.begin(); i!=people.end(); i++){
     if(i->second.trackCount == -2){
         people.erase(i);

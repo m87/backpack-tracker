@@ -62,6 +62,7 @@ bd-stable-conf-tresh: 20
 
 bd-backpack-life: 1000
 bd-count-down: 100
+bd-overlap-people-treshold: 0.95
 
 tracking-step: 5
 tracking-limit: 25

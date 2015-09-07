@@ -15,7 +15,6 @@ class Backpack
     static long ID;
     long _id;
     cv::Rect _roi;
-
     cv::Mat _img;
     cv::Mat _base;
     int _confidence;
@@ -23,8 +22,9 @@ class Backpack
     
     
 public:
+    /// security counter
     int countDown;
-    static cv::Mat PATCH;
+    /// patch image
     cv::Mat patchBase;
     std::vector<int> _people;
     void status();
@@ -37,8 +37,6 @@ public:
     void patch(cv::Mat &dst);
     void overlayImage(const cv::Mat &background, const cv::Mat &foreground,
 cv::Mat &output, cv::Point2i location);
-
-    static bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
     void incStableConfidance(int i);
     void takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime);
     bool isbase;
@@ -55,7 +53,8 @@ cv::Mat &output, cv::Point2i location);
     long getID(); 
     cv::Rect getRoi();
     void setNewBase(cv::Mat base);
-    void shrink(cv::Mat sum);
+
+        bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
 
 };
 

@@ -202,6 +202,7 @@ public:
     static const std::string BD_COUNT_DOWN;
     /// lenght of backpack "afterlife"
     static const std::string BD_BACKPACK_LIFE;
+    static const std::string BD_OVERLAP_PEOPLE_TRESH;
 
 
 

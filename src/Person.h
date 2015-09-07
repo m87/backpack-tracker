@@ -1,50 +1,34 @@
 #ifndef PERSON_H
 #define PERSON_H
-#include <opencv2/opencv.hpp>
+#include "cvcommon.h"
 #include <vector>
+#include <cmath>
 
-using namespace cv;
-using namespace std;
-
+/**
+ * Person representation
+ * @see PeopleDetector
+ * @see BackpackDetector
+ * @see DataManager
+ * @see UTracker
+ */
 class Person
 {
-    /* data */
     long _id;
     static long ID;
-    Rect _roi;
-    vector<uchar> _status;
-    vector<float> _err;
-    double accX;
-    double accX2;
-    double accY;
-    double accY2;
-
-
-    vector<bool> movBuff;
-    int movBuffSize;
+    //initial roi 
+    cv::Rect _roi;
+    cv::Mat _img;
 
 public:
+    /// image for security
     int trackCount;
-    bool ROIOverlapping(Rect2d roid2);
-    Rect2d _roid;
-    vector<Point2f> _corners, _corners_prev, _corners_tmp;
-    void error(bool er);
-    bool isMoveing();
-    Point center;
+    ///roi for tracking
+    cv::Rect2d _roid;
     long getID();
-    Rect getROI();
-    void updateROI(vector<uchar> _status);
-    void reviewCorners();
-    Person (Rect roi);
+    cv::Rect getROI();
+    Person (cv::Rect roi);
     Person(){};
     ~Person ();
-    void setCorners(vector<Point2f> corners);
-    void setShift(int x, int y);
-    void setCornersPrev(vector<Point2f> corners);
-    vector<Point2f> getCorners();
-    vector<Point2f> getCornersPrev();
-    bool isInside(Point2f point);
-    bool isOutside(Mat m);
 
 };
 

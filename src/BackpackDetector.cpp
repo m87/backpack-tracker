@@ -42,13 +42,17 @@ BackpackDetector::~BackpackDetector()
 void BackpackDetector::update(cv::Mat ref)
 {
     DataManager &dm = DataManager::getDataManager();
+    ConfigManager cfg = ConfigManager::getConfigManager();
     cv::Mat tmp,cbg;
     _bgLong->apply(ref, tmp);
     _bgLong->getBackgroundImage(DataManager::getDataManager().cBG);
 
     for(unsigned long it = 0;it<dm.backpacks.size();it++){
+        
         if(dm.backpacks[it].wasStable)
         dm.backpacks[it].patch(DataManager::getDataManager().cBG); 
+
+
     }
     dm.patchBuffer.addFrame(DataManager::getDataManager().cBG);
 
@@ -140,14 +144,14 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
         std::vector<cv::Vec4i> hierarchy;
         std::vector<std::vector<cv::Point> > contours;
         findContours( contoursMat, contours, hierarchy, CV_RETR_EXTERNAL,
-                      CV_CHAIN_APPROX_SIMPLE, Point(0, 0)  );
+                      CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0)  );
         std::vector<cv::Rect> boundRect(contours.size());
         std::vector<std::vector<cv::Point> > contoursPoly(contours.size());
 
         for( unsigned long i = 0; i< contours.size(); i++  ) {
             //get rects from contours
-            approxPolyDP(Mat(contours[i]),contoursPoly[i],10,false);
-            boundRect[i] = boundingRect(Mat(contoursPoly[i]));
+            approxPolyDP(cv::Mat(contours[i]),contoursPoly[i],10,false);
+            boundRect[i] = boundingRect(cv::Mat(contoursPoly[i]));
 
             bool ok =true;
             //remove duplicates and overlapping rects;

@@ -12,11 +12,14 @@
 #include <memory>
 #include "Utils.h"
 
+/** Manages all data important for processing
+ * @see FrameBuffer
+ */
 class DataManager : public FrameBuffer
 {
     std::vector<Group> groups;
-
     DataManager ();
+
 public:
     std::map<int, Person> people;
     std::vector<Backpack> backpacks;
@@ -30,10 +33,7 @@ public:
 
     cv::Mat mask;
     cv::Mat cBG;
-
     FrameBuffer patchBuffer;
-
-
     ~DataManager ();
 
 };

@@ -24,7 +24,8 @@ void MILTrackingMethod::removeTracker(int id){
 void MILTrackingMethod::addTracker(int id, cv::Mat ref) {
     cv::Ptr<cv::Tracker> tracker = cv::TrackerMIL::createTracker();
     tracker->init(ref, DataManager::getDataManager().people[id]._roid);
-    _trackers.insert(std::pair<int, cv::Ptr<Tracker> >(id,tracker));
+    _trackers.insert(std::pair<int, cv::Ptr<cv::Tracker> >(id,tracker));
+    _life.insert(std::pair<int, long >(id,0));
 }
 
 void MILTrackingMethod::update(cv::Mat ref) {
@@ -38,15 +39,21 @@ void MILTrackingMethod::update(cv::Mat ref) {
             t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
             cv::Rect2d roid = DataManager::getDataManager().people[t->first]._roid ;
 
+            _life[t->first]++;
+
+            if(_life[t->first]>25){
             cv::Rect2d res = rect &  roid;
             if(res.width < roid.width * tresh || res.height < roid.height * tresh){
             DataManager::getDataManager().people[t->first].trackCount = -2;
-        _trackers.erase(t);
+                _life.erase(_life.find(t->first));
+                _trackers.erase(t);
             }
+
+
 
         }
 
 
 
     }
-}
+}}

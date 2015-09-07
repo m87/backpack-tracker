@@ -96,29 +96,6 @@ void Preprocessor::getFrame(cv::Mat &out,cv::Mat &out_real,float w , float h, bo
     VERBOSE_O("Preprocesso:: resized frame reuqest");
 }
 
-void Preprocessor::getSumFrame(cv::Mat &output) {
-
-    if(_frameBuffer.size()== _frameBufferSize) {
-        for(unsigned long i=0; i<_frameBufferSize; i++) {
-            output+=_frameBuffer[i];
-        }
-    }
-
-
-
-}
-void Preprocessor::getAvgFrame(cv::Mat &output) {
-    if(_frameBuffer.size()== _frameBufferSize) {
-        for(unsigned long i=0; i<_frameBufferSize; i++) {
-            output+=_frameBuffer[i];
-        }
-        output = output / _frameBufferSize;
-    }
-
-
-
-}
-
 cv::Mat Preprocessor::getStructuringElement(int size, int type) {
     return cv::getStructuringElement( type, cv::Size( 2*size + 1, 2*size+1  ), cv::Point( size, size  )  );
 

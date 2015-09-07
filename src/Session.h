@@ -25,21 +25,19 @@ class Session
     std::unique_ptr<BlobsGenerator> _blobsGenerator;
    /** Initializes main processing */
     std::unique_ptr<Preprocessor> _preprocessor;
-    /** All managers are global */
+    /** Movement detection */
     std::unique_ptr<MovementDetector> _movDetector;
-    
+    /** People detection*/
     std::unique_ptr<PeopleDetector> _peopleDetector;
-
+    /** Backpack detection*/
     std::unique_ptr<BackpackDetector> _backpackDetector;
+    /** Tracking */
     std::unique_ptr<UTracker> _tracker;
-    
+    /** Tests */ 
     Benchmark benchmark;
 
     bool OPENCV_ERROR;
 
-    void filterGroups();
-    void filterPeople();
-    void filterBackpacks();
 
 public:
      Session ();

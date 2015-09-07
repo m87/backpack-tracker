@@ -6,14 +6,14 @@ Group::Group(double widthScale, double heightScale, double relativeX, double rel
     _relativeY = relativeY;
 }
 
-Group::Group(double widthScale, double heightScale, double relativeX, double relativeY, Mat img){
+Group::Group(double widthScale, double heightScale, double relativeX, double relativeY, cv::Mat img){
     _widthScale = widthScale;
     _heightScale = heightScale;
     _relativeX = relativeX;
     _relativeY = relativeY;
     _img = img;
 }
-Group::Group(double widthScale, double heightScale, double relativeX, double relativeY, Mat img, Mat estimation, cv::Rect roi){
+Group::Group(double widthScale, double heightScale, double relativeX, double relativeY, cv::Mat img, cv::Mat estimation, cv::Rect roi){
     _widthScale = widthScale;
     _heightScale = heightScale;
     _relativeX = relativeX;
@@ -31,10 +31,10 @@ cv::Rect Group::getRoi(){
     return _roi;
 }
 
-Mat Group::getImg(){
+cv::Mat Group::getImg(){
     return _img;
 }
-Mat Group::getEst(){
+cv::Mat Group::getEst(){
     return _estimation;
 }
 double Group::getWidthScale(){

@@ -7,18 +7,26 @@
 #include <map>
 #include "Person.h"
 
+
+/** Class for boosting tracking method
+ * @see TrackingMethod
+ * */
 class BoostingTrackingMethod : public TrackingMethod
 {
+    ///trackers list
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
     int step;
 
 public:
     BoostingTrackingMethod ();
     ~BoostingTrackingMethod ();
-
+    ///update trackers
     void update(cv::Mat ref);
+    ///initialization
     void init();
+    ///add new tracker
     void addTracker(int id, cv::Mat ref);
+    ///remove tracker
     void removeTracker(int id);
 
 };

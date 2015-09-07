@@ -7,6 +7,9 @@
 #include <map>
 #include "Person.h"
 
+/** Class for tld tracking method.
+ * @see TrackingMethod
+ */
 class TLDTrackingMethod : public TrackingMethod
 {
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;

@@ -31,6 +31,10 @@ bool checkOverlapping(cv::Rect_<T> A, cv::Rect_<T> B, double treshold) {
 
 
 }
+/**check overlaping of 2 rectangles
+ * @param treshold factor of overlaping
+ * @param flag if true, returns false 
+ */
 template < typename T >
 bool checkOverlapping(cv::Rect_<T> A, cv::Rect_<T> B, double treshold, bool flag) {
     if(flag) return false;
@@ -47,6 +51,7 @@ bool checkOverlapping(cv::Rect_<T> A, cv::Rect_<T> B, double treshold, bool flag
 
 
 namespace str {
+    ///conver to string
 template < typename T >
 std::string to_string( const T& n  )
 {

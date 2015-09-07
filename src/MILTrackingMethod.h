@@ -7,19 +7,27 @@
 #include <map>
 #include "Person.h"
 
+/** Class for mil tracking method
+ * @see TrackingMethod
+ * */
 class MILTrackingMethod : public TrackingMethod
 {
+    //list of tracker
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
+    std::map<int, long > _life;
     int step;
     
 
 public:
     MILTrackingMethod ();
     ~MILTrackingMethod ();
-
+    //update trackers
     void update(cv::Mat ref);
+    //initialization
     void init();
+    //add new tracker
     void addTracker(int id, cv::Mat ref);
+    //remove tracker
     void removeTracker(int id);
 
 };

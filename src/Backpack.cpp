@@ -16,6 +16,7 @@ Backpack::Backpack(cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int l
     destoyed = false;
     this->life= life; 
     this->countDown = countDown;
+    _baseCountDown = countDown;
     wasStable = false;
     patch.copyTo(patchBase);
 }
@@ -69,7 +70,19 @@ output.data[y*output.step + output.channels()*x + c] =
 
 }
 
-void Backpack::status(){
+void Backpack::status(int size, std::map<int, Person> people, double treshold){
+    cv::Rect rect = _roi; 
+    rect.x-=size;
+    rect.y-=size;
+    rect.width+=size;
+    rect.height+=size;
+
+
+    for(unsigned long i = 0; i<_people.size();i++){
+    
+        if(checkOverlapping(rect,people[_people[i]]._roid,treshold)){
+            countDown=_baseCountDown;
+    }}
     if(countDown--<=0){
         SESSION("Backpack ID: " + utils::str::to_string<int>(_id)+ " ALERT, calling security") ;
     }
@@ -83,7 +96,6 @@ void Backpack::patch(cv::Mat &dst){
             //overlayImage(dst.rowRange(10,200).colRange(10,200),im,im2, cv::Point(0,0));
             //im2.copyTo(dst.rowRange(_roi.y,y).colRange(_roi.x,x));
             patchBase.copyTo(dst.rowRange(_roi.y,y).colRange(_roi.x,x));
-            if(_id==67)
             life--;
          
     }

@@ -5,13 +5,13 @@ const std::string PeopleDetector::GROUP_METHOD = "group";
 const std::string PeopleDetector::ALL_METHOD = "all";
 
 PeopleDetector::PeopleDetector() {
-    MEMORY("PeopleDetector created");
+ //   MEMORY("PeopleDetector created");
     //init hog detecor
     hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
 PeopleDetector::~PeopleDetector() {
-    MEMORY("PeopleDetector destroyed");
+   // MEMORY("PeopleDetector destroyed");
 
 }
 

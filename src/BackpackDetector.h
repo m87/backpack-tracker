@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "UI.h"
 #include "TimeManager.h"
+#include "PeopleDetector.h"
 
 /** Detects backpacks and binds people with backpackas.
  *  @see ViewInterface showing results
@@ -19,6 +20,7 @@ class BackpackDetector : public ViewInterface, UI {
     cv::Ptr<cv::BackgroundSubtractor> _bgLong;
     cv::Mat bg;
 
+    cv::HOGDescriptor hog;
 public:
 
     /** Setups UI elements and background estimation

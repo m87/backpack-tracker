@@ -32,6 +32,7 @@ BackpackDetector::BackpackDetector()
                     cfg.get<bool>(cfg.BD_KNN_SHADOW));
 
     }
+    hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
 BackpackDetector::~BackpackDetector()
@@ -260,13 +261,27 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
             cv::imwrite(cfg.get<std::string>(cfg.RUNTIME)+"/"+utils::str::to_string<int>(dm.backpacks[j].getID())+"-"+utils::str::to_string<int>(dm.people[dm.backpacks[j]._people[t]].getID())+".png", ref(dm.people[dm.backpacks[j]._people[t]]._roid));
     }
   */
-
+                bool staticPerson = false;
                 if(!dm.backpacks[j].wasStable){
                 SESSION(
                         "Backpack: Detected! ID: " + utils::str::to_string<int>(dm.backpacks[j].getID())
                        );
+        cv::Mat tmp;
+        ref(dm.backpacks[j].getRoi()).copyTo(tmp);
+            cv::resize(tmp,tmp,cv::Size((tmp.cols/(double)tmp.rows)*200,200));
+    std::vector<cv::Rect>  rects;
+    hog.detectMultiScale(tmp, rects, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
+        if(rects.size() != 0){
+            WARNING("STATIC PERSON0");
+            staticPerson =true;
+        }
+
+                    
                 }
-                dm.backpacks[j].status();
+
+                if(!staticPerson){
+                dm.backpacks[j].status(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
+                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH));
 
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(),
                               dm.backpacks[j].getColor(), 2,8,0);
@@ -284,8 +299,10 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                                 cv::Point(dm.backpacks[j].getRoi().x,dm.backpacks[j].getRoi().y),
                                 cv::FONT_HERSHEY_PLAIN,1,cv::Scalar(0,0,0),2,cv::LINE_AA);
             }
+                }else{
+                    dm.backpacks.erase(dm.backpacks.begin()+j);
                 }
-
+            }
 //print people binded with selected backpack
         if(UI::pirintID==dm.backpacks[j].getID()) {
             for(unsigned long t = 0 ;

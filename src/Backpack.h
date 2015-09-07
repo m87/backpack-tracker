@@ -24,10 +24,11 @@ class Backpack
 public:
     /// security counter
     int countDown;
+    int _baseCountDown;
     /// patch image
     cv::Mat patchBase;
     std::vector<int> _people;
-    void status();
+    void status(int size, std::map<int, Person> people, double treshold);
     int _stableConfidance;
     int life;
     bool wasStable;
@@ -54,7 +55,7 @@ cv::Mat &output, cv::Point2i location);
     cv::Rect getRoi();
     void setNewBase(cv::Mat base);
 
-        bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
+    bool checkOverlapping(cv::Rect A, cv::Rect B, double treshold);
 
 };
 

@@ -107,7 +107,7 @@ void Session::run(){
         
         ViewsManager::getViewsManager().showAll();
 
-        if(END_SESSION_KEY == cv::waitKey(100)){
+        if(END_SESSION_KEY == cv::waitKey(10)){
             INFO("Key captured!");
             SESSION("Stopping session ...");
             break;

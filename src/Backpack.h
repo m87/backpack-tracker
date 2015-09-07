@@ -19,7 +19,9 @@ class Backpack
     cv::Mat _base;
     int _confidence;
     int _checks;
+    bool _snapshotSaved;
     
+    std::vector<cv::Mat> snapshot;
     
 public:
     /// security counter
@@ -40,6 +42,7 @@ public:
 cv::Mat &output, cv::Point2i location);
     void incStableConfidance(int i);
     void takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime);
+    void saveSnapshot(std::string pathRuntime);
     bool isbase;
     int _stable;
     Backpack (cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int life, int countDown);

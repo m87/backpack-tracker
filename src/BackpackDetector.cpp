@@ -266,22 +266,36 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                 SESSION(
                         "Backpack: Detected! ID: " + utils::str::to_string<int>(dm.backpacks[j].getID())
                        );
-        cv::Mat tmp;
+ /*       cv::Mat tmp;
         ref(dm.backpacks[j].getRoi()).copyTo(tmp);
             cv::resize(tmp,tmp,cv::Size((tmp.cols/(double)tmp.rows)*200,200));
-    std::vector<cv::Rect>  rects;
-    hog.detectMultiScale(tmp, rects, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
-        if(rects.size() != 0){
-            WARNING("STATIC PERSON0");
+    std::vector<cv::Rect>  found, found_filtered;
+    hog.detectMultiScale(tmp, found, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
+     size_t ii, j;
+        for (ii=0; ii<found.size(); ii++)
+        {
+            cv::Rect r = found[ii];
+            for (j=0; j<found.size(); j++)
+                if (j!=ii && (r & found[j])==r)
+                    break;
+            if (j==found.size())
+                found_filtered.push_back(r);
+
+        }
+        if(found_filtered.size() == 1){
+            WARNING("STATIC PERSON" + utils::str::to_string<int>(dm.backpacks[j].getID()));
             staticPerson =true;
         }
 
                     
+*/
                 }
-
                 if(!staticPerson){
-                dm.backpacks[j].status(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
+                    dm.backpacks[j].saveSnapshot(cfg.get<std::string>(ConfigManager::RUNTIME));
+                
+                    dm.backpacks[j].status(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
                                       cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH));
+
 
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(),
                               dm.backpacks[j].getColor(), 2,8,0);

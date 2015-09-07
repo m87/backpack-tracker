@@ -19,6 +19,7 @@ Backpack::Backpack(cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int l
     _baseCountDown = countDown;
     wasStable = false;
     patch.copyTo(patchBase);
+    _snapshotSaved = false;
 }
 
 Backpack::Backpack(){
@@ -143,13 +144,12 @@ void Backpack::takeSnapshot(int size, std::map<int, Person> people, double tresh
     rect.width+=size;
     rect.height+=size;
 
-    cv::imwrite(pathRuntime+"/"+utils::str::to_string<int>(_id)+".png", ref(_roi));
-    
+    snapshot.push_back(ref(_roi));
     for(auto t=people.begin(); t!=people.end(); t++){
         if(checkOverlapping(rect,t->second._roid,treshold)){
             _people.push_back(t->first);
-
-            cv::imwrite(pathRuntime+"/"+utils::str::to_string<int>(_id)+"-"+utils::str::to_string<int>(t->second.getID())+".png", ref(t->second._roid));
+            
+            snapshot.push_back(ref(t->second._roid));
         }
     }
     
@@ -157,6 +157,15 @@ void Backpack::takeSnapshot(int size, std::map<int, Person> people, double tresh
     saved=true;
 
 
+}
+
+void Backpack::saveSnapshot(std::string pathRuntime){
+    if(_snapshotSaved) return;
+for(unsigned long i = 0; i< snapshot.size();i++){
+    cv::imwrite(pathRuntime+"/"+utils::str::to_string<int>(_id)+"-"+utils::str::to_string<int>(i)+".png", snapshot[i]);
+
+}
+_snapshotSaved = true;
 }
 
 void Backpack::incConfidence(int i) {

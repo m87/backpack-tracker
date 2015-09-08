@@ -6,6 +6,8 @@
 #include "opencv2/tracking/tracker.hpp"
 #include <map>
 #include "Person.h"
+#include "TimeManager.h"
+#include "PeopleDetector.h"
 
 /** Class for mil tracking method
  * @see TrackingMethod

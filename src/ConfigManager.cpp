@@ -47,6 +47,7 @@ const std::string ConfigManager::BD_CONFIDANCE = "bd-dm-confidance";
 const std::string ConfigManager::BD_MAIN_CONFIDANCE = "bd-dm-main-confidance";
 const std::string ConfigManager::BD_SNAPSHOT_SIZE = "bd-snapshot-size";
 const std::string ConfigManager::BD_SNAPSHOT_TRESH = "bd-snapshot-treshold";
+const std::string ConfigManager::BD_STATIC_TRESH = "bd-static-treshold";
 const std::string ConfigManager::BD_OVERLAP_PEOPLE_TRESH = "bd-overlap-people-treshold";
 const std::string ConfigManager::TRACKING_STEP = "tracking-step";
 const std::string ConfigManager::TEST_PATH = "test-path";
@@ -86,12 +87,24 @@ const std::string ConfigManager::TEST_ENABLE = "test-enable";
 const std::string ConfigManager::TEST_ACC = "test-acc";
 const std::string ConfigManager::BD_STABLE_CONF_TRESH = "bd-stable-conf-tresh";
 const std::string ConfigManager::TRACKING_LIMIT = "tracking-limit";
+const std::string ConfigManager::TRACKING_LIMIT_START = "tracking-limit-start";
+const std::string ConfigManager::TRACKING_AVG_TRASH = "tracking-avg-treshold";
+const std::string ConfigManager::TRACKING_AVG_START = "tracking-avg-start";
+
 const std::string ConfigManager::TRACKING_TRESH = "tracking-tresh";
 const std::string ConfigManager::TRACKING_MERGE_TRESH = "tracking-merge-tresh";
 const std::string ConfigManager::TRACKING_METHOD = "tracking-method";
 const std::string ConfigManager::TESTS_SRC = "test-source";
 const std::string ConfigManager::BLOBS_SRC = "blobs-source";
 const std::string ConfigManager::RUNTIME = "runtime";
+
+const std::string ConfigManager::MD_GROUP_SIZE_FIX = "md-group-size-fix";
+const std::string ConfigManager::BD_SIZE_FIX = "bd-size-fix";
+const std::string ConfigManager::MD_GROUP_WINDOW_TRESH = "md-group-window-treshold";
+const std::string ConfigManager::PATCH_BUFFER = "patch-buffer";
+
+    
+
 
 bool ConfigManager::CONFIG_ERROR = false;
 

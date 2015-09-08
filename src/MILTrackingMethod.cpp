@@ -22,6 +22,12 @@ void MILTrackingMethod::removeTracker(int id){
     }
 }
 void MILTrackingMethod::addTracker(int id, cv::Mat ref) {
+if(TimeManager::getTimeManager().time() > ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_AVG_START)){
+                if(DataManager::getDataManager().people[id]._roid.height < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgH || DataManager::getDataManager().people[id]._roid.width < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgW) {
+            DataManager::getDataManager().people[id].trackCount = _TRACKER_REMOVED;
+            return; 
+                }
+}
     cv::Ptr<cv::Tracker> tracker = cv::TrackerMIL::createTracker();
     tracker->init(ref, DataManager::getDataManager().people[id]._roid);
     _trackers.insert(std::pair<int, cv::Ptr<cv::Tracker> >(id,tracker));
@@ -41,14 +47,24 @@ void MILTrackingMethod::update(cv::Mat ref) {
 
             _life[t->first]++;
 
-            if(_life[t->first]>25){
+            if(_life[t->first]>ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_LIMIT_START)){
             cv::Rect2d res = rect &  roid;
             if(res.width < roid.width * tresh || res.height < roid.height * tresh){
-            DataManager::getDataManager().people[t->first].trackCount = -2;
+            DataManager::getDataManager().people[t->first].trackCount = _TRACKER_REMOVED;
                 _life.erase(_life.find(t->first));
                 _trackers.erase(t);
+                continue;
             }
-
+            if(ConfigManager::getConfigManager().get<std::string>(ConfigManager::MD_METHOD) == PeopleDetector::GROUP_METHOD){
+            if(TimeManager::getTimeManager().time() > ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_AVG_START)){
+                if(DataManager::getDataManager().people[t->first]._roid.height < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgH || DataManager::getDataManager().people[t->first]._roid.width < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgW) {
+                DataManager::getDataManager().people[t->first].trackCount = _TRACKER_REMOVED;
+                _life.erase(_life.find(t->first));
+                _trackers.erase(t);
+ 
+                }
+                
+            }
 
 
         }
@@ -56,4 +72,4 @@ void MILTrackingMethod::update(cv::Mat ref) {
 
 
     }
-}}
+}}}

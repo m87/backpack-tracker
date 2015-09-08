@@ -27,6 +27,7 @@ public:
     //update trackers
     virtual void update(cv::Mat ref)=0;
 
+
 };
 
 

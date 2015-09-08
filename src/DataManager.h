@@ -21,6 +21,9 @@ class DataManager : public FrameBuffer
     DataManager ();
 
 public:
+    double avgW;
+    double avgH;
+    int n;
     std::map<int, Person> people;
     std::vector<Backpack> backpacks;
     std::map<int, Backpack> stableBackpacks;

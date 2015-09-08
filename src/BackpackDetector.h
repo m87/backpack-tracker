@@ -5,7 +5,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "UI.h"
 #include "TimeManager.h"
-#include "PeopleDetector.h"
 
 /** Detects backpacks and binds people with backpackas.
  *  @see ViewInterface showing results

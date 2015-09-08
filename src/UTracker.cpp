@@ -36,6 +36,7 @@ void UTracker::addTracker(int id, cv::Mat ref) {
 }
 
 void UTracker::update(cv::Mat ref) {
+    if(!ConfigManager::getConfigManager().get<bool>(ConfigManager::FULL_TRACKING)) return;
     cv::Mat tmp;
     ref.copyTo(tmp);
     DataManager dm = DataManager::getDataManager();

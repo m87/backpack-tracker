@@ -8,7 +8,7 @@ BackpackDetector::BackpackDetector()
 {
     MEMORY("BackpackDetector created");
 
-    UI::pirintID = -1;
+    UI::pirintID = _NO_PRINT;
 
     ConfigManager cfg = ConfigManager::getConfigManager();
     cv::namedWindow(ConfigManager::VIEW_FINAL_RESULT, 1);
@@ -266,9 +266,9 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                 SESSION(
                         "Backpack: Detected! ID: " + utils::str::to_string<int>(dm.backpacks[j].getID())
                        );
- /*       cv::Mat tmp;
+        cv::Mat tmp;
         ref(dm.backpacks[j].getRoi()).copyTo(tmp);
-            cv::resize(tmp,tmp,cv::Size((tmp.cols/(double)tmp.rows)*200,200));
+            cv::resize(tmp,tmp,cv::Size((tmp.cols/(double)tmp.rows)*ConfigManager::getConfigManager().get<int>(ConfigManager::BD_SIZE_FIX),ConfigManager::getConfigManager().get<int>(ConfigManager::BD_SIZE_FIX)));
     std::vector<cv::Rect>  found, found_filtered;
     hog.detectMultiScale(tmp, found, 0, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
      size_t ii, j;
@@ -282,13 +282,13 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                 found_filtered.push_back(r);
 
         }
-        if(found_filtered.size() == 1){
+        if(found_filtered.size() == 1 && found_filtered[0].width >= cfg.get<double>(cfg.BD_STATIC_TRESH) * dm.backpacks[j].getRoi().width && found_filtered[0].height >= cfg.get<double>(cfg.BD_STATIC_TRESH) * dm.backpacks[j].getRoi().height){
             WARNING("STATIC PERSON" + utils::str::to_string<int>(dm.backpacks[j].getID()));
             staticPerson =true;
         }
 
                     
-*/
+
                 }
                 if(!staticPerson){
                     dm.backpacks[j].saveSnapshot(cfg.get<std::string>(ConfigManager::RUNTIME));

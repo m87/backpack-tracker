@@ -190,7 +190,15 @@ public:
            ///  fragment of tracker which has to overlaps border, in order to be treat as dupicate
            TRACKING_MERGE_TRESH,
            /// tracking method
-           TRACKING_METHOD
+           TRACKING_METHOD,
+               ///tracking limit start
+               TRACKING_LIMIT_START,
+               ///tracking avg trash
+               TRACKING_AVG_TRASH,
+                /// movement detection size fix
+               MD_GROUP_SIZE_FIX,
+               BD_SIZE_FIX,
+               TRACKING_AVG_START
            ;
     /// path to runtime folder
     static const std::string RUNTIME;
@@ -203,10 +211,15 @@ public:
     /// lenght of backpack "afterlife"
     static const std::string BD_BACKPACK_LIFE;
     static const std::string BD_OVERLAP_PEOPLE_TRESH;
+    static const std::string BD_STATIC_TRESH;
+    static const std::string PATCH_BUFFER;
 
 
+
+    static const std::string MD_GROUP_WINDOW_TRESH;
 
     static bool CONFIG_ERROR;
+
 
     std::vector<YAML::Node> blobs;
 

@@ -6,6 +6,7 @@
 #include <vector>
 #include "ViewInterface.h"
 #include "DataManager.h"
+#include "TimeManager.h"
 
 /** People detection.
  * @see ViewInterface
@@ -13,10 +14,11 @@
 class PeopleDetector : public ViewInterface
 {
     cv::HOGDescriptor hog;
+
+public:
     //area for detection
     const static std::string GROUP_METHOD, ALL_METHOD;
 
-public:
     PeopleDetector ();
     ~PeopleDetector ();
 

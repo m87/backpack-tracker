@@ -6,6 +6,9 @@
 #include "opencv2/tracking/tracker.hpp"
 #include <map>
 #include "Person.h"
+#include "TimeManager.h"
+#include "PeopleDetector.h"
+
 
 
 /** Class for boosting tracking method
@@ -15,6 +18,7 @@ class BoostingTrackingMethod : public TrackingMethod
 {
     ///trackers list
     std::map<int, cv::Ptr<cv::Tracker> > _trackers;
+    std::map<int, long > _life;
     int step;
 
 public:

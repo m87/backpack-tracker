@@ -60,8 +60,8 @@ void Session::run(){
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
     DataManager::getDataManager().setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::BD_BUFFER));
     
-    DataManager::getDataManager().patchBuffer.setSize(50);
-    DataManager::getDataManager().patchBuffer.setSize(50);
+    DataManager::getDataManager().patchBuffer.setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::PATCH_BUFFER));
+    DataManager::getDataManager().patchBuffer.setSize(ConfigManager::getConfigManager().get<int>(ConfigManager::PATCH_BUFFER));
 
 
 
@@ -107,7 +107,7 @@ void Session::run(){
         
         ViewsManager::getViewsManager().showAll();
 
-        if(END_SESSION_KEY == cv::waitKey(10)){
+        if(END_SESSION_KEY == cv::waitKey(WAIT)){
             INFO("Key captured!");
             SESSION("Stopping session ...");
             break;

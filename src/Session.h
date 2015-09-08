@@ -16,6 +16,7 @@
 #include "Benchmark.h"
 
 #define END_SESSION_KEY 113
+#define WAIT 10
 
 
 /** Main class. Manages processing */

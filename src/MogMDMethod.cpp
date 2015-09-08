@@ -52,9 +52,10 @@ void MogMDMethod::detect(const cv::Mat& input) {
             cv::Mat img1 = tmp(boundRect[i]);
             cv::Mat imgF = tmpF(boundRect[i]);
             cv::Mat img, imgFF;
-            cv::resize(img1,img,cv::Size((img1.cols/(double)img1.rows)*200,200));
-            cv::resize(imgF,imgFF,cv::Size((imgF.cols/(double)imgF.rows)*200,200));
-            if(!(boundRect[i].width > 0.8 * input.rows || boundRect[i].width > 0.8 * input.rows)) {
+            cv::resize(img1,img,cv::Size((img1.cols/(double)img1.rows)*ConfigManager::getConfigManager().get<int>(ConfigManager::MD_GROUP_SIZE_FIX),ConfigManager::getConfigManager().get<int>(ConfigManager::MD_GROUP_SIZE_FIX)));
+            cv::resize(imgF,imgFF,cv::Size((imgF.cols/(double)imgF.rows)*ConfigManager::getConfigManager().get<int>(ConfigManager::MD_GROUP_SIZE_FIX),ConfigManager::getConfigManager().get<int>(ConfigManager::MD_GROUP_SIZE_FIX)));
+
+            if(!(boundRect[i].width > ConfigManager::getConfigManager().get<double>(ConfigManager::MD_GROUP_WINDOW_TRESH) * input.rows || boundRect[i].width > ConfigManager::getConfigManager().get<double>(ConfigManager::MD_GROUP_WINDOW_TRESH) * input.rows)) {
                 Group group(img1.cols/(double)img.cols, img1.rows/(double)img.rows,boundRect[i].x, boundRect[i].y,img, imgFF, boundRect[i]);
                 DataManager::getDataManager().addGroup(group);
 
@@ -78,7 +79,6 @@ void MogMDMethod::initMethod(ConfigManager& config) {
 
     int tmpSize = ConfigManager::getConfigManager().get<int>(ConfigManager::MD_MOG_DILATATION);
     dilateElement = cv::getStructuringElement( 0, cv::Size( 2*tmpSize + 1, 2*tmpSize+1  ), cv::Point( tmpSize, tmpSize  )  );
-    erodeElement = cv::getStructuringElement( 0, cv::Size( 2*1 + 1, 2*1+1  ), cv::Point( 1, 1  )  );
 
 
 }

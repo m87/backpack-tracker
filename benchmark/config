@@ -6,6 +6,7 @@ full-tracking: no
 backpack-detection: yes
 face-tracking: no
 start: 5
+patch-buffer: 15
 
 
 #preprocessor
@@ -18,7 +19,7 @@ frame-height: -1
 
 #pepole detecotr
 ##detection method
-pd-method: all
+pd-method: group
 pd-overlap-treshold: 0.75
 
 
@@ -63,17 +64,24 @@ bd-stable-conf-tresh: 20
 bd-backpack-life: 1000
 bd-count-down: 100
 bd-overlap-people-treshold: 0.95
+bd-size-fix: 100
+bd-static-treshold: 0.95
 
 tracking-step: 5
 tracking-limit: 25
-tracking-tresh: 0.9
+tracking-limit-start: 0
+tracking-tresh: 0.95
 tracking-merge-tresh: 0.9
 tracking-method: mil
+tracking-avg-treshold: 0.5
+tracking-avg-start: 20
 
 #movement detector
 ##detection method
 md-method: mog
 md-detection-step: 1
+md-group-size-fix: 200
+md-group-window-treshold: 0.8 
 #md-skip: 4
 
 ###method specific settings
@@ -131,11 +139,11 @@ view-pd-result: no
 
 view-bd-foreground: no
 view-bd-background: no
-view-bd-long-bg: no
+view-bd-long-bg: yes
 view-bd-diff-result: no
 view-bd-result: no
 
-view-tracking-result: no
+view-tracking-result: yes
 
 view-final-result: yes
 
@@ -153,7 +161,7 @@ blobs-enable: yes
 blobs-source: /home/rt/git/backpack-tracker/benchmark/blobs-src
 
 
-detection-step: 50
+detection-step: 5
 
 
 

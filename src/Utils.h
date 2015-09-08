@@ -15,6 +15,11 @@
 #define VERBOSE(msg) (std::cout << "\x1b[36;1m" << "[Verbose] "  << "\x1b[0m"  << msg << std::endl)
 #define VERBOSE_O(msg) //(std::cout << "\x1b[37;1m" << "[!Verbose!] "  << "\x1b[0m"  << msg << std::endl)
 
+
+
+#define _TRACKER_REMOVED -2
+#define _NO_PRINT -1
+
 namespace utils {
 
 namespace detect {

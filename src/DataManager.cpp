@@ -3,6 +3,9 @@
 
 DataManager::DataManager() : FrameBuffer(0){
   //  MEMORY("DataManager created");
+  n=0;
+  avgW=0.0;
+  avgH=0.0;
 }
 
 DataManager::~DataManager(){
@@ -25,7 +28,7 @@ void DataManager::clean(){
     //remove ids of people that aren`t tracked
     for(unsigned long i = 0; i < backpacks.size();i++){
         for(unsigned long j = 0; j < backpacks[i]._people.size();j++){
-            if(people[backpacks[i]._people[j]].trackCount == -2){
+            if(people[backpacks[i]._people[j]].trackCount == _TRACKER_REMOVED){
                 backpacks[i]._people.erase(backpacks[i]._people.begin()+j);
                         
             }
@@ -34,7 +37,7 @@ void DataManager::clean(){
 }
     //remove people that aren`t tracked
 for(auto i = people.begin(); i!=people.end(); i++){
-    if(i->second.trackCount == -2){
+    if(i->second.trackCount == _TRACKER_REMOVED){
         people.erase(i);
         break;
     }

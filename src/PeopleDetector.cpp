@@ -48,9 +48,17 @@ void PeopleDetector::detect(cv::Mat ref) {
                     ok=false;
                     break;
                 }
-            }
+                }
             if(ok) {
                 DataManager::getDataManager().people.insert(std::pair<int, Person>(person.getID(),person));
+                DataManager &dm = DataManager::getDataManager();
+                dm.avgH = dm.n*dm.avgH;
+                dm.avgW = dm.n*dm.avgW;
+                dm.n++;
+                dm.avgH += person._roid.height;
+                dm.avgW += person._roid.width;
+                dm.avgH /= dm.n;
+                dm.avgW /= dm.n;
             }
         }
     }

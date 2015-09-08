@@ -35,7 +35,7 @@ void UI::callbackMouse(int event, int x ,int y , int flags, void* userdata) {
     }
     if  ( event == cv::EVENT_RBUTTONDOWN  )
     {
-        UI::pirintID = -1;
+        UI::pirintID = _NO_PRINT;
         return;
     }
 }

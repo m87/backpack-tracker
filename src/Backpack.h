@@ -22,6 +22,7 @@ class Backpack
     bool _snapshotSaved;
     
     std::vector<cv::Mat> snapshot;
+    bool _ontTimeAlert;
     
 public:
     /// security counter
@@ -30,7 +31,7 @@ public:
     /// patch image
     cv::Mat patchBase;
     std::vector<int> _people;
-    void status(int size, std::map<int, Person> people, double treshold);
+    bool status(int size, std::map<int, Person> people, double treshold);
     int _stableConfidance;
     int life;
     bool wasStable;
@@ -41,7 +42,7 @@ public:
     void overlayImage(const cv::Mat &background, const cv::Mat &foreground,
 cv::Mat &output, cv::Point2i location);
     void incStableConfidance(int i);
-    void takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime);
+    void takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime, int emergencySize);
     void saveSnapshot(std::string pathRuntime);
     bool isbase;
     int _stable;

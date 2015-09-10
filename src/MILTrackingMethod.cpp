@@ -3,6 +3,7 @@
 MILTrackingMethod::MILTrackingMethod() {
     MEMORY("MILTrackingMethod created");
     step = 0;
+    hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
 
 }
 
@@ -34,6 +35,8 @@ if(TimeManager::getTimeManager().time() > ConfigManager::getConfigManager().get<
     _life.insert(std::pair<int, long >(id,0));
 }
 
+
+
 void MILTrackingMethod::update(cv::Mat ref) {
     int limit = ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_LIMIT);
     double tresh = ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_TRESH);
@@ -43,11 +46,13 @@ void MILTrackingMethod::update(cv::Mat ref) {
         step=0;
         for(auto t=_trackers.begin(); t!=_trackers.end(); t++) {
             t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
+
             cv::Rect2d roid = DataManager::getDataManager().people[t->first]._roid ;
 
             _life[t->first]++;
 
             if(_life[t->first]>ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_LIMIT_START)){
+            
             cv::Rect2d res = rect &  roid;
             if(res.width < roid.width * tresh || res.height < roid.height * tresh){
             DataManager::getDataManager().people[t->first].trackCount = _TRACKER_REMOVED;
@@ -55,6 +60,7 @@ void MILTrackingMethod::update(cv::Mat ref) {
                 _trackers.erase(t);
                 continue;
             }
+
             if(ConfigManager::getConfigManager().get<std::string>(ConfigManager::MD_METHOD) == PeopleDetector::GROUP_METHOD){
             if(TimeManager::getTimeManager().time() > ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_AVG_START)){
                 if(DataManager::getDataManager().people[t->first]._roid.height < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgH || DataManager::getDataManager().people[t->first]._roid.width < ConfigManager::getConfigManager().get<double>(ConfigManager::TRACKING_AVG_TRASH) * DataManager::getDataManager().avgW) {

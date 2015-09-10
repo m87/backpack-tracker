@@ -15,18 +15,27 @@ BackpackDetector::BackpackDetector()
 
     cv::setMouseCallback(ConfigManager::VIEW_FINAL_RESULT, UI::callbackMouse, NULL);
 
+    if(cfg.get<std::string>(cfg.BD_BG_METHOD) ==BG_MOG_METHOD) {
     _bgLong = cv::createBackgroundSubtractorMOG2(cfg.get<int>
               (cfg.BD_BG_MOG_HISTORY), cfg.get<int>(cfg.BD_BG_MOG_MIXTURES),
               cfg.get<bool>(cfg.BD_BG_MOG_SHADOW));
+    }
+
+    if(cfg.get<std::string>(cfg.BD_BG_METHOD) ==BG_KNN_METHOD) {
+    _bgLong = cv::createBackgroundSubtractorKNN(cfg.get<int>
+              (cfg.BD_BG_KNN_HISTORY), cfg.get<int>(cfg.BD_BG_KNN_MIXTURES),
+              cfg.get<bool>(cfg.BD_BG_KNN_SHADOW));
+    }
+    
     //setup MOG method
-    if(cfg.get<std::string>(cfg.BD_BG_METHOD) ==BG_MOG_METHOD) {
+    if(cfg.get<std::string>(cfg.BD_METHOD) ==BG_MOG_METHOD) {
         _mog2 = cv::createBackgroundSubtractorMOG2(
                     cfg.get<int>(cfg.BD_MOG_HISTORY),cfg.get<int>(cfg.BD_MOG_MIXTURES),
                     cfg.get<bool>(cfg.BD_MOG_SHADOW));
 
     }
     //setup KNN method
-    if(cfg.get<std::string>(cfg.BD_BG_METHOD) == BG_KNN_METHOD) {
+    if(cfg.get<std::string>(cfg.BD_METHOD) == BG_KNN_METHOD) {
         _mog2 = cv::createBackgroundSubtractorKNN(
                     cfg.get<int>(cfg.BD_KNN_HISTORY),cfg.get<int>(cfg.BD_KNN_MIXTURES),
                     cfg.get<bool>(cfg.BD_KNN_SHADOW));
@@ -176,7 +185,8 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                         );
                 //take snapshot
                 backpack.takeSnapshot(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
-                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH),UI::FINAL, cfg.get<std::string>(cfg.RUNTIME));
+                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH),UI::FINAL, cfg.get<std::string>(cfg.RUNTIME),
+                                      cfg.get<int>(cfg.BD_SNAPSHOT_EMERGENCY_SIZE));
                 //save
                 dm.backpacks.push_back(backpack);
 
@@ -266,6 +276,7 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
                 SESSION(
                         "Backpack: Detected! ID: " + utils::str::to_string<int>(dm.backpacks[j].getID())
                        );
+
         cv::Mat tmp;
         ref(dm.backpacks[j].getRoi()).copyTo(tmp);
             cv::resize(tmp,tmp,cv::Size((tmp.cols/(double)tmp.rows)*ConfigManager::getConfigManager().get<int>(ConfigManager::BD_SIZE_FIX),ConfigManager::getConfigManager().get<int>(ConfigManager::BD_SIZE_FIX)));
@@ -286,15 +297,16 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
             WARNING("STATIC PERSON" + utils::str::to_string<int>(dm.backpacks[j].getID()));
             staticPerson =true;
         }
-
                     
 
                 }
                 if(!staticPerson){
-                    dm.backpacks[j].saveSnapshot(cfg.get<std::string>(ConfigManager::RUNTIME));
                 
-                    dm.backpacks[j].status(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
-                                      cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH));
+                    if(dm.backpacks[j].status(cfg.get<int>(ConfigManager::BD_SNAPSHOT_SIZE), dm.people,
+                                cfg.get<double>(ConfigManager::BD_SNAPSHOT_TRESH))){
+
+                    dm.backpacks[j].saveSnapshot(cfg.get<std::string>(ConfigManager::RUNTIME));
+                    }
 
 
                 cv::rectangle(tmp, dm.backpacks[j].getRoi().tl(), dm.backpacks[j].getRoi().br(),

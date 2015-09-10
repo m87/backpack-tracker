@@ -17,8 +17,7 @@ Session::Session(){
             WARNING("Blobs disabled");
         }
 
-        _preprocessor.reset(new Preprocessor(config.get<std::string>(ConfigManager::TEST_PATH),
-                    config.get<unsigned long>(ConfigManager::PREPROCESSOR_N_FRAMES)));
+        _preprocessor.reset(new Preprocessor(config.get<std::string>(ConfigManager::TEST_PATH)));
 
         _peopleDetector.reset(new PeopleDetector());
 
@@ -65,14 +64,14 @@ void Session::run(){
 
 
 
-    while(cv::waitKey(1)){
+    while(true){
         TimeManager::getTimeManager().tick();
         DataManager::getDataManager().clean();
 
                  
 
         cv::Mat out, out1,tt; 
-        _preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false);
+        if(!_preprocessor->getFrame(tt,out1,frameWidth,frameHeight,false)) break;
         tt.copyTo(out);
         cvtColor(out,out,cv::COLOR_RGB2GRAY);
 
@@ -87,7 +86,9 @@ void Session::run(){
 
         _backpackDetector->update(out);
 
+        if(ConfigManager::getConfigManager().get<std::string>(ConfigManager::PD_METHOD) == PeopleDetector::GROUP_METHOD){
         _movDetector->detect(out);
+        }
         
         if(TimeManager::getTimeManager().checkStart(ConfigManager::getConfigManager().get<int>(ConfigManager::START))){
 

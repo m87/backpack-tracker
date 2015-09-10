@@ -17,11 +17,9 @@ class ConfigManager
 
 public:
     ///  enable/disable gpu
-    static const std::string GPU,
+    static const std::string 
            ///  enable/disable tracking every person
            FULL_TRACKING,
-           ///  enable/disable face tracking
-           FACE_TRACKING,
            ///  enable/disable backpack detection
            BACKPACK_DETECTION,
            ///  start process after X frame
@@ -52,9 +50,7 @@ public:
            ///  display blob for X frames
            BLOBS_TIME,
            ///  enable/disable blobs
-           BLOBS_ENABLE,
-           ///  size of preprocessor frame buffer @depreciated
-           PREPROCESSOR_N_FRAMES;
+           BLOBS_ENABLE;
     /// motion detection method
     static const std::string MD_METHOD,
            /// history length in mog method
@@ -136,6 +132,8 @@ public:
            /// enambel/disable shadow detection (short est.)
            BD_KNN_SHADOW,
            /// short estimation method type
+           BD_METHOD,
+           ///long estimation method type
            BD_BG_METHOD,
            /// Difference threshold (Backpack Detection)
            BD_DIFF_TRESH,
@@ -149,10 +147,13 @@ public:
            BD_DM_DILATE,
            /// enambel/disable shadow detection (long est.)
            BD_BG_MOG_SHADOW,
+           BD_BG_KNN_SHADOW,
            /// history length in mog method (long est.)
            BD_BG_MOG_HISTORY,
+           BD_BG_KNN_HISTORY,
            /// number of mixtures in mog method (long est.)
            BD_BG_MOG_MIXTURES,
+           BD_BG_KNN_MIXTURES,
            /// time when backpacks becomes stable (probably it is backpack)
            BD_STABLE_TRESH,
            /// cost of losing stabilty
@@ -165,6 +166,7 @@ public:
            BD_CONFIDANCE,
            /// size of window where are possible owners
            BD_SNAPSHOT_SIZE,
+           BD_SNAPSHOT_EMERGENCY_SIZE,
            /// final confidace dispalyed in human-friendly format
            BD_MAIN_CONFIDANCE,
            /// enable/disable text above backpacks

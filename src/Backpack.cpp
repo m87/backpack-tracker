@@ -20,6 +20,7 @@ Backpack::Backpack(cv::Rect roi, cv::Mat img, cv::Mat base, cv::Mat patch, int l
     wasStable = false;
     patch.copyTo(patchBase);
     _snapshotSaved = false;
+    _ontTimeAlert = true;
 }
 
 Backpack::Backpack(){
@@ -71,7 +72,7 @@ output.data[y*output.step + output.channels()*x + c] =
 
 }
 
-void Backpack::status(int size, std::map<int, Person> people, double treshold){
+bool Backpack::status(int size, std::map<int, Person> people, double treshold){
     cv::Rect rect = _roi; 
     rect.x-=size;
     rect.y-=size;
@@ -83,10 +84,14 @@ void Backpack::status(int size, std::map<int, Person> people, double treshold){
     
         if(checkOverlapping(rect,people[_people[i]]._roid,treshold)){
             countDown=_baseCountDown;
+            _ontTimeAlert = true;
     }}
-    if(countDown--<=0){
+    if(countDown--<=0 && _ontTimeAlert){
         SESSION("Backpack ID: " + utils::str::to_string<int>(_id)+ " ALERT, calling security") ;
+        _ontTimeAlert = false;
+        return true;
     }
+    return false;
 }
 
 void Backpack::patch(cv::Mat &dst){
@@ -136,15 +141,30 @@ bool Backpack::checkOverlapping(cv::Rect A, cv::Rect B, double treshold) {
 
 }
 
-void Backpack::takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime) {
+void Backpack::takeSnapshot(int size, std::map<int, Person> people, double treshold, cv::Mat ref, std::string pathRuntime, int emergencySize) {
     if(saved) return;
     cv::Rect rect = _roi; 
-    rect.x-=size;
-    rect.y-=size;
+    cv::Rect rectEm = _roi; 
+    cv::Rect main;
+    main.x=0;
+    main.y=0;
+    main.width = ref.cols-1;
+    main.height = ref.rows-1;
+    
+    rectEm.width+=emergencySize;
+    rectEm.height+=emergencySize;
+    rectEm.x -= emergencySize/2;
+    rectEm.y -= emergencySize/2;
     rect.width+=size;
     rect.height+=size;
+    rect.x -= size/2;
+    rect.y -= size/2;
+    
+    rect = rect & main;
+    rectEm = rectEm & main;
 
-    snapshot.push_back(ref(_roi));
+    snapshot.push_back(ref(rectEm));
+
     for(auto t=people.begin(); t!=people.end(); t++){
         if(checkOverlapping(rect,t->second._roid,treshold)){
             _people.push_back(t->first);

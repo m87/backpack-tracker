@@ -13,7 +13,12 @@
  */
 class TrackingMethod
 {
+
+
+    cv::HOGDescriptor hog;
 public:
+    TrackingMethod();
+    bool recheckTracker(cv::Mat ref);
     /**add new tracker
      * @param id id of person 
      */

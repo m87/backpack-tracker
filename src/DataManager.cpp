@@ -28,7 +28,7 @@ void DataManager::clean(){
     //remove ids of people that aren`t tracked
     for(unsigned long i = 0; i < backpacks.size();i++){
         for(unsigned long j = 0; j < backpacks[i]._people.size();j++){
-            if(people[backpacks[i]._people[j]].trackCount == _TRACKER_REMOVED){
+            if(people[backpacks[i]._people[j]].trackCount == _TRACKER_REMOVED || people[backpacks[i]._people[j]].trackCount == 0){
                 backpacks[i]._people.erase(backpacks[i]._people.begin()+j);
                         
             }
@@ -37,7 +37,7 @@ void DataManager::clean(){
 }
     //remove people that aren`t tracked
 for(auto i = people.begin(); i!=people.end(); i++){
-    if(i->second.trackCount == _TRACKER_REMOVED){
+    if(i->second.trackCount == _TRACKER_REMOVED || i->second.trackCount == 0){
         people.erase(i);
         break;
     }

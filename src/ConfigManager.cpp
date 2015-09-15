@@ -95,13 +95,17 @@ const std::string ConfigManager::TRACKING_AVG_START = "tracking-avg-start";
 
 const std::string ConfigManager::TRACKING_TRESH = "tracking-tresh";
 const std::string ConfigManager::TRACKING_MERGE_TRESH = "tracking-merge-tresh";
+const std::string ConfigManager::TRACKING_STATIC_TRESH = "tracking-recheck-tresh";
 const std::string ConfigManager::TRACKING_METHOD = "tracking-method";
+const std::string ConfigManager::TRACKING_SIZE_FIX = "tracking-size-fix";
+const std::string ConfigManager::TRACKING_LIFE_LIMIT = "tracking-life-limit";
 const std::string ConfigManager::TESTS_SRC = "test-source";
 const std::string ConfigManager::BLOBS_SRC = "blobs-source";
 const std::string ConfigManager::RUNTIME = "runtime";
 
 const std::string ConfigManager::MD_GROUP_SIZE_FIX = "md-group-size-fix";
 const std::string ConfigManager::BD_SIZE_FIX = "bd-size-fix";
+const std::string ConfigManager::BD_BASE_RESET = "bd-base-reset";
 const std::string ConfigManager::MD_GROUP_WINDOW_TRESH = "md-group-window-treshold";
 const std::string ConfigManager::PATCH_BUFFER = "patch-buffer";
 
@@ -189,7 +193,64 @@ void ConfigManager::initConfigManager(std::string path) {
     configManager.check(VIEW_TRACKING_RESULT);
     configManager.check(VIEW_FINAL_RESULT);
 
+    if(!configManager.checkV(START,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(PATCH_BUFFER,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(FRAMEH,-2,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(FRAMEW,-2,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_DETECTION_STEP,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_GROUP_SIZE_FIX,99,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_GROUP_WINDOW_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_MOG_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_MOG_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_MOG_DILATATION,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_KNN_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_KNN_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(MD_KNN_DILATATION,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(PD_OVERLAP_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BUFFER,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_MOG_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_MOG_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_KNN_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_KNN_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_DIFF_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_OVERLAP_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_DM_TRESH,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_DM_ERODE,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_DM_DILATE,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BG_KNN_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BG_KNN_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BG_MOG_MIXTURES,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BG_MOG_HISTORY,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_STABLE_TRESH,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_STABLE_COST,-1.0,0.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_UNSTABLE_COST,-2000000000,0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_CHECKS_TRESH,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_CONFIDANCE,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_MAIN_CONFIDANCE,0,100)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_SNAPSHOT_EMERGENCY_SIZE,10,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_SNAPSHOT_SIZE,5,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_SNAPSHOT_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_STABLE_CONF_TRESH,0,100)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_BACKPACK_LIFE,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_COUNT_DOWN,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_OVERLAP_PEOPLE_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_SIZE_FIX,99,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(BD_STATIC_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(DET_STEP,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_STEP,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_LIMIT,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_LIMIT_START,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_MERGE_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_AVG_START,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_AVG_TRASH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_SIZE_FIX,99,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_STATIC_TRESH,0.0,1.0)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TRACKING_LIFE_LIMIT,0,2000000000)) CONFIG_ERROR = true;     
+    if(!configManager.checkV(TEST_ACC,0.0,1.0)) CONFIG_ERROR = true;     
+    
     WARNING("##########END-CONFIG##########");
+
 
 
 
@@ -205,6 +266,28 @@ void ConfigManager::check(std::string name) {
 
     }
 }
+bool ConfigManager::checkV(std::string name, int a, int b) {
+    if(get<int>(name) > a && get<int>(name) < b) {
+        return true;
+    } else {
+    ERROR(name + " out of range");
+       return false;
+
+    }
+}
+bool ConfigManager::checkV(std::string name, double a, double b) {
+    if(get<double>(name) > a && get<double>(name) < b) {
+        return true;
+    } else {
+    ERROR(name + " out of range");
+       return false;
+
+    }
+}
+
+
+
+
 
 ConfigManager::~ConfigManager() {
 

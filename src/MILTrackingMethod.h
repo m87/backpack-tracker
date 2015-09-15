@@ -19,7 +19,6 @@ class MILTrackingMethod : public TrackingMethod
     std::map<int, long > _life;
     int step;
     
-    cv::HOGDescriptor hog;
 
 public:
     MILTrackingMethod ();
@@ -32,6 +31,7 @@ public:
     void addTracker(int id, cv::Mat ref);
     //remove tracker
     void removeTracker(int id);
+
 
 };
 

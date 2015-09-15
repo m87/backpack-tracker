@@ -45,9 +45,21 @@ void MedianFlowTrackingMethod::update(cv::Mat ref) {
             t->second->update(ref,DataManager::getDataManager().people[t->first]._roid);
             cv::Rect2d roid = DataManager::getDataManager().people[t->first]._roid ;
 
-                _life[t->first]++;
+                 _life[t->first]+=ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_STEP);
 
             if(_life[t->first]>ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_LIMIT_START)){
+
+                if(_life[t->first] % ConfigManager::getConfigManager().get<int>(ConfigManager::TRACKING_LIFE_LIMIT) == 0){
+                    if(!recheckTracker(ref(DataManager::getDataManager().people[t->first]._roid))){
+DataManager::getDataManager().people[t->first].trackCount = _TRACKER_REMOVED;
+                _life.erase(_life.find(t->first));
+                _trackers.erase(t);
+ 
+
+                            }
+
+                }
+ 
             cv::Rect2d res = rect &  roid;
             if(res.width < roid.width * tresh || res.height < roid.height * tresh){
             DataManager::getDataManager().people[t->first].trackCount = _TRACKER_REMOVED;

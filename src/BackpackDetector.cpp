@@ -233,7 +233,7 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
 
                 // different cost level fot stable backpacks
                 if(dm.backpacks[j]._stable > cfg.get<int>(cfg.BD_STABLE_TRESH))
-                    dm.backpacks[j].incConfidence(cfg.get<int>(cfg.BD_STABLE_COST));
+                    dm.backpacks[j].incConfidence(cfg.get<double>(cfg.BD_STABLE_COST)*dm.backpacks[j].getConfidence());
 
             }
 
@@ -253,8 +253,8 @@ void BackpackDetector::bgDiffMethod(cv::Mat ref)
 
 
                 } else {
-                    if(dm.backpacks[j]._stableConfidance % 10 == 0)
-                    dm.backpacks[j].setNewBase(dm.cBG(dm.backpacks[j].getRoi()));
+ //                   if(dm.backpacks[j]._stableConfidance % cfg.get<int>(cfg.BD_BASE_RESET) == 0)
+  //                  dm.backpacks[j].setNewBase(dm.cBG(dm.backpacks[j].getRoi()));
                     //else increase stable level which determines real backpacks
                     dm.backpacks[j].incStableConfidance(cfg.get<int>
                                                         (ConfigManager::BD_MAIN_CONFIDANCE));

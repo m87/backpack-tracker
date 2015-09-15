@@ -14,6 +14,8 @@ class ConfigManager
     YAML::Node _blobs;
     ConfigManager ();
     void check(std::string name);
+    bool checkV(std::string name, int a, int b);
+    bool checkV(std::string name, double a, double b);
 
 public:
     ///  enable/disable gpu
@@ -215,6 +217,10 @@ public:
     static const std::string BD_OVERLAP_PEOPLE_TRESH;
     static const std::string BD_STATIC_TRESH;
     static const std::string PATCH_BUFFER;
+    static const std::string TRACKING_SIZE_FIX;
+    static const std::string TRACKING_STATIC_TRESH;
+static const std::string TRACKING_LIFE_LIMIT;
+static const std::string BD_BASE_RESET;
 
 
 
